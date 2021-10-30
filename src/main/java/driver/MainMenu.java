@@ -1,3 +1,7 @@
+package driver;
+
+import driver.SignUp;
+
 import java.util.Scanner;
 
 public class MainMenu {
@@ -16,20 +20,21 @@ public class MainMenu {
         Integer option = scanner.nextInt();
         switch(option) {
             case 1:
-                System.out.println("Login");
                 Login.run();
                 break;
             case 2:
-                System.out.println("Sign Up");
                 SignUp.run();
                 break;
             case 3:
                 System.out.println("Show Queries");
-                // TODO: 10/29/21  
+                // TODO: 10/29/21
                 break;
             case 4:
                 System.out.println("Exit");
-                return;
+                break;
+            default:
+                System.out.println("Invalid option");
+                run();
         }
     }
 
