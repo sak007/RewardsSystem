@@ -1,8 +1,8 @@
 package driver;
 
-import driver.Helper;
-import driver.MainMenu;
-import driver.UserType;
+
+import driver.admin.AdminLandingPage;
+import driver.brands.BrandLandingPage;
 
 import java.util.Scanner;
 
@@ -45,10 +45,10 @@ public class Login {
         UserType type = Helper.getUserType(usr);
         switch (type) {
             case ADMIN:
-                driver.admin.LandingPage.run();
+                AdminLandingPage.run();
                 break;
             case BRAND:
-                driver.brand.LandingPage.run();
+                BrandLandingPage.run();
                 break;
             case CUSTOMER:
                 // TODO: 10/29/21

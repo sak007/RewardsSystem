@@ -3,9 +3,8 @@ package driver.brands;
 import java.util.Scanner;
 
 public class ReRulesHelper {
-//    public static void display(){
-//
-//    }
+    static final String jdbcURL
+            = "jdbc:oracle:thin:@ora.csc.ncsu.edu:1521:orcl01";
 
     public static void add(){
 
