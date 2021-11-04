@@ -8,7 +8,7 @@ import driver.admin.RewardHelper;
 
 import java.util.Scanner;
 
-public class LandingPage {
+public class BrandLandingPage {
     public static void run() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("**********************************************************************************");
