@@ -1,4 +1,4 @@
-package driver.brand;
+package driver.brands;
 
 import driver.MainMenu;
 import driver.admin.ActivityHelper;
@@ -25,7 +25,7 @@ public class LandingPage {
                 LoyaltyProgramHelper.add();
                 break;
             case 2:
-                ReRulesHelper.display();
+                ReRulesHelper.add();
                 break;
             case 3:
 //                System.out.print("Enter Brand Id: ");
