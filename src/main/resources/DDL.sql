@@ -36,6 +36,7 @@ program_name varchar2(200) not null,
 activity_code references Activity_category(id),
 brand_id REFERENCES brand(id) on DELETE CASCADE,
 tier_type varchar2(100) not null,
+status varchar2(1) DEFAULT 'I',
 re_rule_code references re_rule(re_rule_code),
 rr_rule_code references rr_rule(rr_rule_code)
 );
