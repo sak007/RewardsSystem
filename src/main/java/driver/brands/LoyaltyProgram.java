@@ -9,4 +9,5 @@ public class LoyaltyProgram {
     private String state;
     private String reRuleCode; // References reRuleCode's rerulecode
     private String rrRuleCode; // References rrRulesCode's rrrulecode
+
 }

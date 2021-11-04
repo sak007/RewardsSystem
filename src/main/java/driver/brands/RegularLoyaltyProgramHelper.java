@@ -12,10 +12,11 @@ public class RegularLoyaltyProgramHelper {
         switch (input){
             case 1:
                 //Activity Type
-
+                ActivityTypesHelper.display();
                 break;
             case 2:
                 //Reward Type
+                RewardTypesHelper.display();
                 break;
         }
 
