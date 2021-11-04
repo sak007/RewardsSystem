@@ -1,6 +1,7 @@
 package driver.admin;
 
 import driver.dao.RewardDAO;
+import driver.object.Reward;
 
 import java.util.Scanner;
 
@@ -14,20 +15,18 @@ public class RewardHelper {
         switch (option) {
             case 1:
                 RewardDAO.saveData(reward);
-                System.out.println("Reward Added!");
             case 2:
-                LandingPage.run();
+                AdminLandingPage.run();
                 break;
         }
     }
 
     private static Reward getRewardDetails() {
-        // TODO: 10/29/21
         Reward reward = new Reward();
-        System.out.print("Enter Reward Name: ");
-        reward.setName(scanner.next());
         System.out.print("Enter Reward Code: ");
         reward.setCode(scanner.next());
+        System.out.print("Enter Reward Name: ");
+        reward.setName(scanner.next());
         return reward;
     }
 

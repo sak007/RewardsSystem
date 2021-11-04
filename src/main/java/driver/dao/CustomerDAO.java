@@ -1,19 +1,40 @@
 package driver.dao;
 
-import driver.admin.Customer;
+import driver.object.Customer;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class CustomerDAO {
 
-    public static void saveData(Customer brand) {
-        // TODO: 10/29/21
-        //save customer data in db
+    public static void saveData(Customer customer) {
+        try {
+            String query = "Insert into customer" + customer.getMeta() + " values" + customer.toString();
+            DBHelper.executeUpdate(query);
+            System.out.println("Customer Added!");
+        } catch (SQLException e) {
+            System.out.println("Unable to add Customer!");
+            System.out.println("Caught SQLException " + e.getErrorCode() + "/" + e.getSQLState() + " " + e.getMessage());
+        }
     }
 
-    public static Customer loadById(Long id) {
-        // TODO: 10/29/21
-        // load customer details from table
-        Customer customer = new Customer();
-        customer.setId(id);
-        return customer;
+    public static Customer loadById(String id) {
+        try {
+            String query = "Select * from customer where id = '" + id + "'";
+            ResultSet rs = DBHelper.executeQuery(query);
+            Customer customer = new Customer();
+            if (rs.next()) {
+                customer.setId(rs.getString("id"));
+                customer.setName(rs.getString("name"));
+                customer.setPhone(Long.parseLong(rs.getString("phone")));
+                customer.setLoyaltyProgramId(rs.getString("lp_program_id"));
+                customer.setAddress(rs.getString("address"));
+            }
+            return customer;
+        } catch (SQLException e) {
+            System.out.println("Unable to load Customer");
+            System.out.println("Caught SQLException " + e.getErrorCode() + "/" + e.getSQLState() + " " + e.getMessage());
+            return null;
+        }
     }
 }

@@ -4,7 +4,7 @@ import driver.MainMenu;
 
 import java.util.Scanner;
 
-public class LandingPage {
+public class AdminLandingPage {
     public static void run() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("**********************************************************************************");
@@ -22,12 +22,12 @@ public class LandingPage {
                 break;
             case 3:
                 System.out.print("Enter Brand Id: ");
-                Long brandId = scanner.nextLong();
+                String brandId = scanner.next();
                 BrandHelper.show(brandId);
                 break;
             case 4:
                 System.out.print("Enter Customer Id: ");
-                Long customerId = scanner.nextLong();
+                String customerId = scanner.next();
                 CustomerHelper.show(customerId);
                 break;
             case 5:
