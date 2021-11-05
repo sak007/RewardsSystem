@@ -36,15 +36,27 @@ program_name varchar2(200) not null,
 -- activity_code references Activity_category(id),
 brand_id REFERENCES brand(id) on DELETE CASCADE,
 tier_type varchar2(100) not null,
-state varchar2(10) DEFAULT 'INACTIVE',
-re_rule_code references re_rule(re_rule_code),
-rr_rule_code references rr_rule(rr_rule_code)
+state varchar2(10) DEFAULT 'INACTIVE'
+-- re_rule_code references re_rule(re_rule_code),
+-- rr_rule_code references rr_rule(rr_rule_code)
+);
+
+create table re_rule_for_lp(
+    lp_code references Loyalty_program(id) on DELETE CASCADE,
+    re_rule_code references re_rule(re_rule_code) on DELETE CASCADE,
+    CONSTRAINT pk_re_lp_map PRIMARY KEY (lp_code, re_rule_code)
+);
+
+create table rr_rule_for_lp(
+    lp_code references Loyalty_program(id) on DELETE CASCADE,
+    rr_rule_code references rr_rule(rr_rule_code) on DELETE CASCADE,
+    CONSTRAINT pk_rr_lp_map PRIMARY KEY (lp_code, rr_rule_code)
 );
 
 create table activities_for_loyalty_program(
     id varchar2(100) primary key,
-    loyalty_program_code REFERENCES Loyalty_program(id),
-    activity_category_code references Activity_category(id)
+    loyalty_program_code REFERENCES Loyalty_program(id) on DELETE CASCADE,
+    activity_category_code references Activity_category(id) on DELETE CASCADE
 );
 
 create table customer(
