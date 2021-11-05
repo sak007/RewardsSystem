@@ -1,14 +1,18 @@
 package driver;
 
+import driver.dao.UserDAO;
+import driver.object.User;
+
+import java.sql.SQLException;
+import java.util.List;
+
 public class Helper {
 
     public static Boolean validate(String usr, String pwd) {
-        // TODO: 10/29/21
-        return Boolean.TRUE;
+        return UserDAO.validate(usr, pwd);
     }
 
     public static UserType getUserType(String usr) {
-        // TODO: 10/29/21
-        return UserType.ADMIN;
+        return(UserDAO.getType(usr));
     }
 }
