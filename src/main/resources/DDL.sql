@@ -70,7 +70,7 @@ check(points>=0)
 
 create table reward_category(
 id varchar2(100) primary key,
-reward_name varchar2(100) not null,
+reward_name varchar2(100) not null
 -- brand_id REFERENCES brand(id) on DELETE CASCADE, // Removed
 -- lp_program_id REFERENCES loyalty_program(id) on DELETE CASCADE // Removed
 );
@@ -85,7 +85,7 @@ create table reward_instance(
 reward_id varchar2(100) primary key,
 brand_id references brand(id) on DELETE CASCADE,
 value number,
-expiry_date date
+expiry_date date DEFAULT CURRENT_DATE + 365
 );
 
 
