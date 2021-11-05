@@ -10,7 +10,7 @@ public class TieredLoyaltyProgramHelper {
         Integer input_lp_type = scanner.nextInt();
         switch (input_lp_type){
             case 1:
-                setup();
+                TiersHelper.display();
                 break;
             case 2:
                 ActivityTypesHelper.display();

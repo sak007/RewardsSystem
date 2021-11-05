@@ -1,5 +1,9 @@
 package driver.brands;
 
+import driver.dao.ActivitiesForLoyaltyProgramDAO;
+import driver.dao.ActivityDAO;
+import driver.object.ActivitiesForLoyaltyProgram;
+
 import java.util.Scanner;
 
 public class RegularLoyaltyProgramHelper {
@@ -11,11 +15,9 @@ public class RegularLoyaltyProgramHelper {
         Integer input = scanner.nextInt();
         switch (input){
             case 1:
-                //Activity Type
                 ActivityTypesHelper.display();
                 break;
             case 2:
-                //Reward Type
                 RewardTypesHelper.display();
                 break;
         }
