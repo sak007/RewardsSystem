@@ -29,7 +29,7 @@ public class LoyaltyProgram {
 
     public void setLpId(String lpId) {this.lpId = lpId;}
     public void setProgramName(String programName) {this.programName = programName;}
-    public void s../object/LoyaltyProgram.javaetReRuleCode(String reRuleCode) {this.reRuleCode = reRuleCode;}
+    public void setReRuleCode(String reRuleCode) {this.reRuleCode = reRuleCode;}
     public void setRrRuleCode(String rrRuleCode) {this.rrRuleCode = rrRuleCode;}
     public void setState(String state) {this.state = state;}
     public void setTierType(String tierType) {this.tierType = tierType;}
