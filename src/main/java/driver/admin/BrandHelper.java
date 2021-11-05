@@ -1,35 +1,42 @@
 package driver.admin;
 
 import driver.dao.BrandDAO;
+import driver.object.Brand;
 
 import java.util.Scanner;
 
 public class BrandHelper {
+    static Scanner scanner = new Scanner(System.in);
     public static void run() {
-        Scanner scanner = new Scanner(System.in);
         Brand brand = getBrandDetails();
         System.out.println("1. Add Brand\n2. Go Back");
         Integer option = scanner.nextInt();
         switch (option) {
             case 1:
                 BrandDAO.saveData(brand);
-                System.out.println("Brand Added!");
             case 2:
-                LandingPage.run();
+                AdminLandingPage.run();
                 break;
         }
     }
 
     private static Brand getBrandDetails() {
-        // TODO: 10/29/21  
         Brand brand = new Brand();
+        System.out.println("Enter Brand Id");
+        String id = scanner.next();
+        brand.setId(id);
+        System.out.println("Enter Brand Name");
+        String name = scanner.next();
+        brand.setName(name);
+        System.out.println("Enter Brand Address");
+        String address = scanner.next();
+        brand.setAddress(address);
         return brand;
     }
 
-    public static void show(Long id) {
+    public static void show(String id) {
         Brand brand = BrandDAO.loadById(id);
         brand.display();
-        // TODO: 10/30/21  
     }
 
 }
