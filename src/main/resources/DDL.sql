@@ -118,16 +118,16 @@ reward_name varchar2(100) not null
 );
 
 create table rewards_for_loyalty_program(
+    reward_lp_map_id varchar2(50) primary key,
     loyalty_program_code REFERENCES Loyalty_program(id) on DELETE CASCADE,
-    reward_category_code references reward_category(id) on DELETE CASCADE,
-    CONSTRAINT pk_act_lp PRIMARY KEY (loyalty_program_code,reward_category_code)
+    reward_category_code references reward_category(id) on DELETE CASCADE
 );
 
 create table reward_instance(
 instance_id varchar(100) primary key,
-reward_id varchar2(100) references reward_category(id) on DELETE CASCADE,
+reward_id varchar2(100) references rewards_for_loyalty_program(reward_lp_map_id) on DELETE CASCADE,
 brand_id references brand(id) on DELETE CASCADE,
-value number,
+value varchar2(50),
 expiry_date date DEFAULT CURRENT_DATE + 365
 );
 
