@@ -40,6 +40,7 @@ public class ActivityTypesHelper {
 
                 //Save
                 ActivitiesForLoyaltyProgramDAO.saveData(activityLp);
+                ActivityTypesHelper.display();
                 break;
             case 2:
                 //NOTE: If already added Review, Say So.
@@ -48,15 +49,21 @@ public class ActivityTypesHelper {
                 //Find the activity category obj for with Review as name.
                 //Find the loyalty program of this brand
                 Activity activity_review = ActivityDAO.loadByName("Review");
-                LoyaltyProgram loyaltyProgram_review = LoyaltyProgramDAO.loadByBrandId("test_brand_id");
+                LoyaltyProgram loyaltyProgram_review = LoyaltyProgramDAO.loadByBrandId(test_brand_id);
+
+                if (loyaltyProgram_review == null){
+                    // Ideally should never come here
+                    System.out.println("Loyalty Program Not found!");
+                }
 
                 //Add it's ID as the code in the mapping table
                 ActivitiesForLoyaltyProgram activityLpReview = new ActivitiesForLoyaltyProgram();
                 activityLpReview.setActivity_category_code(activity_review.getCode());
-                activityLpReview.setActivity_category_code(loyaltyProgram_review.getLpId());
+                activityLpReview.setLoyalty_program_code(loyaltyProgram_review.getLpId());
 
                 //Save
                 ActivitiesForLoyaltyProgramDAO.saveData(activityLpReview);
+                ActivityTypesHelper.display();
                 break;
             case 3:
                 //NOTE: If already added Refer, Say So.
@@ -65,15 +72,16 @@ public class ActivityTypesHelper {
                 //Find the activity category obj for with Review as name.
                 //Find the loyalty program of this brand
                 Activity activity_refer = ActivityDAO.loadByName("Refer");
-                LoyaltyProgram loyaltyProgram_refer = LoyaltyProgramDAO.loadByBrandId("test_brand_id");
+                LoyaltyProgram loyaltyProgram_refer = LoyaltyProgramDAO.loadByBrandId(test_brand_id);
 
                 //Add it's ID as the code in the mapping table
                 ActivitiesForLoyaltyProgram activityLpRefer = new ActivitiesForLoyaltyProgram();
                 activityLpRefer.setActivity_category_code(activity_refer.getCode());
-                activityLpRefer.setActivity_category_code(loyaltyProgram_refer.getLpId());
+                activityLpRefer.setLoyalty_program_code(loyaltyProgram_refer.getLpId());
 
                 //Save
                 ActivitiesForLoyaltyProgramDAO.saveData(activityLpRefer);
+                ActivityTypesHelper.display();
                 break;
             case 4:
                 //Go Back

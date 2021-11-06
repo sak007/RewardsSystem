@@ -37,9 +37,6 @@ public class DBHelper {
         try (Connection conn =connect();
              Statement stmt = conn.createStatement()) {
             stmt.executeUpdate(query);
-            conn.commit();
-            conn.close();
-            stmt.close();
         }
         catch(SQLException e) {
             System.out.println("Caught SQLException " + e.getErrorCode() + "/" + e.getSQLState() + " " + e.getMessage());
@@ -51,6 +48,7 @@ public class DBHelper {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(query);
         ) {
+            System.out.println(query);
             ResultSetMetaData resultSetMetaData = rs.getMetaData();
             int count = resultSetMetaData.getColumnCount();
             Object[] items = new Object[count];

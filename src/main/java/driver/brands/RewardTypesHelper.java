@@ -51,6 +51,9 @@ public class RewardTypesHelper {
 //                    reward_instance.setExpiryDate(); Default value of 1 year
                     reward_instance.setValue(quantity);
                 }
+
+                //Save reward instance object
+
                 break;
             case 2:
                 //Find the reward category obj for with Gift Card as name.
