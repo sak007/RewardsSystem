@@ -11,9 +11,12 @@ public class BrandDAO {
         try {
             String query = "Insert into brand" + brand.getMeta() + " values" + brand.toString();
             DBHelper.executeUpdate(query);
+            if (brand.getPassword() != null) {
+                UserDAO.updatePassword(brand.getUserName(), brand.getPassword());
+            }
             System.out.println("Brand Added!");
         } catch (SQLException e) {
-            System.out.println("Unable to add Customer!");
+            System.out.println("Unable to add Brand!");
             System.out.println("Caught SQLException " + e.getErrorCode() + "/" + e.getSQLState() + " " + e.getMessage());
         }
     }
@@ -26,6 +29,7 @@ public class BrandDAO {
             if (rs.next()) {
                 brand.setId(rs.getString("id"));
                 brand.setName(rs.getString("name"));
+                brand.setUserName(rs.getString("user_name"));
                 brand.setAddress(rs.getString("address"));
                 brand.setJoinDate(rs.getString("join_date"));
             }

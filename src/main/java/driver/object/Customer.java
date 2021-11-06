@@ -3,9 +3,11 @@ package driver.object;
 public class Customer {
     private String id;
     private String name;
+    private String username;
     private Long phone;
     private String loyaltyProgramId;
     private String address;
+    private String password;
 
     public String getId() {
         return id;
@@ -21,6 +23,14 @@ public class Customer {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getUserName() {
+        return username;
+    }
+
+    public void setUserName(String username) {
+        this.username = username;
     }
 
     public Long getPhone() {
@@ -47,6 +57,14 @@ public class Customer {
         this.address = address;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public void display() {
         System.out.println("Customer Details");
         System.out.println("Id: " + id);
@@ -57,7 +75,7 @@ public class Customer {
     }
 
     public String getMeta() {
-        return "(id, name, phone, address)";
+        return "(id, name, phone, address, user_name)";
     }
 
     public String toString() {
@@ -76,6 +94,10 @@ public class Customer {
         res = res + ",";
         res = res + "'";
         res = res + address;
+        res = res + "'";
+        res = res + ",";
+        res = res + "'";
+        res = res + username;
         res = res + "'";
         res = res + ")";
         return res;

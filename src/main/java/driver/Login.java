@@ -25,12 +25,11 @@ public class Login {
         Integer option = scanner.nextInt();
         switch(option) {
             case 1:
-                System.out.println("Sign In");
                 Boolean isValid = Helper.validate(usr, pwd);
                 if (isValid) {
                     redirectToPage(usr);
                 } else {
-                    System.out.print("Invalid username/password. Try again");
+                    System.out.println("Invalid username/password. Try again");
                     displayLoginPage();
                 }
                 break;
@@ -51,6 +50,7 @@ public class Login {
                 BrandLandingPage.run();
                 break;
             case CUSTOMER:
+                System.out.println("Customer Login");
                 // TODO: 10/29/21
                 break;
         }
