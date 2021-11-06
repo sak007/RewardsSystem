@@ -38,6 +38,7 @@ public class DBHelper {
         try (Connection conn =connect();
              Statement stmt = conn.createStatement()) {
             stmt.executeUpdate(query);
+            conn.commit();
         }
         catch(SQLException e) {
             System.out.println("Caught SQLException " + e.getErrorCode() + "/" + e.getSQLState() + " " + e.getMessage());
