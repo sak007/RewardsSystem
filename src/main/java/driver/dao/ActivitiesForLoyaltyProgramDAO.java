@@ -8,6 +8,7 @@ public class ActivitiesForLoyaltyProgramDAO {
     public static void saveData(ActivitiesForLoyaltyProgram activityLp){
         try {
             String query = "Insert into activities_for_loyalty_program" + activityLp.getMeta() + " values" + activityLp.toString();
+            System.out.print(query);
             DBHelper.executeUpdate(query);
             System.out.println("The chosen activity has been mapped to the Loyalty Program!");
         } catch (SQLException e) {
@@ -26,6 +27,7 @@ public class ActivitiesForLoyaltyProgramDAO {
                 activityLp.setLoyalty_program_code(rs.getString("loyalty_program_code"));
                 activityLp.setActivity_category_code(rs.getString("activity_category_code"));
             }
+            rs.close();
             return activityLp;
         }
         catch (SQLException e) {

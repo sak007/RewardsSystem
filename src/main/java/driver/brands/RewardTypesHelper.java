@@ -31,14 +31,17 @@ public class RewardTypesHelper {
                 //Find the reward category obj for with Gift Card as name.
                 //Find the loyalty program of this brand
                 Reward reward_gift = RewardDAO.loadByName("Gift Card");
+                System.out.print("Got the reward gift obj: " + reward_gift.getCode()+reward_gift.getName() +" \n");
                 LoyaltyProgram loyaltyProgramGift = LoyaltyProgramDAO.loadByBrandId(test_brand_id);
+                System.out.print("Got the LP obj: " + loyaltyProgramGift.getProgramName()+" \n");
 
-                //Add it's ID as the code in the mapping table object
+                //Add it's ID as the code in the mapping table object1
                 RewardsForLoyaltyProgram rewardLPGift = new RewardsForLoyaltyProgram();
                 rewardLPGift.setReward_category_code(reward_gift.getCode());
                 rewardLPGift.setLoyalty_program_code(loyaltyProgramGift.getLpId());
-
+                System.out.println("Mapping chosen reward to the LP\n");
                 RewardsForLoyaltyProgramDAO.saveData(rewardLPGift);
+                System.out.println("Mapped chosen reward to the LP\n");
 
                 //Create quantity number of instances of this reward for this loyalty Program
 

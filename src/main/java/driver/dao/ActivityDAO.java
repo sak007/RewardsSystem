@@ -21,13 +21,16 @@ public class ActivityDAO {
 
     public static Activity loadById(String id) {
         try {
-            String query = "Select * from brand where id = '" + id + "'";
+            System.out.println("WHAAAAT!?!!?!?!\n");
+            String query = "Select * from activity_category where id = '" + id + "'";
+            System.out.println(query);
             ResultSet rs = DBHelper.executeQuery(query);
             Activity activity = new Activity();
             if (rs.next()) {
                 activity.setCode(rs.getString("id"));
                 activity.setName(rs.getString("code"));
             }
+            rs.close();
             return activity;
         } catch (SQLException e) {
             System.out.println("Unable to load Activity from ID");
@@ -39,13 +42,17 @@ public class ActivityDAO {
 
     public static Activity loadByName(String name) {
         try {
-            String query = "Select * from brand where activity_name = '" + name + "'";
+            String query = "Select * from activity_category where activity_name = '" + name + "'";
+            System.out.println(query);
             ResultSet rs = DBHelper.executeQuery(query);
+            System.out.println(rs.getFetchSize());
             Activity activity = new Activity();
             if (rs.next()) {
                 activity.setCode(rs.getString("id"));
                 activity.setName(rs.getString("activity_name"));
             }
+            rs.close();
+            System.out.println("ACTIVITY!!!: "+ activity.getCode() + activity.getName());
             return activity;
         } catch (SQLException e) {
             System.out.println("Unable to load Activity from name");

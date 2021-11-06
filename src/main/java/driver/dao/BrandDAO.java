@@ -29,6 +29,7 @@ public class BrandDAO {
                 brand.setAddress(rs.getString("address"));
                 brand.setJoinDate(rs.getString("join_date"));
             }
+            rs.close();
             return brand;
         } catch (SQLException e) {
             System.out.println("Unable to load Brand");

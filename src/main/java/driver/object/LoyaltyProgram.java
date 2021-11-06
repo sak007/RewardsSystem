@@ -7,8 +7,6 @@ public class LoyaltyProgram {
     private String brandId; // References brand's ID
     private String tierType;
     private String state;
-    private String reRuleCode; // References reRuleCode's rerulecode
-    private String rrRuleCode; // References rrRulesCode's rrrulecode
 
     //Get commands
     public String getLpId() {return lpId;}
@@ -17,8 +15,7 @@ public class LoyaltyProgram {
     public String getBrandId() {return brandId;}
     public String getTierType() {return tierType;}
     public String getState() {return state;}
-    public String getReRuleCode() {return reRuleCode;}
-    public String getRrRuleCode() {return rrRuleCode;}
+
 
     //Set commands
 //    public void setActivityCode(int activityCode) {this.activityCode = activityCode;}
@@ -29,17 +26,20 @@ public class LoyaltyProgram {
 
     public void setLpId(String lpId) {this.lpId = lpId;}
     public void setProgramName(String programName) {this.programName = programName;}
-    public void setReRuleCode(String reRuleCode) {this.reRuleCode = reRuleCode;}
-    public void setRrRuleCode(String rrRuleCode) {this.rrRuleCode = rrRuleCode;}
     public void setState(String state) {this.state = state;}
     public void setTierType(String tierType) {this.tierType = tierType;}
 
+
     public String getMeta() {
-        return "(id, programName, brandId, tierType, state, reRuleCode, rrRuleCode)";
+        return "(id, program_name, brand_id, tier_type, state)";
     }
 
     public String toString() {
         String res = "(";
+        res = res + "'";
+        res = res + lpId;
+        res = res + "'";
+        res = res + ",";
         res = res + "'";
         res = res + programName;
         res = res + "'";
@@ -55,15 +55,6 @@ public class LoyaltyProgram {
         res = res + "'";
         res = res + state;
         res = res + "'";
-        res = res + ",";
-        res = res + "'";
-        res = res + reRuleCode;
-        res = res + "'";
-        res = res + ",";
-        res = res + "'";
-        res = res + rrRuleCode;
-        res = res + "'";
-        res = res + ",";
         res = res + ")";
         return res;
     }

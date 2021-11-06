@@ -28,11 +28,15 @@ public class ActivityTypesHelper {
 
                 Activity activity = ActivityDAO.loadByName("Purchase");
                 LoyaltyProgram loyaltyProgram = LoyaltyProgramDAO.loadByBrandId(test_brand_id);
-
+                if (loyaltyProgram == null){
+                    // Ideally should never come here
+                    System.out.println("Loyalty Program Not found!");
+                }
                 //Add it's ID as the code in the mapping table object
                 ActivitiesForLoyaltyProgram activityLp = new ActivitiesForLoyaltyProgram();
+
                 activityLp.setActivity_category_code(activity.getCode());
-                activityLp.setActivity_category_code(loyaltyProgram.getLpId());
+                activityLp.setLoyalty_program_code(loyaltyProgram.getLpId());
 
                 //Save
                 ActivitiesForLoyaltyProgramDAO.saveData(activityLp);
@@ -73,22 +77,23 @@ public class ActivityTypesHelper {
                 break;
             case 4:
                 //Go Back
+                RegularLoyaltyProgramHelper.display();
                 break;
         }
     }
 
-    public static void purchase(){
-        //Add purchase activity type for the LP of the brand
-        ActivitiesForLoyaltyProgram activityLp = new ActivitiesForLoyaltyProgram();
-
-        ActivitiesForLoyaltyProgramDAO.saveData(activityLp);
-    }
-
-    public static void review(){
-
-    }
-
-    public static void refer(){
-
-    }
+//    public static void purchase(){
+//        //Add purchase activity type for the LP of the brand
+//        ActivitiesForLoyaltyProgram activityLp = new ActivitiesForLoyaltyProgram();
+//
+//        ActivitiesForLoyaltyProgramDAO.saveData(activityLp);
+//    }
+//
+//    public static void review(){
+//
+//    }
+//
+//    public static void refer(){
+//
+//    }
 }

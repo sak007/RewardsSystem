@@ -30,6 +30,7 @@ public class CustomerDAO {
                 customer.setLoyaltyProgramId(rs.getString("lp_program_id"));
                 customer.setAddress(rs.getString("address"));
             }
+            rs.close();
             return customer;
         } catch (SQLException e) {
             System.out.println("Unable to load Customer");

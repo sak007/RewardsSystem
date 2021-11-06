@@ -28,6 +28,7 @@ public class RewardDAO {
                 reward.setCode(rs.getString("id"));
                 reward.setName(rs.getString("reward_name"));
             }
+            rs.close();
             return reward;
         } catch (SQLException e) {
             System.out.println("Unable to load Reward from name");

@@ -5,6 +5,7 @@ import driver.object.Brand;
 import driver.object.LoyaltyProgram;
 
 import java.util.Scanner;
+import java.util.UUID;
 
 public class LoyaltyProgramHelper {
     public static void add(){
@@ -21,13 +22,19 @@ public class LoyaltyProgramHelper {
 
                 //Set loyaltyProgram values
                 LoyaltyProgram loyaltyProgramreg = new LoyaltyProgram();
+                String uniqId= UUID.randomUUID().toString().replace("-","");
+                loyaltyProgramreg.setLpId(uniqId);
                 loyaltyProgramreg.setProgramName(input_lp_name);
                 loyaltyProgramreg.setBrandId(test_brand_id);
                 loyaltyProgramreg.setTierType("Regular");
                 loyaltyProgramreg.setState("INACTIVE");
 
+                //Find the ReRuleCode and RrRuleCod
+//                loyaltyProgramreg.setReRuleCode();
+//                loyaltyProgramreg.setRrRuleCode();
+
                 //Insert the Loyalty Program with basic values
-                LoyaltyProgramDAO.saveData(loyaltyProgramreg);
+                LoyaltyProgramDAO.saveData(loyaltyProgramreg); // Re RR Rules still not added.
 
                 RegularLoyaltyProgramHelper.display();
                 break;
@@ -42,9 +49,12 @@ public class LoyaltyProgramHelper {
 
                 //Insert the Loyalty Program with basic values
                 LoyaltyProgramDAO.saveData(loyaltyProgramtier);
-
+                System.out.println("Loyalty Program inserted");
                 TieredLoyaltyProgramHelper.display();
                 break;
+            case 3:
+                // Go Back
+                BrandLandingPage.run();
         }
     }
 

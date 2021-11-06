@@ -1,6 +1,7 @@
 package driver;
 
 import driver.SignUp;
+import driver.brands.BrandLandingPage;
 
 import java.util.Scanner;
 
@@ -31,6 +32,10 @@ public class MainMenu {
                 break;
             case 4:
                 System.out.println("Exit");
+                break;
+            case 5:
+                System.out.println("Go To Brand Landing Page");
+                BrandLandingPage.run();
                 break;
             default:
                 System.out.println("Invalid option");

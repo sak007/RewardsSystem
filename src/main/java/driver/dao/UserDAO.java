@@ -31,6 +31,7 @@ public class UserDAO {
                 usr.setType(role);
                 userList.add(usr);
             }
+            rs.close();
             return userList;
         } catch (SQLException e) {
             System.out.println("Caught SQLException " + e.getErrorCode() + "/" + e.getSQLState() + " " + e.getMessage());

@@ -38,12 +38,18 @@ public class DBHelper {
         Connection conn = connect();
         Statement stmt = conn.createStatement();
         stmt.executeUpdate(query);
+        conn.close();
+        stmt.close();
     }
 
     public static ResultSet executeQuery(String query) throws SQLException {
         Connection conn = connect();
         Statement stmt = conn.createStatement();
-        return stmt.executeQuery(query);
+        ResultSet res =  stmt.executeQuery(query);
+        conn.close();
+        stmt.close();
+        res.close();
+        return res;
     }
 
 }
