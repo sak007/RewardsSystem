@@ -82,6 +82,8 @@ public class RewardTypesHelper {
                     reward_instance.setBrand_id(test_brand_id);
 //                    reward_instance.setExpiryDate(); Default value of 1 year
                     reward_instance.setValue("Product Name X");
+                    //Save reward instance object
+                    RewardInstanceDAO.saveData(reward_instance);
                 }
                 RewardTypesHelper.display(tier_type);
                 break;

@@ -81,6 +81,8 @@ public class ActivityTypesHelper {
 
                 //Add it's ID as the code in the mapping table
                 ActivitiesForLoyaltyProgram activityLpRefer = new ActivitiesForLoyaltyProgram();
+                uniqId = UUID.randomUUID().toString().replace("-","");
+                activityLpRefer.setId(uniqId);
                 activityLpRefer.setActivity_category_code(activity_refer.getCode());
                 activityLpRefer.setLoyalty_program_code(loyaltyProgram_refer.getLpId());
 

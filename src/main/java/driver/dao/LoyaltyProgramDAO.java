@@ -38,7 +38,6 @@ public class LoyaltyProgramDAO {
                 loyaltyProgram.setState((String) object[4]);
                 System.out.println(object[0] + "XXXX" + object[1] + object[2] + object[3] + object[4]);
             }
-            System.out.println("LP VALUES!: \n");
             return loyaltyProgram;
         } catch (SQLException e) {
             System.out.println("Unable to load Loyalty Program from ID");
