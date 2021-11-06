@@ -53,7 +53,7 @@ public class RERuleDAO {
         try{
             Connection connection = DBHelper.connect();
             connection.setAutoCommit(false);
-            String selectQuery = "SELECT * FROM re_rule rer WHERE rer.activity_category_code = '"+reRule.getActivityCategoryCode()+ "' and rer.re_rule_code IN (select relp.re_rule_code from re_rule_for_lp relp where relp.lp_code IN (select lp.id from Loyalty_program lp where lp.brand_id IN (select b.id from brand b where b.id = '"+brandId+"')))";
+            String selectQuery = "SELECT * FROM re_rule rer WHERE rer.status='E' AND rer.activity_category_code = '"+reRule.getActivityCategoryCode()+ "' and rer.re_rule_code IN (select relp.re_rule_code from re_rule_for_lp relp where relp.lp_code IN (select lp.id from Loyalty_program lp where lp.brand_id IN (select b.id from brand b where b.id = '"+brandId+"')))";
             System.out.println(selectQuery);
 
             PreparedStatement preparedStatementUpdate = connection.prepareStatement(selectQuery);
@@ -64,6 +64,7 @@ public class RERuleDAO {
             Integer version = 0;
             String status = "D";
             String ruleCode = "";
+            String lpCode = "";
 
             if(rs.next() == false){
                 System.out.println("The entered activity code for your brand does not exists.");
@@ -89,7 +90,22 @@ public class RERuleDAO {
 
             String insertQuery = "INSERT INTO re_rule"+ reRule.getMeta() +" VALUES"+ reRule.toString();
             System.out.println(insertQuery);
+
+            String rrlpQuery = "select * from re_rule_for_lp where re_rule_code='"+ruleCode+"'";
+            System.out.println(rrlpQuery);
+
+            ResultSet rs2 = DBHelper.executeQuery(rrlpQuery);
+
+            if(rs2.next()){
+                lpCode = rs2.getString("lp_code");
+            }
+
+            String insertLPRR = "insert into re_rule_for_lp values ('"+lpCode+"','"+reRule.getReRuleCode()+"')";
+            System.out.println(insertLPRR);
+
             DBHelper.executeUpdate(insertQuery);
+
+            DBHelper.executeUpdate(insertLPRR);
 
             connection.close();
 
