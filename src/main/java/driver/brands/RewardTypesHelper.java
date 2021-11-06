@@ -1,9 +1,6 @@
 package driver.brands;
 
-import driver.dao.ActivityDAO;
-import driver.dao.LoyaltyProgramDAO;
-import driver.dao.RewardDAO;
-import driver.dao.RewardsForLoyaltyProgramDAO;
+import driver.dao.*;
 import driver.object.*;
 import driver.object.RewardInstance;
 
@@ -22,7 +19,7 @@ public class RewardTypesHelper {
                 "2)Free Product\n" + "3) Go back\n";
         System.out.println(display_string);
         Integer input = scanner.nextInt();
-        String test_brand_id = "1";
+        String test_brand_id = "2";
         int iterator;
         RewardInstance reward_instance = new RewardInstance();
         // CREATE INSTANCES OF THE CHOSEN REWARD TYPE
@@ -31,14 +28,17 @@ public class RewardTypesHelper {
                 //Find the reward category obj for with Gift Card as name.
                 //Find the loyalty program of this brand
                 Reward reward_gift = RewardDAO.loadByName("Gift Card");
+                System.out.print("Got the reward gift obj: " + reward_gift.getCode()+reward_gift.getName() +" \n");
                 LoyaltyProgram loyaltyProgramGift = LoyaltyProgramDAO.loadByBrandId(test_brand_id);
+                System.out.print("Got the LP obj: " + loyaltyProgramGift.getProgramName()+" \n");
 
-                //Add it's ID as the code in the mapping table object
+                //Add it's ID as the code in the mapping table object1
                 RewardsForLoyaltyProgram rewardLPGift = new RewardsForLoyaltyProgram();
                 rewardLPGift.setReward_category_code(reward_gift.getCode());
                 rewardLPGift.setLoyalty_program_code(loyaltyProgramGift.getLpId());
-
+                System.out.println("Mapping chosen reward to the LP\n");
                 RewardsForLoyaltyProgramDAO.saveData(rewardLPGift);
+                System.out.println("Mapped chosen reward to the LP\n");
 
                 //Create quantity number of instances of this reward for this loyalty Program
 
@@ -47,7 +47,10 @@ public class RewardTypesHelper {
                     reward_instance.setBrand_id(test_brand_id);
 //                    reward_instance.setExpiryDate(); Default value of 1 year
                     reward_instance.setValue(quantity);
+                    //Save reward instance object
+                    RewardInstanceDAO.saveData(reward_instance);
                 }
+
                 break;
             case 2:
                 //Find the reward category obj for with Gift Card as name.

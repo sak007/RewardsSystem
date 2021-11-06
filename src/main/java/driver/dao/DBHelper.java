@@ -36,9 +36,10 @@ public class DBHelper {
         }
     }
 
+
     public static void executeUpdate(String query) throws SQLException {
         try(Connection conn = connect();
-        Statement stmt = conn.createStatement();
+            Statement stmt = conn.createStatement();
         ) {
             stmt.executeUpdate(query);
         }

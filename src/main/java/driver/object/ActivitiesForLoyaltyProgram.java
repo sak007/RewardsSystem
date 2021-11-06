@@ -30,15 +30,11 @@ public class ActivitiesForLoyaltyProgram {
     }
 
     public String getMeta() {
-        return "(id, loyalty_program_code, activity_category_code)";
+        return "(loyalty_program_code, activity_category_code)";
     }
 
     public String toString() {
         String res = "(";
-        res = res + "'";
-        res = res + id;
-        res = res + "'";
-        res = res + ",";
         res = res + "'";
         res = res + loyalty_program_code;
         res = res + "'";

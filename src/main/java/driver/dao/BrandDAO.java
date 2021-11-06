@@ -4,6 +4,7 @@ import driver.object.Brand;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 public class BrandDAO {
 
@@ -24,15 +25,16 @@ public class BrandDAO {
     public static Brand loadById(String id) {
         try {
             String query = "Select * from brand where id = '" + id + "'";
-            ResultSet rs = DBHelper.executeQuery(query);
+            List<Object[]> rs = DBHelper.executeQueryUpdated(query);
             Brand brand = new Brand();
-            if (rs.next()) {
-                brand.setId(rs.getString("id"));
-                brand.setName(rs.getString("name"));
-                brand.setUserName(rs.getString("user_name"));
-                brand.setAddress(rs.getString("address"));
-                brand.setJoinDate(rs.getString("join_date"));
+
+            for(Object[] object:rs) {
+                brand.setId((String) object[0]);
+                brand.setName((String) object[1]);
+                brand.setAddress((String) object[2]);
+                brand.setJoinDate((String) object[3]);
             }
+
             return brand;
         } catch (SQLException e) {
             System.out.println("Unable to load Brand");

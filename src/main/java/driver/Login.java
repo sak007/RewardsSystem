@@ -3,7 +3,11 @@ package driver;
 
 import driver.admin.AdminLandingPage;
 import driver.brands.BrandLandingPage;
+import driver.customer.CustomerLandingPage;
+import driver.dao.CustomerDAO;
 
+
+import java.sql.SQLException;
 import java.util.Scanner;
 
 public class Login {
@@ -15,7 +19,7 @@ public class Login {
         displayLoginPage();
     }
 
-    public static void displayLoginPage() {
+    public static void displayLoginPage()  {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter username: ");
         String usr = scanner.nextLine();
@@ -40,7 +44,7 @@ public class Login {
         }
     }
 
-    public static void redirectToPage(String usr) {
+    public static void redirectToPage(String usr)  {
         UserType type = Helper.getUserType(usr);
         switch (type) {
             case ADMIN:
@@ -50,8 +54,9 @@ public class Login {
                 BrandLandingPage.run();
                 break;
             case CUSTOMER:
-                System.out.println("Customer Login");
-                // TODO: 10/29/21
+                String customerId= CustomerDAO.getCustomerIdByUserName(usr);
+                CustomerLandingPage.run(customerId);
+
                 break;
         }
     }

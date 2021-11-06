@@ -7,11 +7,12 @@ import driver.dao.CustomerDAO;
 import driver.object.Brand;
 import driver.object.Customer;
 
+import java.sql.SQLException;
 import java.util.Scanner;
 
 public class BrandHelper {
     static Scanner scanner = new Scanner(System.in);
-    public static void run() {
+    public static void run(){
         Brand brand = getBrandDetails();
         System.out.println("1. Add Brand\n2. Go Back");
         Integer option = scanner.nextInt();

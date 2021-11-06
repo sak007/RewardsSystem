@@ -34,6 +34,7 @@ public class UserDAO {
                 usr.setType(role);
                 userList.add(usr);
             }
+            rs.close();
             return userList;
         } catch (SQLException e) {
             System.out.println("Caught SQLException " + e.getErrorCode() + "/" + e.getSQLState() + " " + e.getMessage());
@@ -71,6 +72,7 @@ public class UserDAO {
             Connection conn = DBHelper.connect();
             Statement stmt = conn.createStatement();
             String query = "select * from actor where user_name = '" + usr + "' and password = '" + pwd + "'";
+
             ResultSet rs = stmt.executeQuery(query);
             if (rs.next()) {
                 return Boolean.TRUE;

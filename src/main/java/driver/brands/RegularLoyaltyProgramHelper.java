@@ -3,6 +3,7 @@ package driver.brands;
 import driver.dao.ActivitiesForLoyaltyProgramDAO;
 import driver.dao.ActivityDAO;
 import driver.object.ActivitiesForLoyaltyProgram;
+import driver.object.LoyaltyProgram;
 
 import java.util.Scanner;
 
@@ -19,6 +20,10 @@ public class RegularLoyaltyProgramHelper {
                 break;
             case 2:
                 RewardTypesHelper.display();
+                break;
+            case 3:
+                //Go back
+                LoyaltyProgramHelper.add();
                 break;
         }
 
