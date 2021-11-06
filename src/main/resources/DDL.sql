@@ -1,3 +1,7 @@
+-- noinspection SqlDialectInspectionForFile
+
+-- noinspection SqlNoDataSourceInspectionForFile
+
 create table actor(
 user_name varchar2(100) primary key,
 password varchar2(200),
@@ -30,8 +34,16 @@ create table brand(
 id varchar2(100) primary key,
 name varchar2(100) Unique,
 address varchar2(200),
-join_date date DEFAULT CURRENT_DATE
+join_date date DEFAULT CURRENT_DATE,
+user_name varchar2(100) references actor(user_name)
 );
+
+create or replace trigger brand_insert_trigger
+after insert on brand
+for each row
+begin
+insert into actor values(:new.user_name, 'abcd1234', 'brand');
+end;
 
 create table Loyalty_program(
 id varchar2(100) primary key,
@@ -39,15 +51,27 @@ program_name varchar2(200) not null,
 -- activity_code references Activity_category(id),
 brand_id REFERENCES brand(id) on DELETE CASCADE,
 tier_type varchar2(100) not null,
-state varchar2(10) DEFAULT 'INACTIVE',
-re_rule_code references re_rule(re_rule_code),
-rr_rule_code references rr_rule(rr_rule_code)
+state varchar2(10) DEFAULT 'INACTIVE'
+-- re_rule_code references re_rule(re_rule_code),
+-- rr_rule_code references rr_rule(rr_rule_code)
+);
+
+create table re_rule_for_lp(
+    lp_code references Loyalty_program(id) on DELETE CASCADE,
+    re_rule_code references re_rule(re_rule_code) on DELETE CASCADE,
+    CONSTRAINT pk_re_lp_map PRIMARY KEY (lp_code, re_rule_code)
+);
+
+create table rr_rule_for_lp(
+    lp_code references Loyalty_program(id) on DELETE CASCADE,
+    rr_rule_code references rr_rule(rr_rule_code) on DELETE CASCADE,
+    CONSTRAINT pk_rr_lp_map PRIMARY KEY (lp_code, rr_rule_code)
 );
 
 create table activities_for_loyalty_program(
-    id varchar2(100) primary key,
-    loyalty_program_code REFERENCES Loyalty_program(id),
-    activity_category_code references Activity_category(id)
+    loyalty_program_code REFERENCES Loyalty_program(id) on DELETE CASCADE,
+    activity_category_code references Activity_category(id) on DELETE CASCADE,
+    CONSTRAINT pk_act_lp PRIMARY KEY (loyalty_program_code,activity_category_code)
 );
 
 create table customer(
@@ -55,14 +79,24 @@ id varchar2(100) primary key,
 name varchar2(100) not NULL,
 phone number(10),
 lp_program_id REFERENCES loyalty_program(id),
-address varchar2(200)
+address varchar2(200),
+user_name varchar2(100) references actor(user_name)
 );
+
 
 create table customer_lp_enroll(
 customer_id REFERENCES customer(id),
 loyalty_program_code references Loyalty_program(id),
 UNIQUE(customer_id,loyalty_program_code)
 );
+
+create or replace trigger customer_insert_trigger
+after insert on customer
+for each row
+begin
+insert into actor values(:new.user_name, 'abcd1234', 'customer');
+end;
+
 
 create table wallet(
 id varchar2(100) primary key,
@@ -84,13 +118,14 @@ reward_name varchar2(100) not null
 );
 
 create table rewards_for_loyalty_program(
-    id varchar2(100) primary key,
     loyalty_program_code REFERENCES Loyalty_program(id) on DELETE CASCADE,
-    reward_category_code references reward_category(id) on DELETE CASCADE
+    reward_category_code references reward_category(id) on DELETE CASCADE,
+    CONSTRAINT pk_act_lp PRIMARY KEY (loyalty_program_code,reward_category_code)
 );
 
 create table reward_instance(
-reward_id varchar2(100) primary key,
+instance_id varchar(100) primary key,
+reward_id varchar2(100) references reward_category(id) on DELETE CASCADE,
 brand_id references brand(id) on DELETE CASCADE,
 value number,
 expiry_date date DEFAULT CURRENT_DATE + 365

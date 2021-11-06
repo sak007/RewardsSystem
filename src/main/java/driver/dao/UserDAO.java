@@ -1,5 +1,8 @@
 package driver.dao;
 
+import driver.Login;
+import driver.MainMenu;
+import driver.SignUp;
 import driver.UserType;
 import driver.object.User;
 
@@ -31,6 +34,7 @@ public class UserDAO {
                 usr.setType(role);
                 userList.add(usr);
             }
+            rs.close();
             return userList;
         } catch (SQLException e) {
             System.out.println("Caught SQLException " + e.getErrorCode() + "/" + e.getSQLState() + " " + e.getMessage());
@@ -68,7 +72,7 @@ public class UserDAO {
             Connection conn = DBHelper.connect();
             Statement stmt = conn.createStatement();
             String query = "select * from actor where user_name = '" + usr + "' and password = '" + pwd + "'";
-            //System.out.println(query);
+
             ResultSet rs = stmt.executeQuery(query);
             if (rs.next()) {
                 return Boolean.TRUE;
@@ -105,4 +109,21 @@ public class UserDAO {
         }
     }
 
+    public static void createUser(User usr) {
+        try {
+            String query = "Insert into actor" + usr.getMeta() + " values" + usr.toString();
+            DBHelper.executeUpdate(query);
+            System.out.println("User Added!");
+            Login.run();
+        } catch (SQLException e) {
+            MainMenu.run();
+            System.out.println("Unable to add User!");
+            System.out.println("Caught SQLException " + e.getErrorCode() + "/" + e.getSQLState() + " " + e.getMessage());
+        }
+    }
+
+    public static void updatePassword(String userName, String password) throws SQLException {
+        String query = "Update actor set password='" + password + "' where user_name='" + userName + "'";
+        DBHelper.executeUpdate(query);
+    }
 }

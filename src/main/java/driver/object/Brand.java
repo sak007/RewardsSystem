@@ -5,8 +5,10 @@ import java.util.Date;
 public class Brand {
     private String id;
     private String name;
+    private String username;
     private String address;
     private String joinDate;
+    private String password;
 
     public String getId() {
         return id;
@@ -22,6 +24,14 @@ public class Brand {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getUserName() {
+        return username;
+    }
+
+    public void setUserName(String username) {
+        this.username = username;
     }
 
     public String getAddress() {
@@ -40,16 +50,25 @@ public class Brand {
         this.joinDate = joinDate;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public void display() {
         System.out.println("Brand Details");
         System.out.println("Id: " + id);
         System.out.println("Name: " + name);
+        System.out.println("Username: " + username);
         System.out.println("Join Date: " + joinDate);
         System.out.println("Address: " + address);
     }
 
     public String getMeta() {
-        return "(id, name, address)";
+        return "(id, name, address, user_name)";
     }
 
     public String toString() {
@@ -64,6 +83,10 @@ public class Brand {
         res = res + ",";
         res = res + "'";
         res = res + address;
+        res = res + "'";
+        res = res + ",";
+        res = res + "'";
+        res = res + username;
         res = res + "'";
         res = res + ")";
         return res;

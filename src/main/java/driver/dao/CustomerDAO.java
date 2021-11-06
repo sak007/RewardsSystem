@@ -11,6 +11,9 @@ public class CustomerDAO {
         try {
             String query = "Insert into customer" + customer.getMeta() + " values" + customer.toString();
             DBHelper.executeUpdate(query);
+            if (customer.getPassword() != null) {
+                UserDAO.updatePassword(customer.getUserName(), customer.getPassword());
+            }
             System.out.println("Customer Added!");
         } catch (SQLException e) {
             System.out.println("Unable to add Customer!");
@@ -29,7 +32,9 @@ public class CustomerDAO {
                 customer.setPhone(Long.parseLong(rs.getString("phone")));
                 customer.setLoyaltyProgramId(rs.getString("lp_program_id"));
                 customer.setAddress(rs.getString("address"));
+                customer.setUserName(rs.getString("user_name"));
             }
+            rs.close();
             return customer;
         } catch (SQLException e) {
             System.out.println("Unable to load Customer");
