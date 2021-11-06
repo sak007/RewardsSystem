@@ -112,6 +112,7 @@ public class RERuleDAO {
         } catch (SQLException e) {
             System.out.println("Unable to Update RE Rule !");
             System.out.println("Caught SQLException " + e.getErrorCode() + "/" + e.getSQLState() + " " + e.getMessage());
+            e.printStackTrace();
         }
 
         //return rowUpdated;
