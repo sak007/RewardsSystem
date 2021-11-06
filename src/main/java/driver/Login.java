@@ -1,6 +1,8 @@
 package driver;
 
+
 import driver.admin.AdminLandingPage;
+import driver.brands.BrandLandingPage;
 
 import java.util.Scanner;
 
@@ -46,7 +48,7 @@ public class Login {
                 AdminLandingPage.run();
                 break;
             case BRAND:
-                // TODO: 10/29/21  
+                BrandLandingPage.run();
                 break;
             case CUSTOMER:
                 // TODO: 10/29/21
