@@ -69,6 +69,7 @@ create table rr_rule_for_lp(
 );
 
 create table activities_for_loyalty_program(
+    activity_lp_map_id varchar2(50) primary key,
     loyalty_program_code REFERENCES Loyalty_program(id) on DELETE CASCADE,
     activity_category_code references Activity_category(id) on DELETE CASCADE,
     CONSTRAINT pk_act_lp PRIMARY KEY (loyalty_program_code,activity_category_code)

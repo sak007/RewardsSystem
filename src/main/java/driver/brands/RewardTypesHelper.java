@@ -29,6 +29,7 @@ public class RewardTypesHelper {
             case 1:
                 //Find the reward category obj for with Gift Card as name.
                 //Find the loyalty program of this brand
+                String lpGiftCode;
                 Reward reward_gift = RewardDAO.loadByName("Gift Card");
                 System.out.print("Got the reward gift obj: " + reward_gift.getCode()+reward_gift.getName() +" \n");
                 LoyaltyProgram loyaltyProgramGift = LoyaltyProgramDAO.loadByBrandId(test_brand_id);
@@ -38,8 +39,8 @@ public class RewardTypesHelper {
                 RewardsForLoyaltyProgram rewardLPGift = new RewardsForLoyaltyProgram();
 
                 //Create reward LP mapping
-                uniqId= UUID.randomUUID().toString().replace("-","");
-                rewardLPGift.setReward_lp_map_id(uniqId);
+                lpGiftCode = UUID.randomUUID().toString().replace("-","");
+                rewardLPGift.setReward_lp_map_id(lpGiftCode);
                 rewardLPGift.setReward_category_code(reward_gift.getCode());
                 rewardLPGift.setLoyalty_program_code(loyaltyProgramGift.getLpId());
                 RewardsForLoyaltyProgramDAO.saveData(rewardLPGift);
@@ -48,7 +49,7 @@ public class RewardTypesHelper {
                 for(iterator = 0; iterator < quantity; iterator++){
                     uniqId= UUID.randomUUID().toString().replace("-","");
                     reward_instance.setInstance_id(uniqId);
-                    reward_instance.setReward_id(reward_gift.getCode());
+                    reward_instance.setReward_id(lpGiftCode);
                     reward_instance.setBrand_id(test_brand_id);
 //                    reward_instance.setExpiryDate(); Default value of 1 year
                     reward_instance.setValue("100");
@@ -60,25 +61,27 @@ public class RewardTypesHelper {
             case 2:
                 //Find the reward category obj for with Gift Card as name.
                 //Find the loyalty program of this brand
+                String FPcode;
                 Reward reward_free = RewardDAO.loadByName("Free Product");
                 LoyaltyProgram loyaltyProgramFree = LoyaltyProgramDAO.loadByBrandId(test_brand_id);
 
                 //Add it's ID as the code in the mapping table object
                 RewardsForLoyaltyProgram rewardLPFree = new RewardsForLoyaltyProgram();
-
+                FPcode = UUID.randomUUID().toString().replace("-","");
                 //Create reward LP mapping
-                uniqId= UUID.randomUUID().toString().replace("-","");
-                rewardLPFree.setReward_lp_map_id(uniqId);
+                rewardLPFree.setReward_lp_map_id(FPcode);
                 rewardLPFree.setReward_category_code(reward_free.getCode());
                 rewardLPFree.setLoyalty_program_code(loyaltyProgramFree.getLpId());
                 RewardsForLoyaltyProgramDAO.saveData(rewardLPFree);
 
                 //Create quantity number of instances of this reward for this loyalty Program
                 for(iterator = 0; iterator < quantity; iterator++){
-                    reward_instance.setReward_id(reward_free.getCode());
+                    uniqId= UUID.randomUUID().toString().replace("-","");
+                    reward_instance.setInstance_id(uniqId);
+                    reward_instance.setReward_id(FPcode);
                     reward_instance.setBrand_id(test_brand_id);
 //                    reward_instance.setExpiryDate(); Default value of 1 year
-                    reward_instance.setValue("Ponds");
+                    reward_instance.setValue("Product Name X");
                 }
                 break;
             case 3:
