@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.UUID;
 
 public class RERuleDAO {
 
@@ -47,7 +48,7 @@ public class RERuleDAO {
         }
     }
 
-    public static boolean updateReRule(RERule reRule,String brandId){
+    public static void updateReRule(RERule reRule,String brandId){
         boolean rowUpdated = false;
         try{
             Connection connection = DBHelper.connect();
@@ -58,39 +59,46 @@ public class RERuleDAO {
             PreparedStatement preparedStatementUpdate = connection.prepareStatement(selectQuery);
 
             ResultSet rs = preparedStatementUpdate.executeQuery(selectQuery);
-            //connection.commit();
+            connection.commit();
 
             Integer version = 0;
+            String status = "D";
+            String ruleCode = "";
 
             if(rs.next() == false){
                 System.out.println("The entered activity code for your brand does not exists.");
             }else{
-                while(rs.next()){
                     //get rerule version, set it in rerule object and pass object for update
                     version = rs.getInt("version");
-                }
+                    ruleCode = rs.getString("re_rule_code");
+                    System.out.println("Inner version"+version);
             }
 
-           /* if(rs.next()){
-                version = rs.getInt("version");
-            }*/
-
             version = version + 1;
-
             System.out.println("V:"+version);
 
-            String updateQuery = "UPDATE re_rule SET nums_points = "+reRule.getNumPoints()+", version = "+version+" WHERE activity_category_code = '"+reRule.getActivityCategoryCode()+"' and re_rule_code IN (select relp.re_rule_code from re_rule_for_lp relp where relp.lp_code IN (select lp.id from Loyalty_program lp where lp.brand_id IN (select b.id from brand b where b.id = '"+brandId+"')))";
+
+            String updateQuery = "UPDATE re_rule SET status = '"+status+"' WHERE activity_category_code = '"+reRule.getActivityCategoryCode()+"' and re_rule_code IN (select relp.re_rule_code from re_rule_for_lp relp where relp.lp_code IN (select lp.id from Loyalty_program lp where lp.brand_id IN (select b.id from brand b where b.id = '"+brandId+"')))";
             System.out.println(updateQuery);
 
             DBHelper.executeUpdate(updateQuery);
-            connection.commit();
+
+            reRule.setVersion(version);
+            reRule.setStatus("E");
+            reRule.setReRuleCode(UUID.randomUUID().toString().replace("-",""));
+
+            String insertQuery = "INSERT INTO re_rule"+ reRule.getMeta() +" VALUES"+ reRule.toString();
+            System.out.println(insertQuery);
+            DBHelper.executeUpdate(insertQuery);
+
+            connection.close();
 
         } catch (SQLException e) {
             System.out.println("Unable to Update RE Rule !");
             System.out.println("Caught SQLException " + e.getErrorCode() + "/" + e.getSQLState() + " " + e.getMessage());
         }
 
-        return rowUpdated;
+        //return rowUpdated;
 
     }
 

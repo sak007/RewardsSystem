@@ -57,40 +57,41 @@ public class RRRuleDAO {
         }
     }
 
-    public static boolean updateRRRule(RRRule rrRule, String brandId){
+    public static void updateRRRule(RRRule rrRule, String brandId){
         boolean rowUpdated = false;
-        try(Connection connection = DBHelper.connect();
-            PreparedStatement preparedStatementSelect = connection.prepareStatement(SELECT_RR_RULE_BY_RRC);
-            PreparedStatement preparedStatementUpdate = connection.prepareStatement(UPDATE_RR_RULE);) {
+        try {
 
             Integer version = 0;
             Integer instances = 0;
             Integer points = 0;
+            String rrRuleCode ="";
+            String lpCode = "";
 
-            preparedStatementSelect.setString(1,rrRule.getReward());
-            preparedStatementSelect.setString(2,brandId);
+            String selectQuery = "SELECT * FROM rr_rule rra WHERE rra.rr_rule_code IN (select rrlp.rr_rule_code from rr_rule_for_lp rrlp where rrlp.lp_code IN (select lp.id from Loyalty_program lp where lp.brand_id IN (select b.id from brand b where b.id = '"+brandId+"'))) and rra.status='E' ";
 
-            ResultSet rs  = preparedStatementSelect.executeQuery();
+            System.out.println(selectQuery);
+
+            ResultSet rs = DBHelper.executeQuery(selectQuery);
+
             if(rs.next() == false){
-                System.out.println("The entered reward name for your brand does not exists.");
+                System.out.println("The entry for your brand does not exists.");
             }else{
                 do{
                     //get rerule version, set it in rerule object and pass object for update
                     version = rs.getInt("version");
-                    instances = rs.getInt("instances");
-                    points = rs.getInt("num_points");
+                    rrRuleCode = rs.getString("rr_rule_code");
+                    System.out.println("RRrulecode:"+rrRuleCode);
                 }while(rs.next());
             }
 
-            //Disable the previous version of RR rule
-            preparedStatementUpdate.setInt(1,points);
-            preparedStatementUpdate.setInt(2,instances);
-            preparedStatementUpdate.setInt(3,version);
-            preparedStatementUpdate.setString(4,"D");
-            preparedStatementUpdate.setString(5,rrRule.getReward());
-            preparedStatementUpdate.setString(6,brandId);
+            System.out.println("V:"+version);
+            rrRule.setVersion(version);
+            rrRule.setStatus("D");
 
-            preparedStatementUpdate.executeUpdate();
+            String updateQuery = "UPDATE rr_rule SET status = '"+rrRule.getStatus()+"' WHERE reward = '"+rrRule.getReward()+"' AND version ="+rrRule.getVersion()+" AND rr_rule_code IN (select rrlp.rr_rule_code from rr_rule_for_lp rrlp where rrlp.lp_code IN (select lp.id from Loyalty_program lp where lp.brand_id IN (select b.id from brand b where b.id = '"+brandId+"')))";
+            System.out.println(updateQuery);
+
+            DBHelper.executeUpdate(updateQuery);
 
             version = version + 1;
 
@@ -98,14 +99,28 @@ public class RRRuleDAO {
             rrRule.setVersion(version);
             rrRule.setStatus("E");
 
+            String rrlpQuery = "select * from rr_rule_for_lp where rr_rule_code='"+rrRuleCode+"'";
+            System.out.println(rrlpQuery);
+
+            ResultSet rs2 = DBHelper.executeQuery(rrlpQuery);
+
+            if(rs2.next()){
+                lpCode = rs2.getString("lp_code");
+            }
+
+            String insertLPRR = "insert into rr_rule_for_lp values ('"+lpCode+"','"+rrRule.getRrRuleCode()+"')";
+            System.out.println(insertLPRR);
             saveData(rrRule);
+
+            DBHelper.executeUpdate(insertLPRR);
 
         }catch (SQLException e) {
             System.out.println("Unable to Update RR Rule !");
             System.out.println("Caught SQLException " + e.getErrorCode() + "/" + e.getSQLState() + " " + e.getMessage());
+            e.printStackTrace();
         }
 
-        return rowUpdated;
+        //return rowUpdated;
     }
 
 }

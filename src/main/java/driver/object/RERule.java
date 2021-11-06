@@ -7,6 +7,7 @@ public class RERule {
     private String activityCategoryCode;
     private Integer numPoints;
     private Integer version;
+    private String status;
 
     public RERule() {
     }
@@ -48,6 +49,14 @@ public class RERule {
 
     public void setVersion(Integer version) {
         this.version = version;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getMeta() {

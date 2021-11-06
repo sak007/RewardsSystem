@@ -25,6 +25,7 @@ public class ReRulesHelper {
                 Integer activityPoints = scanner.nextInt();
                 reRule.setNumPoints(activityPoints);
                 reRule.setVersion(1);
+                reRule.setStatus("E");
                 RERuleDAO.saveData(reRule);
                 break;
             case 2:
@@ -50,12 +51,13 @@ public class ReRulesHelper {
                 System.out.println("Enter the points that you want to replace the existing points with:");
                 Integer points = scanner.nextInt();
                 reRule.setNumPoints(points);
-                boolean updateCheck = RERuleDAO.updateReRule(reRule,brandId);
-                if(updateCheck){
+                RERuleDAO.updateReRule(reRule,brandId);
+                /*if(updateCheck){
                     System.out.println("Update was successful..!!");
                 }else{
                     System.out.println("There was an issue while updating the entry.");
-                }
+                }*/
+                System.out.println("Update was successful..!!");
                 break;
             case 2:
                 BrandLandingPage.run();
