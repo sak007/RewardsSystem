@@ -40,6 +40,26 @@ public class DBHelper {
         stmt.executeUpdate(query);
     }
 
+    public static Object[] executeQueryUpdated(String query) throws SQLException {
+        try(Connection conn = connect();
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+        ) {
+            ResultSetMetaData resultSetMetaData = rs.getMetaData();
+            int count = resultSetMetaData.getColumnCount();
+            Object[] items = new Object[count];
+            while(rs.next()) {
+                for(int i=0; i< count; i++) {
+                    items[i] = rs.getObject(i+1);
+                }
+            }
+            return items;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return new Object[0];
+        }
+    }
+
     public static ResultSet executeQuery(String query) throws SQLException {
         Connection conn = connect();
         Statement stmt = conn.createStatement();
