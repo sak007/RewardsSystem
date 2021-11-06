@@ -3,7 +3,9 @@ package driver.dao;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Properties;
 
 public class DBHelper {
@@ -34,16 +36,46 @@ public class DBHelper {
         }
     }
 
+
     public static void executeUpdate(String query) throws SQLException {
-        Connection conn = connect();
-        Statement stmt = conn.createStatement();
-        stmt.executeUpdate(query);
+        try(Connection conn = connect();
+            Statement stmt = conn.createStatement();
+        ) {
+            stmt.executeUpdate(query);
+        }
+    }
+
+    public static List<Object[]> executeQueryUpdated(String query) throws SQLException {
+        try(Connection conn = connect();
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+        ) {
+            List<Object[]> resultList = new ArrayList();
+            ResultSetMetaData resultSetMetaData = rs.getMetaData();
+            int count = resultSetMetaData.getColumnCount();
+            while(rs.next()) {
+                Object[] items = new Object[count];
+                for(int i=0; i< count; i++) {
+                    items[i] = rs.getObject(i+1);
+                }
+                resultList.add(items);
+            }
+            return resultList;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return Collections.emptyList();
+        }
     }
 
     public static ResultSet executeQuery(String query) throws SQLException {
-        Connection conn = connect();
-        Statement stmt = conn.createStatement();
-        return stmt.executeQuery(query);
+        try (Connection conn =connect();
+             Statement stmt = conn.createStatement()) {
+            return stmt.executeQuery(query);
+        }
+        catch(SQLException e) {
+            System.out.println("Caught SQLException " + e.getErrorCode() + "/" + e.getSQLState() + " " + e.getMessage());
+            return null;
+        }
     }
 
 }
