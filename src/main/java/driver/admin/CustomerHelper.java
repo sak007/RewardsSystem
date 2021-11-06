@@ -44,16 +44,16 @@ public class CustomerHelper {
     private static Customer getCustomerDetails() {
         Customer customer = new Customer();
         System.out.println("Enter Customer Id");
-        String id = scanner.next();
+        String id = scanner.nextLine();
         customer.setId(id);
         System.out.println("Enter Customer Name");
-        String name = scanner.next();
+        String name = scanner.nextLine();
         customer.setName(name);
         System.out.println("Enter Customer Username");
-        String username = scanner.next();
+        String username = scanner.nextLine();
         customer.setUserName(username);
         System.out.println("Enter Customer Password");
-        String password = scanner.next();
+        String password = scanner.nextLine();
         customer.setPassword(password);
         System.out.println("Enter Customer Phone Number");
         Long phone = scanner.nextLong();
@@ -62,7 +62,7 @@ public class CustomerHelper {
         //String loyaltyProgramId = scanner.next();
         //customer.setLoyaltyProgramId(loyaltyProgramId);
         System.out.println("Enter Customer Address");
-        String address = scanner.next();
+        String address = scanner.nextLine();
         customer.setAddress(address);
         return customer;
     }
