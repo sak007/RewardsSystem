@@ -50,11 +50,11 @@ public class DBHelper {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(query);
         ) {
-            List resultList = new ArrayList();
+            List<Object[]> resultList = new ArrayList();
             ResultSetMetaData resultSetMetaData = rs.getMetaData();
             int count = resultSetMetaData.getColumnCount();
-            Object[] items = new Object[count];
             while(rs.next()) {
+                Object[] items = new Object[count];
                 for(int i=0; i< count; i++) {
                     items[i] = rs.getObject(i+1);
                 }

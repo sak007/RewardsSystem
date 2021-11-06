@@ -4,6 +4,7 @@ import driver.object.Customer;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 public class CustomerDAO {
 
@@ -45,10 +46,10 @@ public class CustomerDAO {
     public static String getCustomerIdByUserName(String username){
         String query="select id from customer where user_name='"+username+"'";
         try {
-            ResultSet rs = DBHelper.executeQuery(query);
+            List<Object[]> rs = DBHelper.executeQueryUpdated(query);
             String customerId = "";
-            if (rs.next()) {
-                customerId = rs.getString("id");
+            for(Object[] object:rs){
+                customerId = object[0].toString();
             }
             return customerId;
         }

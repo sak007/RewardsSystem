@@ -28,6 +28,7 @@ public class CustomerLoyaltyHelper {
                     CustomerLPEnrollDAO.saveData(customerId, ans);
                     CustomerLandingPage.run(customerId);
                 }
+                break;
 
             case 2:
                 CustomerLandingPage.run(customerId);

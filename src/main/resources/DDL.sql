@@ -78,7 +78,6 @@ create table customer(
 id varchar2(100) primary key,
 name varchar2(100) not NULL,
 phone number(10),
-lp_program_id REFERENCES loyalty_program(id),
 address varchar2(200),
 user_name varchar2(100) references actor(user_name)
 );
@@ -100,11 +99,7 @@ end;
 
 create table wallet(
 id varchar2(100) primary key,
-date_activity date,
 points number DEFAULT 0,
-re_rule_code references re_rule(re_rule_code),
-activity varchar2(200),
-loyalty_program_code references Loyalty_program(id),
 customer_id REFERENCES customer(id) on DELETE CASCADE,
 check(points>=0)
 );
@@ -136,7 +131,7 @@ create table customer_activity(
 id varchar2(100) primary key,
 customer_id references customer(id) on delete CASCADE,
 activity_date date DEFAULT CURRENT_DATE,
-activity_category_code references Activity_category(id)
+activity_lp_map_id references activities_for_loyalty_program(activity_lp_map_id)
 );
 
 create table tier(
