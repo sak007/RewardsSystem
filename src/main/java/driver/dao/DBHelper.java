@@ -3,7 +3,6 @@ package driver.dao;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.sql.*;
-import java.util.Collections;
 import java.util.Properties;
 
 public class DBHelper {
@@ -35,21 +34,31 @@ public class DBHelper {
     }
 
     public static void executeUpdate(String query) throws SQLException {
-        Connection conn = connect();
-        Statement stmt = conn.createStatement();
-        stmt.executeUpdate(query);
-        conn.close();
-        stmt.close();
+        try (Connection conn =connect();
+             Statement stmt = conn.createStatement()) {
+            stmt.executeUpdate(query);
+            conn.commit();
+            conn.close();
+            stmt.close();
+        }
+        catch(SQLException e) {
+            System.out.println("Caught SQLException " + e.getErrorCode() + "/" + e.getSQLState() + " " + e.getMessage());
+        }
     }
 
     public static ResultSet executeQuery(String query) throws SQLException {
-        Connection conn = connect();
-        Statement stmt = conn.createStatement();
-        ResultSet res =  stmt.executeQuery(query);
-        conn.close();
-        stmt.close();
-        res.close();
-        return res;
+        try (Connection conn =connect();
+             Statement stmt = conn.createStatement()) {
+             ResultSet res =  stmt.executeQuery(query);
+             conn.close();
+             stmt.close();
+             res.close();
+            return res;
+        }
+        catch(SQLException e) {
+            System.out.println("Caught SQLException " + e.getErrorCode() + "/" + e.getSQLState() + " " + e.getMessage());
+            return null;
+        }
     }
 
 }
