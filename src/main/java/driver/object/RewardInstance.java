@@ -18,5 +18,34 @@ public class RewardInstance {
     public void setExpiryDate(Date expiryDate) {this.expiryDate = expiryDate;}
     public void setReward_id(String reward_id) {this.reward_id = reward_id;}
     public void setValue(int value) {this.value = value;}
+
+    public String getMeta() {
+        return "(reward_id, brand_id, value, expiry_date)";
+    }
+
+    public String toString() {
+        String res = "(";
+        res = res + "'";
+        res = res + reward_id;
+        res = res + "'";
+
+        res = res + ",";
+        res = res + "'";
+        res = res + brand_id;
+        res = res + "'";
+
+        res = res + ",";
+        res = res + "'";
+        res = res + value;
+        res = res + "'";
+
+        res = res + ",";
+        res = res + "'";
+        res = res + expiryDate;
+        res = res + "'";
+
+        res = res + ")";
+        return res;
+    }
 }
 

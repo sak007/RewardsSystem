@@ -1,17 +1,17 @@
-package driver.brands;
+package driver.object;
 
 import driver.brands.ActivityCategory;
 
 public class RERule {
     private String reRuleCode;
-    private ActivityCategory activityCategoryCode;
+    private String activityCategoryCode;
     private Integer numPoints;
     private Integer version;
 
     public RERule() {
     }
 
-    public RERule(String reRuleCode, ActivityCategory activityCategoryCode, Integer numPoints, Integer version) {
+    public RERule(String reRuleCode, String activityCategoryCode, Integer numPoints, Integer version) {
         this.reRuleCode = reRuleCode;
         this.activityCategoryCode = activityCategoryCode;
         this.numPoints = numPoints;
@@ -26,11 +26,11 @@ public class RERule {
         this.reRuleCode = reRuleCode;
     }
 
-    public ActivityCategory getActivityCategoryCode() {
+    public String getActivityCategoryCode() {
         return activityCategoryCode;
     }
 
-    public void setActivityCategoryCode(ActivityCategory activityCategoryCode) {
+    public void setActivityCategoryCode(String activityCategoryCode) {
         this.activityCategoryCode = activityCategoryCode;
     }
 
@@ -49,4 +49,33 @@ public class RERule {
     public void setVersion(Integer version) {
         this.version = version;
     }
+
+    public String getMeta() {
+        return "(re_rule_code, activity_category_code, nums_points, version)";
+    }
+
+    public String toString() {
+        String res = "(";
+        res = res + "'";
+        res = res + reRuleCode;
+        res = res + "'";
+        res = res + ",";
+
+        res = res + "'";
+        res = res + activityCategoryCode;
+        res = res + "'";
+        res = res + ",";
+
+        res = res + "'";
+        res = res + numPoints;
+        res = res + "'";
+        res = res + ",";
+
+        res = res + "'";
+        res = res + version;
+        res = res + "'";
+        res = res + ")";
+        return res;
+    }
+
 }

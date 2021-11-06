@@ -20,6 +20,7 @@ public class BrandLandingPage {
 
         System.out.println(input_options);
         Integer chosen_option = scanner.nextInt();
+        scanner.nextLine();
         switch(chosen_option) {
             case 1:
                 LoyaltyProgramHelper.add();
@@ -28,17 +29,19 @@ public class BrandLandingPage {
                 ReRulesHelper.add();
                 break;
             case 3:
-//                System.out.print("Enter Brand Id: ");
-//                Long brandId = scanner.nextLong();
-//                ReRulesHelper.update(brandId);
+                System.out.print("Enter Brand Id: \n");
+                String brandId = scanner.nextLine();
+                ReRulesHelper.update(brandId);
                 break;
             case 4:
-//                System.out.print("Enter Customer Id: ");
-//                Long customerId = scanner.nextLong();
-//                RrRulesHelper.add(customerId);
+                //System.out.print("Enter Customer Id: ");
+                //Long customerId = scanner.nextLong();
+                RrRulesHelper.add();
                 break;
             case 5:
-//                RrRulesHelper.update();
+                System.out.print("Enter Brand Id: ");
+                String brandIdRR = scanner.nextLine();
+                RrRulesHelper.update(brandIdRR);
                 break;
             case 6:
 //                LoyaltyProgramHelper.update();
