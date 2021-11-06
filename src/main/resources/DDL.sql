@@ -1,3 +1,7 @@
+-- noinspection SqlDialectInspectionForFile
+
+-- noinspection SqlNoDataSourceInspectionForFile
+
 create table actor(
 user_name varchar2(100) primary key,
 password varchar2(200),
@@ -30,8 +34,16 @@ create table brand(
 id varchar2(100) primary key,
 name varchar2(100) Unique,
 address varchar2(200),
-join_date date DEFAULT CURRENT_DATE
+join_date date DEFAULT CURRENT_DATE,
+user_name varchar2(100) references actor(user_name)
 );
+
+create or replace trigger brand_insert_trigger
+after insert on brand
+for each row
+begin
+insert into actor values(:new.user_name, 'abcd1234', 'brand');
+end;
 
 create table Loyalty_program(
 id varchar2(100) primary key,
@@ -67,9 +79,16 @@ id varchar2(100) primary key,
 name varchar2(100) not NULL,
 phone number(10),
 lp_program_id REFERENCES loyalty_program(id),
-address varchar2(200)
+address varchar2(200),
+user_name varchar2(100) references actor(user_name)
 );
 
+create or replace trigger customer_insert_trigger
+after insert on customer
+for each row
+begin
+insert into actor values(:new.user_name, 'abcd1234', 'customer');
+end;
 
 create table wallet(
 id varchar2(100) primary key,

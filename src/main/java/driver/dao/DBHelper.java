@@ -37,12 +37,10 @@ public class DBHelper {
     }
 
     public static void executeUpdate(String query) throws SQLException {
-        try (Connection conn =connect();
-             Statement stmt = conn.createStatement()) {
+        try(Connection conn = connect();
+        Statement stmt = conn.createStatement();
+        ) {
             stmt.executeUpdate(query);
-        }
-        catch(SQLException e) {
-            System.out.println("Caught SQLException " + e.getErrorCode() + "/" + e.getSQLState() + " " + e.getMessage());
         }
     }
 
