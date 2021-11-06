@@ -3,11 +3,12 @@ package driver.admin;
 import driver.dao.ActivityDAO;
 import driver.object.Activity;
 
+import java.sql.SQLException;
 import java.util.Scanner;
 
 public class ActivityHelper {
     static Scanner scanner = new Scanner(System.in);
-    public static void run() {
+    public static void run() throws SQLException {
         Activity activity = getActivityDetails();
         System.out.println("1. Add Activity Type\n2. Go Back");
         Integer option = scanner.nextInt();

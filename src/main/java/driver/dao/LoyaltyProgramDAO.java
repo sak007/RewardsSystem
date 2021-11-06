@@ -6,12 +6,19 @@ import driver.object.Reward;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class LoyaltyProgramDAO {
     public static void saveData(LoyaltyProgram loyaltyProg) {
         try {
             String query = "Insert into Loyalty_program" + loyaltyProg.getMeta() + " values" + loyaltyProg.toString();
+            System.out.println(query);
             DBHelper.executeUpdate(query);
+            System.out.println("Inserted\n");
+
             System.out.println("Loyalty Program  Added!");
         } catch (SQLException e) {
             System.out.println("Unable to add Loyalty Program!");
@@ -22,21 +29,37 @@ public class LoyaltyProgramDAO {
 
     public static LoyaltyProgram loadByBrandId(String brand_id) {
         try {
-            String query = "Select * from brand where brand_id = '" + brand_id + "'";
-            ResultSet rs = DBHelper.executeQuery(query);
+            String query = "Select * from Loyalty_program where brand_id = '" + brand_id + "'";
+            System.out.println(query);
+            List<Object[]> items = DBHelper.executeQueryUpdated(query);
             LoyaltyProgram loyaltyProgram = new LoyaltyProgram();
-            if (rs.next()) {
-                loyaltyProgram.setLpId(rs.getString("code"));
-                loyaltyProgram.setBrandId(rs.getString("brand_id"));
-                loyaltyProgram.setProgramName(rs.getString("program_name"));
-                loyaltyProgram.setReRuleCode(rs.getString("re_rule_code"));
-                loyaltyProgram.setRrRuleCode(rs.getString("rr_rule_code"));
-                loyaltyProgram.setState(rs.getString("state"));
-                loyaltyProgram.setTierType(rs.getString("tier_type"));
+            for(Object[] item:items) {
+                loyaltyProgram.setLpId((String) item[0]);
+                loyaltyProgram.setProgramName((String) item[1]);
+                loyaltyProgram.setBrandId((String) item[2]);
+                loyaltyProgram.setTierType((String) item[3]);
+                loyaltyProgram.setState((String) item[4]);
             }
+
             return loyaltyProgram;
         } catch (SQLException e) {
-            System.out.println("Unable to load Activity from ID");
+            System.out.println("Unable to load Loyalty Program from ID");
+            System.out.println("Caught SQLException " + e.getErrorCode() + "/" + e.getSQLState() + " " + e.getMessage());
+            return null;
+        }
+    }
+    public static Map<String,String> getLoyaltyProgramList(){
+        Map<String,String> programNames=new HashMap<>();
+        String query = "Select * from loyalty_program where state='ACTIVE'";
+        try {
+            List<Object[]> rs= DBHelper.executeQueryUpdated(query);
+            for(Object[] object:rs){
+                programNames.put(object[0].toString(),object[1].toString());
+            }
+            return programNames;
+        }
+        catch (SQLException e){
+            System.out.println("Unable to load Loyalty Program Names");
             System.out.println("Caught SQLException " + e.getErrorCode() + "/" + e.getSQLState() + " " + e.getMessage());
             return null;
         }

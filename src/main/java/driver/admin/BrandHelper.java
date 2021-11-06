@@ -3,11 +3,12 @@ package driver.admin;
 import driver.dao.BrandDAO;
 import driver.object.Brand;
 
+import java.sql.SQLException;
 import java.util.Scanner;
 
 public class BrandHelper {
     static Scanner scanner = new Scanner(System.in);
-    public static void run() {
+    public static void run() throws SQLException {
         Brand brand = getBrandDetails();
         System.out.println("1. Add Brand\n2. Go Back");
         Integer option = scanner.nextInt();

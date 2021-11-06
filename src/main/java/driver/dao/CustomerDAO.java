@@ -37,4 +37,20 @@ public class CustomerDAO {
             return null;
         }
     }
+    public static String getCustomerIdByUserName(String username){
+        String query="select id from customer where user_name='"+username+"'";
+        try {
+            ResultSet rs = DBHelper.executeQuery(query);
+            String customerId = "";
+            if (rs.next()) {
+                customerId = rs.getString("id");
+            }
+            return customerId;
+        }
+        catch (SQLException e) {
+            System.out.println("Unable to fetch Customer id");
+            System.out.println("Caught SQLException " + e.getErrorCode() + "/" + e.getSQLState() + " " + e.getMessage());
+            return null;
+        }
+    }
 }

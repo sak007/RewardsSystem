@@ -58,6 +58,11 @@ lp_program_id REFERENCES loyalty_program(id),
 address varchar2(200)
 );
 
+create table customer_lp_enroll(
+customer_id REFERENCES customer(id),
+loyalty_program_code references Loyalty_program(id),
+UNIQUE(customer_id,loyalty_program_code)
+);
 
 create table wallet(
 id varchar2(100) primary key,

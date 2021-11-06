@@ -68,7 +68,7 @@ public class UserDAO {
             Connection conn = DBHelper.connect();
             Statement stmt = conn.createStatement();
             String query = "select * from actor where user_name = '" + usr + "' and password = '" + pwd + "'";
-            System.out.println(query);
+            //System.out.println(query);
             ResultSet rs = stmt.executeQuery(query);
             if (rs.next()) {
                 return Boolean.TRUE;

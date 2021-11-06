@@ -2,19 +2,22 @@ package driver;
 
 import driver.SignUp;
 
+import java.sql.SQLException;
 import java.util.Scanner;
+import java.util.UUID;
 
 public class MainMenu {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         run();
     }
 
-    public static void run() {
+    public static void run() throws SQLException {
         Scanner scanner = new Scanner(System.in);
         System.out.println("**********************************************************************************");
         System.out.println("******************************   HOME   ******************************************");
         System.out.println("**********************************************************************************");
+        String id= UUID.randomUUID().toString().replace("-","");
 
         System.out.println("1. Login\n2. Sign Up\n3.Show Queries\n4. Exit");
         Integer option = scanner.nextInt();

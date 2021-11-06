@@ -1,11 +1,12 @@
 package driver;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Scanner;
 
 public class SignUp {
-    public static void run() {
+    public static void run() throws SQLException {
         System.out.println("**********************************************************************************");
         System.out.println("******************************   SIGNUP   ****************************************");
         System.out.println("**********************************************************************************");
