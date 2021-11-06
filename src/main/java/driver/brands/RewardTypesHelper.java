@@ -6,6 +6,7 @@ import driver.object.RewardInstance;
 
 import java.sql.Date;
 import java.util.Scanner;
+import java.util.UUID;
 
 public class RewardTypesHelper {
     public static void display(){
@@ -20,6 +21,7 @@ public class RewardTypesHelper {
         System.out.println(display_string);
         Integer input = scanner.nextInt();
         String test_brand_id = "2";
+        String uniqId;
         int iterator;
         RewardInstance reward_instance = new RewardInstance();
         // CREATE INSTANCES OF THE CHOSEN REWARD TYPE
@@ -34,19 +36,22 @@ public class RewardTypesHelper {
 
                 //Add it's ID as the code in the mapping table object1
                 RewardsForLoyaltyProgram rewardLPGift = new RewardsForLoyaltyProgram();
+
+                //Create reward LP mapping
+                uniqId= UUID.randomUUID().toString().replace("-","");
+                rewardLPGift.setReward_lp_map_id(uniqId);
                 rewardLPGift.setReward_category_code(reward_gift.getCode());
                 rewardLPGift.setLoyalty_program_code(loyaltyProgramGift.getLpId());
-                System.out.println("Mapping chosen reward to the LP\n");
                 RewardsForLoyaltyProgramDAO.saveData(rewardLPGift);
-                System.out.println("Mapped chosen reward to the LP\n");
 
                 //Create quantity number of instances of this reward for this loyalty Program
-
                 for(iterator = 0; iterator < quantity; iterator++){
+                    uniqId= UUID.randomUUID().toString().replace("-","");
+                    reward_instance.setInstance_id(uniqId);
                     reward_instance.setReward_id(reward_gift.getCode());
                     reward_instance.setBrand_id(test_brand_id);
 //                    reward_instance.setExpiryDate(); Default value of 1 year
-                    reward_instance.setValue(quantity);
+                    reward_instance.setValue("100");
                     //Save reward instance object
                     RewardInstanceDAO.saveData(reward_instance);
                 }
@@ -60,9 +65,12 @@ public class RewardTypesHelper {
 
                 //Add it's ID as the code in the mapping table object
                 RewardsForLoyaltyProgram rewardLPFree = new RewardsForLoyaltyProgram();
+
+                //Create reward LP mapping
+                uniqId= UUID.randomUUID().toString().replace("-","");
+                rewardLPFree.setReward_lp_map_id(uniqId);
                 rewardLPFree.setReward_category_code(reward_free.getCode());
                 rewardLPFree.setLoyalty_program_code(loyaltyProgramFree.getLpId());
-
                 RewardsForLoyaltyProgramDAO.saveData(rewardLPFree);
 
                 //Create quantity number of instances of this reward for this loyalty Program
@@ -70,7 +78,7 @@ public class RewardTypesHelper {
                     reward_instance.setReward_id(reward_free.getCode());
                     reward_instance.setBrand_id(test_brand_id);
 //                    reward_instance.setExpiryDate(); Default value of 1 year
-                    reward_instance.setValue(quantity);
+                    reward_instance.setValue("Ponds");
                 }
                 break;
             case 3:
