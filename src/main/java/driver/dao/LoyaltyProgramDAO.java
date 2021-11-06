@@ -6,6 +6,7 @@ import driver.object.Reward;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 public class LoyaltyProgramDAO {
     public static void saveData(LoyaltyProgram loyaltyProg) {
@@ -27,15 +28,15 @@ public class LoyaltyProgramDAO {
         try {
             String query = "Select * from Loyalty_program where brand_id = '" + brand_id + "'";
             System.out.println(query);
-            Object[] items = DBHelper.executeQueryUpdated(query);
+            List<Object[]> rs =  DBHelper.executeQueryUpdated(query);
             LoyaltyProgram loyaltyProgram = new LoyaltyProgram();
-
-            loyaltyProgram.setLpId((String)items[0]);
-            loyaltyProgram.setProgramName((String)items[1]);
-            loyaltyProgram.setBrandId((String)items[2]);
-            loyaltyProgram.setTierType((String)items[3]);
-            loyaltyProgram.setState((String)items[4]);
-
+            for(Object[] object:rs) {
+                loyaltyProgram.setLpId((String) object[0]);
+                loyaltyProgram.setProgramName((String) object[1]);
+                loyaltyProgram.setBrandId((String) object[2]);
+                loyaltyProgram.setTierType((String) object[3]);
+                loyaltyProgram.setState((String) object[4]);
+            }
             return loyaltyProgram;
         } catch (SQLException e) {
             System.out.println("Unable to load Loyalty Program from ID");

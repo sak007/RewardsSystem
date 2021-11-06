@@ -1,9 +1,6 @@
 package driver.brands;
 
-import driver.dao.ActivityDAO;
-import driver.dao.LoyaltyProgramDAO;
-import driver.dao.RewardDAO;
-import driver.dao.RewardsForLoyaltyProgramDAO;
+import driver.dao.*;
 import driver.object.*;
 import driver.object.RewardInstance;
 
@@ -22,7 +19,7 @@ public class RewardTypesHelper {
                 "2)Free Product\n" + "3) Go back\n";
         System.out.println(display_string);
         Integer input = scanner.nextInt();
-        String test_brand_id = "1";
+        String test_brand_id = "2";
         int iterator;
         RewardInstance reward_instance = new RewardInstance();
         // CREATE INSTANCES OF THE CHOSEN REWARD TYPE
@@ -50,9 +47,9 @@ public class RewardTypesHelper {
                     reward_instance.setBrand_id(test_brand_id);
 //                    reward_instance.setExpiryDate(); Default value of 1 year
                     reward_instance.setValue(quantity);
+                    //Save reward instance object
+                    RewardInstanceDAO.saveData(reward_instance);
                 }
-
-                //Save reward instance object
 
                 break;
             case 2:

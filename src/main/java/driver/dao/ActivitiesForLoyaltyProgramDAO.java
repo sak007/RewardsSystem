@@ -1,6 +1,8 @@
 package driver.dao;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
+
 import driver.object.ActivitiesForLoyaltyProgram;
 import driver.object.Brand;
 
@@ -13,7 +15,7 @@ public class ActivitiesForLoyaltyProgramDAO {
             System.out.println("The chosen activity has been mapped to the Loyalty Program!");
         } catch (SQLException e) {
             System.out.println("Unable to map activity to the Loyalty Program!");
-            System.out.println("Caught S    QLException " + e.getErrorCode() + "/" + e.getSQLState() + " " + e.getMessage());
+            System.out.println("Caught SQLException " + e.getErrorCode() + "/" + e.getSQLState() + " " + e.getMessage());
         }
     }
 
@@ -21,17 +23,15 @@ public class ActivitiesForLoyaltyProgramDAO {
         try {
             int i;
             String query = "Select * from activities_for_loyalty_program where id = '" + Id + "'";
-            Object[] items = DBHelper.executeQueryUpdated(query);
+            List<Object[]> rs =  DBHelper.executeQueryUpdated(query);
+
             ActivitiesForLoyaltyProgram activityLp = new ActivitiesForLoyaltyProgram();
-//            if (rs.next()) {
-//                activityLp.setId(rs.getString("id"));
-//                activityLp.setLoyalty_program_code(rs.getString("loyalty_program_code"));
-//                activityLp.setActivity_category_code(rs.getString("activity_category_code"));
-//            }
-//            rs.close();
-            activityLp.setId((String)items[0]);
-            activityLp.setLoyalty_program_code((String)items[1]);
-            activityLp.setActivity_category_code((String)items[2]);
+
+            for(Object[] object:rs){
+                activityLp.setId((String)object[0]);
+                activityLp.setLoyalty_program_code((String)object[1]);
+                activityLp.setActivity_category_code((String)object[2]);
+            }
 
             return activityLp;
         }

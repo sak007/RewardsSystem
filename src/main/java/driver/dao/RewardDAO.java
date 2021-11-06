@@ -5,6 +5,7 @@ import driver.object.Reward;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 public class RewardDAO {
 
@@ -22,12 +23,12 @@ public class RewardDAO {
     public static Reward loadByName(String reward_name) {
         try {
             String query = "Select * from reward_category where reward_name = '" + reward_name + "'";
-            Object[] items = DBHelper.executeQueryUpdated(query);
+            List<Object[]> rs = DBHelper.executeQueryUpdated(query);
             Reward reward = new Reward();
-
-            reward.setCode((String)items[0]);
-            reward.setName((String)items[1]);
-
+            for(Object[] object:rs) {
+                reward.setCode((String) object[0]);
+                reward.setName((String) object[1]);
+            }
             return reward;
         } catch (SQLException e) {
             System.out.println("Unable to load Reward from name");

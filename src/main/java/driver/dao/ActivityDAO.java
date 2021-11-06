@@ -5,6 +5,7 @@ import driver.object.Brand;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 public class ActivityDAO {
 
@@ -23,11 +24,13 @@ public class ActivityDAO {
         try {
             String query = "Select * from activity_category where id = '" + id + "'";
             System.out.println(query);
-            Object[] items = DBHelper.executeQueryUpdated(query);
+            List<Object[]> rs = DBHelper.executeQueryUpdated(query);
             Activity activity = new Activity();
 
-            activity.setCode((String)items[0]);
-            activity.setName((String)items[1]);
+            for(Object[] object:rs) {
+                activity.setCode((String) object[0]);
+                activity.setName((String) object[1]);
+            }
 
             return activity;
         } catch (SQLException e) {
@@ -42,12 +45,15 @@ public class ActivityDAO {
         try {
             String query = "Select * from activity_category where activity_name = '" + name + "'";
             System.out.println(query);
-            Object[] items = DBHelper.executeQueryUpdated(query);
+            List<Object[]> rs = DBHelper.executeQueryUpdated(query);
 //            System.out.println(rs.getFetchSize());
             Activity activity = new Activity();
-            System.out.println("ANSWER: " + (String)items[0] + " and " + (String)items[1]);
-            activity.setCode((String)items[0]);
-            activity.setName((String)items[1]);
+
+            for(Object[] object:rs) {
+                System.out.println("ANSWER: " + (String) object[0] + " and " + (String) object[1]);
+                activity.setCode((String) object[0]);
+                activity.setName((String) object[1]);
+            }
 
             System.out.println("ACTIVITY!!!: "+ activity.getCode() + activity.getName());
             return activity;

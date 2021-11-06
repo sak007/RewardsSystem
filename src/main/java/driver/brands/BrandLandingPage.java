@@ -20,7 +20,7 @@ public class BrandLandingPage {
 
         System.out.println(input_options);
         Integer chosen_option = scanner.nextInt();
-        int test_brand_id = '1';
+        int test_brand_id = '2';
         switch(chosen_option) {
             case 1:
                 LoyaltyProgramHelper.add();

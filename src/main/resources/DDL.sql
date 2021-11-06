@@ -97,7 +97,8 @@ create table rewards_for_loyalty_program(
 );
 
 create table reward_instance(
-reward_id varchar2(100) primary key,
+instance_id varchar(100) primary key,
+reward_id varchar2(100) references reward_category(id) on DELETE CASCADE,
 brand_id references brand(id) on DELETE CASCADE,
 value number,
 expiry_date date DEFAULT CURRENT_DATE + 365

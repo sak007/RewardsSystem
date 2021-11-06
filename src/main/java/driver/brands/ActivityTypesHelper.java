@@ -16,7 +16,7 @@ public class ActivityTypesHelper {
                 "2)Leave a review\n" + "3)Refer a friend\n" + "4) Go back\n";
         System.out.println(display_string);
         Integer input = scanner.nextInt();
-        String test_brand_id = "1";
+        String test_brand_id = "2";
         switch (input){
             case 1:
                 //NOTE: If already added purchase, Say So.

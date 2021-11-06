@@ -10,7 +10,7 @@ import java.util.Scanner;
 public class TiersHelper {
     public static void display() {
         Scanner scanner = new Scanner(System.in);
-        String test_brand_id = "1";
+        String test_brand_id = "2";
         String display_string = "Enter number of tiers \n";
         System.out.println(display_string);
         Integer number_of_tiers = scanner.nextInt();

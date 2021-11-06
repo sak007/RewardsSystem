@@ -3,6 +3,9 @@ package driver.dao;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Properties;
 
 public class DBHelper {
@@ -43,12 +46,13 @@ public class DBHelper {
         }
     }
 
-    public static Object[] executeQueryUpdated(String query) throws SQLException {
+    public static List<Object[]> executeQueryUpdated(String query) throws SQLException {
         try(Connection conn = connect();
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(query);
         ) {
             System.out.println(query);
+            List resultList = new ArrayList();
             ResultSetMetaData resultSetMetaData = rs.getMetaData();
             int count = resultSetMetaData.getColumnCount();
             Object[] items = new Object[count];
@@ -56,11 +60,12 @@ public class DBHelper {
                 for(int i=0; i< count; i++) {
                     items[i] = rs.getObject(i+1);
                 }
+                resultList.add(items);
             }
-            return items;
+            return resultList;
         } catch (SQLException e) {
             e.printStackTrace();
-            return new Object[0];
+            return Collections.emptyList();
         }
     }
 
