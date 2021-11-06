@@ -21,15 +21,14 @@ public class BrandDAO {
     public static Brand loadById(String id) {
         try {
             String query = "Select * from brand where id = '" + id + "'";
-            ResultSet rs = DBHelper.executeQuery(query);
+            Object[] items = DBHelper.executeQueryUpdated(query);
             Brand brand = new Brand();
-            if (rs.next()) {
-                brand.setId(rs.getString("id"));
-                brand.setName(rs.getString("name"));
-                brand.setAddress(rs.getString("address"));
-                brand.setJoinDate(rs.getString("join_date"));
-            }
-            rs.close();
+
+            brand.setId((String)items[0]);
+            brand.setName((String)items[1]);
+            brand.setAddress((String)items[2]);
+            brand.setJoinDate((String)items[3]);
+
             return brand;
         } catch (SQLException e) {
             System.out.println("Unable to load Brand");

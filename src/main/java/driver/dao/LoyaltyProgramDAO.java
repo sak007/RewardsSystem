@@ -27,16 +27,15 @@ public class LoyaltyProgramDAO {
         try {
             String query = "Select * from Loyalty_program where brand_id = '" + brand_id + "'";
             System.out.println(query);
-            ResultSet rs = DBHelper.executeQuery(query);
+            Object[] items = DBHelper.executeQueryUpdated(query);
             LoyaltyProgram loyaltyProgram = new LoyaltyProgram();
-            if (rs.next()) {
-                loyaltyProgram.setLpId(rs.getString("id"));
-                loyaltyProgram.setBrandId(rs.getString("brand_id"));
-                loyaltyProgram.setProgramName(rs.getString("program_name"));
-                loyaltyProgram.setState(rs.getString("state"));
-                loyaltyProgram.setTierType(rs.getString("tier_type"));
-            }
-            rs.close();
+
+            loyaltyProgram.setLpId((String)items[0]);
+            loyaltyProgram.setProgramName((String)items[1]);
+            loyaltyProgram.setBrandId((String)items[2]);
+            loyaltyProgram.setTierType((String)items[3]);
+            loyaltyProgram.setState((String)items[4]);
+
             return loyaltyProgram;
         } catch (SQLException e) {
             System.out.println("Unable to load Loyalty Program from ID");

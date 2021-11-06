@@ -21,16 +21,14 @@ public class ActivityDAO {
 
     public static Activity loadById(String id) {
         try {
-            System.out.println("WHAAAAT!?!!?!?!\n");
             String query = "Select * from activity_category where id = '" + id + "'";
             System.out.println(query);
-            ResultSet rs = DBHelper.executeQuery(query);
+            Object[] items = DBHelper.executeQueryUpdated(query);
             Activity activity = new Activity();
-            if (rs.next()) {
-                activity.setCode(rs.getString("id"));
-                activity.setName(rs.getString("code"));
-            }
-            rs.close();
+
+            activity.setCode((String)items[0]);
+            activity.setName((String)items[1]);
+
             return activity;
         } catch (SQLException e) {
             System.out.println("Unable to load Activity from ID");
@@ -44,14 +42,13 @@ public class ActivityDAO {
         try {
             String query = "Select * from activity_category where activity_name = '" + name + "'";
             System.out.println(query);
-            ResultSet rs = DBHelper.executeQuery(query);
-            System.out.println(rs.getFetchSize());
+            Object[] items = DBHelper.executeQueryUpdated(query);
+//            System.out.println(rs.getFetchSize());
             Activity activity = new Activity();
-            if (rs.next()) {
-                activity.setCode(rs.getString("id"));
-                activity.setName(rs.getString("activity_name"));
-            }
-            rs.close();
+            System.out.println("ANSWER: " + (String)items[0] + " and " + (String)items[1]);
+            activity.setCode((String)items[0]);
+            activity.setName((String)items[1]);
+
             System.out.println("ACTIVITY!!!: "+ activity.getCode() + activity.getName());
             return activity;
         } catch (SQLException e) {
