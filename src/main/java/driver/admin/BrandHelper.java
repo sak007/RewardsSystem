@@ -12,7 +12,7 @@ import java.util.Scanner;
 
 public class BrandHelper {
     static Scanner scanner = new Scanner(System.in);
-    public static void run() throws SQLException {
+    public static void run(){
         Brand brand = getBrandDetails();
         System.out.println("1. Add Brand\n2. Go Back");
         Integer option = scanner.nextInt();

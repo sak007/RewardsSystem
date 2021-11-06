@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 public class AdminLandingPage {
-    public static void run() throws SQLException {
+    public static void run() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("**********************************************************************************");
         System.out.println("***************************   ADMIN HOME   ***************************************");

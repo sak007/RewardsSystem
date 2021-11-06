@@ -13,7 +13,7 @@ import java.util.Scanner;
 public class CustomerHelper {
     static Scanner scanner = new Scanner(System.in);
 
-    public static void run() throws SQLException {
+    public static void run(){
         Customer customer = getCustomerDetails();
         System.out.println("1. Add Customer\n2. Go Back");
         Integer option = scanner.nextInt();

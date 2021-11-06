@@ -9,7 +9,7 @@ import java.util.Scanner;
 public class RewardHelper {
     static Scanner scanner = new Scanner(System.in);
 
-    public static void run() throws SQLException {
+    public static void run(){
         Reward reward = getRewardDetails();
         System.out.println("1. Add Reward\n2. Go Back");
         Integer option = scanner.nextInt();

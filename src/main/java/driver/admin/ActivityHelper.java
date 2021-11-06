@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class ActivityHelper {
     static Scanner scanner = new Scanner(System.in);
-    public static void run() throws SQLException {
+    public static void run(){
         Activity activity = getActivityDetails();
         System.out.println("1. Add Activity Type\n2. Go Back");
         Integer option = scanner.nextInt();

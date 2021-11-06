@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 public class Login {
-    public static void run() throws SQLException {
+    public static void run() {
         System.out.println("**********************************************************************************");
         System.out.println("******************************   LOGIN   *****************************************");
         System.out.println("**********************************************************************************");
@@ -19,7 +19,7 @@ public class Login {
         displayLoginPage();
     }
 
-    public static void displayLoginPage() throws SQLException {
+    public static void displayLoginPage()  {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter username: ");
         String usr = scanner.next();
@@ -44,7 +44,7 @@ public class Login {
         }
     }
 
-    public static void redirectToPage(String usr) throws SQLException {
+    public static void redirectToPage(String usr)  {
         UserType type = Helper.getUserType(usr);
         switch (type) {
             case ADMIN:

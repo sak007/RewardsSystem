@@ -11,7 +11,7 @@ import java.util.Scanner;
 import java.util.UUID;
 
 public class CustomerLandingPage {
-    public static void run(String customerId) throws SQLException {
+    public static void run(String customerId) {
         Scanner scanner = new Scanner(System.in);
         System.out.println("**********************************************************************************");
         System.out.println("***************************   Customer HOME   ***************************************");

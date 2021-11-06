@@ -13,7 +13,7 @@ import java.util.Scanner;
 
 public class WalletHelper {
     static Scanner scanner = new Scanner(System.in);
-    public static void run(String customerId) throws SQLException {
+    public static void run(String customerId)  {
         getWalletDetails(customerId);
         System.out.println("1.Go Back");
         Integer option = scanner.nextInt();
@@ -21,7 +21,7 @@ public class WalletHelper {
             CustomerLandingPage.run(customerId);
         }
     }
-    public static void getWalletDetails(String customerId) throws SQLException {
+    public static void getWalletDetails(String customerId){
         List<Wallet> walletList;
         walletList=WalletDAO.showDetailsByCustomerId(customerId);
         System.out.println(walletList);

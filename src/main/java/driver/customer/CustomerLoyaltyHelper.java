@@ -13,7 +13,7 @@ import java.util.Scanner;
 
 public class CustomerLoyaltyHelper {
     static Scanner scanner = new Scanner(System.in);
-    public static void run(String customerId) throws SQLException {
+    public static void run(String customerId){
         Map<String,String> programNames= LoyaltyProgramDAO.getLoyaltyProgramList();
         for(Map.Entry<String,String> entry : programNames.entrySet()){
             System.out.println(entry.getKey()+". "+entry.getValue());
