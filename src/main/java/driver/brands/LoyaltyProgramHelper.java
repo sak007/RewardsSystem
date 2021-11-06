@@ -14,15 +14,16 @@ public class LoyaltyProgramHelper {
         String input_lp_name = scanner.nextLine();
         String display_string = "Choose the type of the Loyalty Program\n 1) Regular\n" + "2) Tier\n" + "Go Back\n";
         System.out.println(display_string);
-        String test_brand_id = "2";
+        String test_brand_id = "3";
         Integer input_lp_type = scanner.nextInt();
+        String uniqId;
         switch (input_lp_type){
             case 1:
                 //Regular - Go to Brand Regular Page
 
                 //Set loyaltyProgram values
                 LoyaltyProgram loyaltyProgramreg = new LoyaltyProgram();
-                String uniqId= UUID.randomUUID().toString().replace("-","");
+                uniqId = UUID.randomUUID().toString().replace("-","");
                 loyaltyProgramreg.setLpId(uniqId);
                 loyaltyProgramreg.setProgramName(input_lp_name);
                 loyaltyProgramreg.setBrandId(test_brand_id);
@@ -40,8 +41,9 @@ public class LoyaltyProgramHelper {
                 break;
             case 2:
                 //Tiered - Go to Brand Tier Page
-
+                uniqId = UUID.randomUUID().toString().replace("-","");
                 LoyaltyProgram loyaltyProgramtier = new LoyaltyProgram();
+                loyaltyProgramtier.setLpId(uniqId);
                 loyaltyProgramtier.setProgramName(input_lp_name);
                 loyaltyProgramtier.setBrandId(test_brand_id);
                 loyaltyProgramtier.setTierType("Tier");

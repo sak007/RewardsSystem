@@ -11,13 +11,13 @@ import java.util.Scanner;
 import java.util.UUID;
 
 public class ActivityTypesHelper {
-    public static void display(){
+    public static void display(String tier_type){
         Scanner scanner = new Scanner(System.in);
         String display_string = "Choose from one of the options below:\n" + "1)Purchase\n" +
                 "2)Leave a review\n" + "3)Refer a friend\n" + "4) Go back\n";
         System.out.println(display_string);
         Integer input = scanner.nextInt();
-        String test_brand_id = "2";
+        String test_brand_id = "3";
         String uniqId;
         switch (input){
             case 1:
@@ -43,7 +43,7 @@ public class ActivityTypesHelper {
 
                 //Save
                 ActivitiesForLoyaltyProgramDAO.saveData(activityLp);
-                ActivityTypesHelper.display();
+                ActivityTypesHelper.display(tier_type);
                 break;
             case 2:
                 //NOTE: If already added Review, Say So.
@@ -68,7 +68,7 @@ public class ActivityTypesHelper {
 
                 //Save
                 ActivitiesForLoyaltyProgramDAO.saveData(activityLpReview);
-                ActivityTypesHelper.display();
+                ActivityTypesHelper.display(tier_type);
                 break;
             case 3:
                 //NOTE: If already added Refer, Say So.
@@ -86,11 +86,16 @@ public class ActivityTypesHelper {
 
                 //Save
                 ActivitiesForLoyaltyProgramDAO.saveData(activityLpRefer);
-                ActivityTypesHelper.display();
+                ActivityTypesHelper.display(tier_type);
                 break;
             case 4:
                 //Go Back
-                RegularLoyaltyProgramHelper.display();
+                if (tier_type == "Regular") {
+                    RegularLoyaltyProgramHelper.display();
+                }
+                else{
+                    TieredLoyaltyProgramHelper.display();
+                }
                 break;
         }
     }

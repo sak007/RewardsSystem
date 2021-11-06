@@ -8,7 +8,7 @@ public class ReRulesHelper {
 
     public static void add(){
         Scanner scanner = new Scanner(System.in);
-        String test_brand_int = "2";
+        String test_brand_int = "3";
 
         String display_string = " A. Enter Brand reward rule code:\n";
         System.out.print(display_string);

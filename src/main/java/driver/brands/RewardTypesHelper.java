@@ -9,7 +9,7 @@ import java.util.Scanner;
 import java.util.UUID;
 
 public class RewardTypesHelper {
-    public static void display(){
+    public static void display(String tier_type){
         Scanner scanner = new Scanner(System.in);
 
         String display_string = "Enter Quantity for the chosen option:";
@@ -20,7 +20,7 @@ public class RewardTypesHelper {
                 "2)Free Product\n" + "3) Go back\n";
         System.out.println(display_string);
         Integer input = scanner.nextInt();
-        String test_brand_id = "2";
+        String test_brand_id = "3";
         String uniqId;
         int iterator;
         RewardInstance reward_instance = new RewardInstance();
@@ -56,7 +56,7 @@ public class RewardTypesHelper {
                     //Save reward instance object
                     RewardInstanceDAO.saveData(reward_instance);
                 }
-
+                RewardTypesHelper.display(tier_type);
                 break;
             case 2:
                 //Find the reward category obj for with Gift Card as name.
@@ -83,9 +83,16 @@ public class RewardTypesHelper {
 //                    reward_instance.setExpiryDate(); Default value of 1 year
                     reward_instance.setValue("Product Name X");
                 }
+                RewardTypesHelper.display(tier_type);
                 break;
             case 3:
-                // Go Back
+                // Go Back to tier or regular
+                if (tier_type == "Regular"){
+                    RegularLoyaltyProgramHelper.display();
+                }
+                else{
+                    TieredLoyaltyProgramHelper.display();
+                }
                 break;
         }
     }
