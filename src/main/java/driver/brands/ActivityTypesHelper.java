@@ -8,6 +8,7 @@ import driver.object.Activity;
 import driver.object.LoyaltyProgram;
 
 import java.util.Scanner;
+import java.util.UUID;
 
 public class ActivityTypesHelper {
     public static void display(){
@@ -17,6 +18,7 @@ public class ActivityTypesHelper {
         System.out.println(display_string);
         Integer input = scanner.nextInt();
         String test_brand_id = "2";
+        String uniqId;
         switch (input){
             case 1:
                 //NOTE: If already added purchase, Say So.
@@ -34,7 +36,8 @@ public class ActivityTypesHelper {
                 }
                 //Add it's ID as the code in the mapping table object
                 ActivitiesForLoyaltyProgram activityLp = new ActivitiesForLoyaltyProgram();
-
+                uniqId = UUID.randomUUID().toString().replace("-","");
+                activityLp.setId(uniqId);
                 activityLp.setActivity_category_code(activity.getCode());
                 activityLp.setLoyalty_program_code(loyaltyProgram.getLpId());
 
@@ -58,6 +61,8 @@ public class ActivityTypesHelper {
 
                 //Add it's ID as the code in the mapping table
                 ActivitiesForLoyaltyProgram activityLpReview = new ActivitiesForLoyaltyProgram();
+                uniqId = UUID.randomUUID().toString().replace("-","");
+                activityLpReview.setId(uniqId);
                 activityLpReview.setActivity_category_code(activity_review.getCode());
                 activityLpReview.setLoyalty_program_code(loyaltyProgram_review.getLpId());
 
