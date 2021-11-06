@@ -24,7 +24,10 @@ create table rr_rule(
 rr_rule_code varchar2(100) primary key,
 reward varchar2(200),
 num_points number,
-version number
+instances number not null,
+version number,
+status VARCHAR2(1) DEFAULT 'E',
+check(INSTANCES>=0)
 );
 
 create table brand(
