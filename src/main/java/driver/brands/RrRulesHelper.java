@@ -3,6 +3,7 @@ package driver.brands;
 import driver.dao.RRRuleDAO;
 import driver.object.RRRule;
 
+import java.sql.SQLException;
 import java.util.Scanner;
 import java.util.UUID;
 
@@ -42,7 +43,7 @@ public class RrRulesHelper {
         }
     }
 
-    public static void update (String brandId) {
+    public static void update (String brandId){
         Scanner scanner = new Scanner(System.in);
         System.out.println("Select the operation that you would like to perform:\n1) Update RRRule\n2) Go Back\n");
         Integer selected_option = scanner.nextInt();
@@ -64,13 +65,13 @@ public class RrRulesHelper {
                 Integer instances = scanner.nextInt();
                 scanner.nextLine();
                 rrRule.setInstances(instances);
-                RRRuleDAO.updateRRRule(rrRule,brandId);
-                System.out.println("Update was successful..!!");
-                /*if(updateCheck){
+                boolean updateCheck = RRRuleDAO.updateRRRule(rrRule,brandId);
+                //System.out.println("Update was successful..!!");
+                if(updateCheck){
                     System.out.println("Update was successful..!!");
                 }else{
                     System.out.println("There was an issue while updating the entry.");
-                }*/
+                }
                 break;
             case 2:
                 BrandLandingPage.run();
