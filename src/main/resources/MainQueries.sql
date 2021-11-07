@@ -20,9 +20,11 @@ from customer c join customer_lp_enroll cle on c.id=cle.customer_id
 minus
 select c.id,c.name
 from customer c join customer_lp_enroll cle on c.id=cle.customer_id
-join customer_redeem_activity cra on c.id=cra.customer_id
+join customer_activity ca on c.id=ca.customer_id
+group by c.id,c.name
+having count(*)>0;
 
-//Table for customer activity is placeholder
+
 
 3. List the rewards that are part of Brand01 loyalty program.
 

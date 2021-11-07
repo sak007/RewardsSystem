@@ -74,7 +74,9 @@ public class ShowQueriesDAO {
                     "minus\n" +
                     "select c.id,c.name\n" +
                     "from customer c join customer_lp_enroll cle on c.id=cle.customer_id\n" +
-                    "join customer_redeem_activity cra on c.id=cra.customer_id";
+                    "join customer_activity ca on c.id=ca.customer_id\n" +
+                    "group by c.id,c.name\n" +
+                    "having count(*)>0";
             List<Object[]> rs = DBHelper.executeQueryUpdated(query);
             System.out.println("Customer ID"+"\t"+"Customer Name");
             for(Object[] object:rs){
