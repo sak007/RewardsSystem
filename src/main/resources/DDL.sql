@@ -85,7 +85,7 @@ user_name varchar2(100) references actor(user_name)
 
 create table customer_lp_enroll(
 customer_id REFERENCES customer(id),
-loyalty_program_code references Loyalty_program(id),
+loyalty_program_code references Loyalty_program(id) on delete cascade,
 UNIQUE(customer_id,loyalty_program_code)
 );
 
@@ -130,7 +130,7 @@ expiry_date date DEFAULT CURRENT_DATE + 365
 );
 
 
-create table customer_reward_activity(
+create table customer_activity(
 id varchar2(100) primary key,
 customer_id references customer(id) on delete CASCADE,
 activity_date date DEFAULT CURRENT_DATE,

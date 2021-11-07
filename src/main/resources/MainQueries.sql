@@ -65,7 +65,6 @@ where cra.customer_id=c.id);
 
 7. All brands where total number of points redeemed overall is less than 500 points
 
-customer_redeem_activity,rewards_for_loyalty_program,loyalty_program,brand
 
 select distinct b.name
 from customer_redeem_activity cre join rewards_for_loyalty_program rlp on cre.redeem_lp_map_id=rlp.reward_lp_map_id
