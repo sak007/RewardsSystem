@@ -7,11 +7,12 @@ import driver.dao.CustomerDAO;
 import driver.object.Brand;
 import driver.object.Customer;
 
+import java.sql.SQLException;
 import java.util.Scanner;
 
 public class BrandHelper {
     static Scanner scanner = new Scanner(System.in);
-    public static void run() {
+    public static void run(){
         Brand brand = getBrandDetails();
         System.out.println("1. Add Brand\n2. Go Back");
         Integer option = scanner.nextInt();
@@ -42,19 +43,19 @@ public class BrandHelper {
     private static Brand getBrandDetails() {
         Brand brand = new Brand();
         System.out.println("Enter Brand Id");
-        String id = scanner.next();
+        String id = scanner.nextLine();
         brand.setId(id);
         System.out.println("Enter Brand Name");
-        String name = scanner.next();
+        String name = scanner.nextLine();
         brand.setName(name);
         System.out.println("Enter Brand Username");
-        String username = scanner.next();
+        String username = scanner.nextLine();
         brand.setUserName(username);
         System.out.println("Enter Brand Password");
-        String password = scanner.next();
+        String password = scanner.nextLine();
         brand.setPassword(password);
         System.out.println("Enter Brand Address");
-        String address = scanner.next();
+        String address = scanner.nextLine();
         brand.setAddress(address);
         return brand;
     }

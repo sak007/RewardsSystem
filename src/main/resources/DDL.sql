@@ -82,6 +82,7 @@ address varchar2(200),
 user_name varchar2(100) references actor(user_name)
 );
 
+
 create table customer_lp_enroll(
 customer_id REFERENCES customer(id),
 loyalty_program_code references Loyalty_program(id) on delete cascade,
@@ -94,6 +95,14 @@ for each row
 begin
 insert into actor values(:new.user_name, 'abcd1234', 'customer');
 end;
+
+create or replace trigger customer_wallet_trigger
+after insert on customer_lp_enroll
+for each row
+begin
+    insert into wallet (id,customer_id,loyalty_program_code) values(sys_guid(),:new.customer_id, :new.loyalty_program_code);
+end;
+
 
 create table wallet(
 id varchar2(100) primary key,
@@ -125,7 +134,7 @@ customer_id references customer(id) on delete CASCADE,
 activity_date date DEFAULT CURRENT_DATE,
 activity_lp_map_id references activities_for_loyalty_program(activity_lp_map_id),
 customer_redeem_activity_id references customer_redeem_activity(id),
-points number(10)
+points number(10) 
 );
 
 create table customer_redeem_activity(

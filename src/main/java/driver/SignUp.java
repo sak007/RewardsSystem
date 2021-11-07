@@ -6,11 +6,12 @@ import driver.dao.UserDAO;
 import driver.object.User;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Scanner;
 
 public class SignUp {
-    public static void run() {
+    public static void run(){
         System.out.println("**********************************************************************************");
         System.out.println("******************************   SIGNUP   ****************************************");
         System.out.println("**********************************************************************************");

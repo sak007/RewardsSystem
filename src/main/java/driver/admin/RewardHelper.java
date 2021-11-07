@@ -3,12 +3,13 @@ package driver.admin;
 import driver.dao.RewardDAO;
 import driver.object.Reward;
 
+import java.sql.SQLException;
 import java.util.Scanner;
 
 public class RewardHelper {
     static Scanner scanner = new Scanner(System.in);
 
-    public static void run() {
+    public static void run(){
         Reward reward = getRewardDetails();
         System.out.println("1. Add Reward\n2. Go Back");
         Integer option = scanner.nextInt();
@@ -24,9 +25,9 @@ public class RewardHelper {
     private static Reward getRewardDetails() {
         Reward reward = new Reward();
         System.out.print("Enter Reward Code: ");
-        reward.setCode(scanner.next());
+        reward.setCode(scanner.nextLine());
         System.out.print("Enter Reward Name: ");
-        reward.setName(scanner.next());
+        reward.setName(scanner.nextLine());
         return reward;
     }
 

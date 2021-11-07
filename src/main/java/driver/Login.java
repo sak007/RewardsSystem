@@ -9,6 +9,11 @@ import driver.object.Brand;
 
 import java.sql.SQLException;
 import java.util.List;
+import driver.customer.CustomerLandingPage;
+import driver.dao.CustomerDAO;
+
+
+import java.sql.SQLException;
 import java.util.Scanner;
 
 public class Login {
@@ -20,12 +25,12 @@ public class Login {
         displayLoginPage();
     }
 
-    public static void displayLoginPage() {
+    public static void displayLoginPage()  {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter username: ");
-        String usr = scanner.next();
+        String usr = scanner.nextLine();
         System.out.print("Enter password: ");
-        String pwd = scanner.next();
+        String pwd = scanner.nextLine();
         System.out.println("1. Sign In\n2. Go Back\n");
         Integer option = scanner.nextInt();
         switch(option) {
@@ -45,7 +50,7 @@ public class Login {
         }
     }
 
-    public static void redirectToPage(String usr) {
+    public static void redirectToPage(String usr)  {
         UserType type = Helper.getUserType(usr);
         switch (type) {
             case ADMIN:
@@ -70,8 +75,9 @@ public class Login {
                 BrandLandingPage.run(brand.getId());
                 break;
             case CUSTOMER:
-                System.out.println("Customer Login");
-                // TODO: 10/29/21
+                String customerId= CustomerDAO.getCustomerIdByUserName(usr);
+                CustomerLandingPage.run(customerId);
+
                 break;
         }
     }

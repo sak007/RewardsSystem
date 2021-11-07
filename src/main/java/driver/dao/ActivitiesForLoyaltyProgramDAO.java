@@ -1,8 +1,11 @@
 package driver.dao;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+import driver.brands.ActivityCategory;
 import driver.object.ActivitiesForLoyaltyProgram;
 import driver.object.Brand;
 
@@ -42,4 +45,37 @@ public class ActivitiesForLoyaltyProgramDAO {
         }
     }
 
+    public static List<ActivityCategory> loadActivityCategoriesByLp(String lpId) {
+        try {
+            List<ActivityCategory> activityCategoryList = new ArrayList<>();
+            String loadActivityCodesByLp = "Select activity_category_code from activities_for_loyalty_program "
+                    + "where loyalty_program_code='" + lpId + "'";
+            String query = "Select * from activity_category where id in (" + loadActivityCodesByLp + ")";
+            List<Object[]> list = DBHelper.executeQueryUpdated(query);
+            list.forEach(l -> {
+                ActivityCategory activityCategory = new ActivityCategory();
+                activityCategory.setId((String)l[0]);
+                activityCategory.setActivityName((String)l[1]);
+                activityCategoryList.add(activityCategory);
+            });
+            return activityCategoryList;
+        } catch (SQLException e) {
+            System.out.println("Unable to load Brand");
+            System.out.println("Caught SQLException " + e.getErrorCode() + "/" + e.getSQLState() + " " + e.getMessage());
+            return Collections.emptyList();
+        }
+
+    }
+
+    public static String getIdByActivityAndLp(String aId, String lpId) {
+        try {
+            String query = "select * from activities_for_loyalty_program where loyalty_program_code='"+ lpId
+                    + "' and activity_category_code='" + aId + "'";
+            List<Object[]> list = DBHelper.executeQueryUpdated(query);
+            return (String)list.get(0)[0];
+        } catch (SQLException e) {
+            System.out.println("Caught SQLException " + e.getErrorCode() + "/" + e.getSQLState() + " " + e.getMessage());
+            return null;
+        }
+    }
 }

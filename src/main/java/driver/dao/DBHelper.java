@@ -36,11 +36,12 @@ public class DBHelper {
         }
     }
 
-    public static void executeUpdate(String query) throws SQLException {
+
+    public static int executeUpdate(String query) throws SQLException {
         try(Connection conn = connect();
-        Statement stmt = conn.createStatement();
+            Statement stmt = conn.createStatement();
         ) {
-            stmt.executeUpdate(query);
+            return stmt.executeUpdate(query);
         }
     }
 
@@ -49,7 +50,6 @@ public class DBHelper {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(query);
         ) {
-            System.out.println(query);
             List<Object[]> resultList = new ArrayList();
             ResultSetMetaData resultSetMetaData = rs.getMetaData();
             int count = resultSetMetaData.getColumnCount();
@@ -70,11 +70,7 @@ public class DBHelper {
     public static ResultSet executeQuery(String query) throws SQLException {
         try (Connection conn =connect();
              Statement stmt = conn.createStatement()) {
-             ResultSet res =  stmt.executeQuery(query);
-             conn.close();
-             stmt.close();
-             res.close();
-            return res;
+            return stmt.executeQuery(query);
         }
         catch(SQLException e) {
             System.out.println("Caught SQLException " + e.getErrorCode() + "/" + e.getSQLState() + " " + e.getMessage());
