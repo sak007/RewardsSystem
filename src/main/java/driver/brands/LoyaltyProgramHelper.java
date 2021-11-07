@@ -100,8 +100,14 @@ public class LoyaltyProgramHelper {
             if(valid == 1){
                 //Update loyalty_program state to ACTIVE
                 query = "Update loyalty_program SET state ='ACTIVE' where id = '" + loyaltyProgram.getLpId() +"'";
-                System.out.println(query);
                 DBHelper.executeUpdate(query);
+                System.out.println("Validation SUCCESS. Loyalty Program is set to ACTIVE");
+            }
+            else{
+                query = "Update loyalty_program SET state ='ACTIVE' where id = '" + loyaltyProgram.getLpId() +"'";
+                DBHelper.executeUpdate(query);
+                System.out.println("Validation failed. Loyalty Program is set to INACTIVE. Errors:\n");
+                System.out.println(error_string);
             }
         }
         catch (SQLException e){

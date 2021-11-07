@@ -48,6 +48,30 @@ public class RrRulesHelper {
                 }
 
                 RrRulesHelper.add(brand_id);
+                //Add it in the mapping
+
+                try {
+                    mapping_query = "insert into rr_rule_for_lp values(" + "'"+loyaltyProgram.getLpId()+"'"+ "," + "'"+rrRule.getRrRuleCode()+"'"+")";
+
+                    System.out.print(mapping_query);
+                    DBHelper.executeUpdate(mapping_query);
+                    System.out.println("New RrRule mapped successfully to the Loyalty Program");
+                } catch (SQLException e) {
+
+                    try {
+                        mapping_query = "delete from rr_rules where rr_rule_code = '" + rrRule.getRrRuleCode() + "'";
+                        DBHelper.executeUpdate(mapping_query);
+                        System.out.println("Unable to map the created RrRule with Loyalty Program! Retry");
+                        System.out.println("Caught SQLException " + e.getErrorCode() + "/" + e.getSQLState() + " " + e.getMessage());
+                        RrRulesHelper.add(brand_id);
+                    }
+                    catch(SQLException e2){
+                        System.out.println("Unable to remove rr_rule after the failing to map the rr_rule to Loyalty Program. Retry\n");
+                        System.out.println("Caught SQLException " + e.getErrorCode() + "/" + e.getSQLState() + " " + e.getMessage());
+                        RrRulesHelper.add(brand_id);
+                    }
+                }
+
                 break;
             case 2:
                 BrandLandingPage.run(brand_id);
