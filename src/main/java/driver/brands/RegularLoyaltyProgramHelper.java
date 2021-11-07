@@ -8,7 +8,7 @@ import driver.object.LoyaltyProgram;
 import java.util.Scanner;
 
 public class RegularLoyaltyProgramHelper {
-    public static void display() {
+    public static void display(String brand_id) {
         Scanner scanner = new Scanner(System.in);
 
         String display_string = "Choose from one of the options below:\n" + "1)Activity Types\n" +
@@ -17,14 +17,14 @@ public class RegularLoyaltyProgramHelper {
         Integer input = scanner.nextInt();
         switch (input){
             case 1:
-                ActivityTypesHelper.display("Regular");
+                ActivityTypesHelper.display("Regular", brand_id);
                 break;
             case 2:
-                RewardTypesHelper.display("Regular");
+                RewardTypesHelper.display("Regular", brand_id);
                 break;
             case 3:
                 //Go back
-                LoyaltyProgramHelper.add();
+                LoyaltyProgramHelper.add(brand_id);
                 break;
         }
 

@@ -13,7 +13,7 @@ import java.util.Scanner;
 import java.util.UUID;
 
 public class ActivityTypesHelper {
-    public static void display(String tier_type){
+    public static void display(String tier_type , String brand_id){
         Scanner scanner = new Scanner(System.in);
 
         // Print dynamic available list of activity categories
@@ -29,21 +29,20 @@ public class ActivityTypesHelper {
 
         System.out.println(display_string);
         Integer input = scanner.nextInt();
-        String test_brand_id = "4";
         String uniqId;
         System.out.println("Input DISPLAY:" + input + "adddddd" + display_i);
         if(input == display_i + 1){
             if (tier_type == "Regular") {
-                RegularLoyaltyProgramHelper.display();
+                RegularLoyaltyProgramHelper.display(brand_id);
             }
             else{
-                TieredLoyaltyProgramHelper.display();
+                TieredLoyaltyProgramHelper.display(brand_id);
             }
         }
         else{
             activity_index = input - 1;
             Activity activity = activities.get(activity_index);
-            LoyaltyProgram loyaltyProgram = LoyaltyProgramDAO.loadByBrandId(test_brand_id);
+            LoyaltyProgram loyaltyProgram = LoyaltyProgramDAO.loadByBrandId(brand_id);
             if (loyaltyProgram == null){
                 // Ideally should never come here
                 System.out.println("Loyalty Program Not found!");
@@ -56,7 +55,7 @@ public class ActivityTypesHelper {
 
             //Save
             ActivitiesForLoyaltyProgramDAO.saveData(activityLp);
-            ActivityTypesHelper.display(tier_type);
+            ActivityTypesHelper.display(tier_type,brand_id);
         }
     }
 }

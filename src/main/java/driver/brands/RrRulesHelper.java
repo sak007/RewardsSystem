@@ -1,8 +1,12 @@
 package driver.brands;
 
+import driver.dao.DBHelper;
+import driver.dao.LoyaltyProgramDAO;
 import driver.dao.RRRuleDAO;
+import driver.object.LoyaltyProgram;
 import driver.object.RRRule;
 
+import java.sql.SQLException;
 import java.util.Scanner;
 import java.util.UUID;
 
@@ -11,11 +15,13 @@ public class RrRulesHelper {
 //
 //    }
 
-    public static void add() {
+    public static void add(String brand_id) {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Select the operation that you would like to perform:\n1) Add RRRule\n2) Go Back\n");
         Integer selected_option = scanner.nextInt();
         scanner.nextLine();
+        String mapping_query;
+        LoyaltyProgram loyaltyProgram = LoyaltyProgramDAO.loadByBrandId(brand_id);
         switch (selected_option) {
             case 1:
                 RRRule rrRule = new RRRule();
@@ -29,20 +35,28 @@ public class RrRulesHelper {
                 Integer points = scanner.nextInt();
                 scanner.nextLine();
                 rrRule.setNumPoints(points);
-                System.out.println("Enter the count of instances that you would like to provide for this reward:\n");
-                Integer instances = scanner.nextInt();
-                scanner.nextLine();
-                rrRule.setInstances(instances);
                 RRRuleDAO.saveData(rrRule);
+
+                try {
+                    mapping_query = "insert into rr_rule_for_lp values(" + "'"+loyaltyProgram.getLpId()+"'"+ "," + "'"+rrRule.getRrRuleCode()+"'"+")";
+                    System.out.print(mapping_query);
+                    DBHelper.executeUpdate(mapping_query);
+                    System.out.println("New RrRule mapped successfully to the Loyalty Program");
+                } catch (SQLException e) {
+                    System.out.println("Unable to map the created RrRule with Loyalty Program!");
+                    System.out.println("Caught SQLException " + e.getErrorCode() + "/" + e.getSQLState() + " " + e.getMessage());
+                }
+
+                RrRulesHelper.add(brand_id);
                 break;
             case 2:
-                BrandLandingPage.run();
+                BrandLandingPage.run(brand_id);
                 break;
 
         }
     }
 
-    public static void update (String brandId) {
+    public static void update (String brand_id) {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Select the operation that you would like to perform:\n1) Update RRRule\n2) Go Back\n");
         Integer selected_option = scanner.nextInt();
@@ -60,20 +74,17 @@ public class RrRulesHelper {
                 Integer points = scanner.nextInt();
                 scanner.nextLine();
                 rrRule.setNumPoints(points);
-                System.out.println("Enter the updated count of the instances:");
-                Integer instances = scanner.nextInt();
-                scanner.nextLine();
-                rrRule.setInstances(instances);
-                RRRuleDAO.updateRRRule(rrRule,brandId);
+                RRRuleDAO.updateRRRule(rrRule,brand_id);
                 System.out.println("Update was successful..!!");
                 /*if(updateCheck){
                     System.out.println("Update was successful..!!");
                 }else{
                     System.out.println("There was an issue while updating the entry.");
                 }*/
+                RrRulesHelper.update(brand_id);
                 break;
             case 2:
-                BrandLandingPage.run();
+                BrandLandingPage.run(brand_id);
                 break;
         }
 

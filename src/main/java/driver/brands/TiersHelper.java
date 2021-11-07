@@ -11,16 +11,15 @@ import java.util.Scanner;
 import java.util.UUID;
 
 public class TiersHelper {
-    public static void display() {
+    public static void display(String brand_id) {
         Scanner scanner = new Scanner(System.in);
-        String test_brand_id = "4";
         String display_string = "Enter number of tiers \n";
         System.out.println(display_string);
         String uniqId;
         Integer number_of_tiers = scanner.nextInt();
         Integer input;
         List<Tier> tier = new ArrayList<>(number_of_tiers);
-        LoyaltyProgram loyaltyProgram = LoyaltyProgramDAO.loadByBrandId(test_brand_id);
+        LoyaltyProgram loyaltyProgram = LoyaltyProgramDAO.loadByBrandId(brand_id);
         int i;
 
         System.out.println("NUMBER OF TIERS: "+ number_of_tiers);
@@ -66,10 +65,10 @@ public class TiersHelper {
                 for (i = 0; i < number_of_tiers; i++) {
                     TierDAO.saveData(tier.get(i));
                 }
-                TieredLoyaltyProgramHelper.display();
+                TieredLoyaltyProgramHelper.display(brand_id);
                 break;
             case 2:
-                TieredLoyaltyProgramHelper.display();
+                TieredLoyaltyProgramHelper.display(brand_id);
                 break;
         }
     }

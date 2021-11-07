@@ -40,7 +40,6 @@ public class RRRuleDAO {
             preparedStatement.setString(1,rrRule.getRrRuleCode());
             preparedStatement.setString(2,rrRule.getReward());
             preparedStatement.setInt(3,rrRule.getNumPoints());
-            preparedStatement.setInt(4,rrRule.getInstances());
             preparedStatement.setInt(5,rrRule.getVersion());
             preparedStatement.setString(6,rrRule.getStatus());
             checkInsert = preparedStatement.executeUpdate() > 0;

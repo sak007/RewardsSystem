@@ -11,13 +11,12 @@ import java.util.Scanner;
 import java.util.UUID;
 
 public class LoyaltyProgramHelper {
-    public static void add(){
+    public static void add(String brand_id){
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter the name of the Loyalty Program\n");
         String input_lp_name = scanner.nextLine();
         String display_string = "Choose the type of the Loyalty Program\n 1) Regular\n" + "2) Tier\n" + "3) Go Back\n";
         System.out.println(display_string);
-        String test_brand_id = "4";
         Integer input_lp_type = scanner.nextInt();
         String uniqId;
         switch (input_lp_type){
@@ -29,18 +28,13 @@ public class LoyaltyProgramHelper {
                 uniqId = UUID.randomUUID().toString().replace("-","");
                 loyaltyProgramreg.setLpId(uniqId);
                 loyaltyProgramreg.setProgramName(input_lp_name);
-                loyaltyProgramreg.setBrandId(test_brand_id);
+                loyaltyProgramreg.setBrandId(brand_id);
                 loyaltyProgramreg.setTierType("Regular");
                 loyaltyProgramreg.setState("INACTIVE");
 
-                //Find the ReRuleCode and RrRuleCod
-//                loyaltyProgramreg.setReRuleCode();
-//                loyaltyProgramreg.setRrRuleCode();
-
-                //Insert the Loyalty Program with basic values
                 LoyaltyProgramDAO.saveData(loyaltyProgramreg); // Re RR Rules still not added.
 
-                RegularLoyaltyProgramHelper.display();
+                RegularLoyaltyProgramHelper.display(brand_id);
                 break;
             case 2:
                 //Tiered - Go to Brand Tier Page
@@ -48,29 +42,28 @@ public class LoyaltyProgramHelper {
                 LoyaltyProgram loyaltyProgramtier = new LoyaltyProgram();
                 loyaltyProgramtier.setLpId(uniqId);
                 loyaltyProgramtier.setProgramName(input_lp_name);
-                loyaltyProgramtier.setBrandId(test_brand_id);
+                loyaltyProgramtier.setBrandId(brand_id);
                 loyaltyProgramtier.setTierType("Tier");
                 loyaltyProgramtier.setState("INACTIVE");
 
                 //Insert the Loyalty Program with basic values
                 LoyaltyProgramDAO.saveData(loyaltyProgramtier);
                 System.out.println("Loyalty Program inserted");
-                TieredLoyaltyProgramHelper.display();
+                TieredLoyaltyProgramHelper.display(brand_id);
                 break;
             case 3:
                 // Go Back
-                BrandLandingPage.run();
+                BrandLandingPage.run(brand_id);
         }
     }
 
-    public static void validate(){
+    public static void validate(String brand_id){
         String display_string = "Choose one option from below:\n1) Validate\n2) Go back\n";
         Scanner scanner = new Scanner(System.in);
         Integer re_rule_count = 0, rr_rule_count = 0, valid = 1;
         System.out.println();
-        String test_brand_id = "4";
         String query;
-        LoyaltyProgram loyaltyProgram = LoyaltyProgramDAO.loadByBrandId(test_brand_id);
+        LoyaltyProgram loyaltyProgram = LoyaltyProgramDAO.loadByBrandId(brand_id);
         // Check for atleast 1 re rule and rr rule
         try {
             query = "SELECT COUNT(*) from re_rule_for_lp GROUPBY LP_CODE HAVING LP_CODE=" + loyaltyProgram.getLpId() + ";";

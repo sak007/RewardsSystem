@@ -9,7 +9,7 @@ import driver.admin.RewardHelper;
 import java.util.Scanner;
 
 public class BrandLandingPage {
-    public static void run() {
+    public static void run(String brand_id) {
         Scanner scanner = new Scanner(System.in);
         System.out.println("**********************************************************************************");
         System.out.println("***************************   BRAND HOME   ***************************************");
@@ -20,14 +20,13 @@ public class BrandLandingPage {
 
         System.out.println(input_options);
         Integer chosen_option = scanner.nextInt();
-        int test_brand_id = '4';
         scanner.nextLine();
         switch(chosen_option) {
             case 1:
-                LoyaltyProgramHelper.add();
+                LoyaltyProgramHelper.add(brand_id);
                 break;
             case 2:
-                ReRulesHelper.add();
+                ReRulesHelper.add(brand_id);
                 break;
             case 3:
                 System.out.print("Enter Brand Id: \n");
@@ -35,7 +34,7 @@ public class BrandLandingPage {
                 ReRulesHelper.update(brandId);
                 break;
             case 4:
-                RrRulesHelper.add();
+                RrRulesHelper.add(brand_id);
                 break;
             case 5:
                 System.out.print("Enter Brand Id: ");
@@ -43,7 +42,7 @@ public class BrandLandingPage {
                 RrRulesHelper.update(brandIdRR);
                 break;
             case 6:
-                LoyaltyProgramHelper.validate();
+                LoyaltyProgramHelper.validate(brand_id);
                 break;
             case 7:
                   MainMenu.run();

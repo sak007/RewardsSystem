@@ -3,7 +3,12 @@ package driver;
 
 import driver.admin.AdminLandingPage;
 import driver.brands.BrandLandingPage;
+import driver.dao.DBHelper;
+import driver.object.Activity;
+import driver.object.Brand;
 
+import java.sql.SQLException;
+import java.util.List;
 import java.util.Scanner;
 
 public class Login {
@@ -47,7 +52,22 @@ public class Login {
                 AdminLandingPage.run();
                 break;
             case BRAND:
-                BrandLandingPage.run();
+                Brand brand = new Brand();
+                try {
+                    String brandQuery = "select * from brand where user_name='" + usr + "'";
+                    List<Object[]> rs = DBHelper.executeQueryUpdated(brandQuery);
+                    for(Object[] object:rs) {
+                        brand.setId((String) object[0]);
+                        brand.setName((String) object[1]);
+                        brand.setAddress((String) object[2]);
+                        brand.setJoinDate((String) object[3]);
+                    }
+                }
+                catch(SQLException e){
+                    System.out.println("Unable to load Brand");
+                    System.out.println("Caught SQLException " + e.getErrorCode() + "/" + e.getSQLState() + " " + e.getMessage());
+                }
+                BrandLandingPage.run(brand.getId());
                 break;
             case CUSTOMER:
                 System.out.println("Customer Login");
