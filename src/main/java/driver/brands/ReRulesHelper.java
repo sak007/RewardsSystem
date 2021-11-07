@@ -41,11 +41,20 @@ public class ReRulesHelper {
                     DBHelper.executeUpdate(mapping_query);
                     System.out.println("New ReRule mapped successfully to the Loyalty Program");
                 } catch (SQLException e) {
-//                  mapping_query = "delete from re_rules where re_rule_code = " +
-                    System.out.println("Unable to map the created ReRule with Loyalty Program!");
-                    System.out.println("Caught SQLException " + e.getErrorCode() + "/" + e.getSQLState() + " " + e.getMessage());
-                }
 
+                    try {
+                        mapping_query = "delete from re_rules where re_rule_code = '" + reRule.getReRuleCode() + "'";
+                        DBHelper.executeUpdate(mapping_query);
+                    }
+                    catch(SQLException e2){
+                        System.out.println("Unable to remove re_rule. Retry\n");
+                        System.out.println("Caught SQLException " + e.getErrorCode() + "/" + e.getSQLState() + " " + e.getMessage());
+                        ReRulesHelper.add(brand_id);
+                    }
+                    System.out.println("Unable to map the created ReRule with Loyalty Program! Retry");
+                    System.out.println("Caught SQLException " + e.getErrorCode() + "/" + e.getSQLState() + " " + e.getMessage());
+                    ReRulesHelper.add(brand_id);
+                }
                 ReRulesHelper.add(brand_id);
                 break;
             case 2:
