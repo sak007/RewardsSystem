@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class WalletDAO {
     public static List<Wallet> showDetailsByCustomerId(String customerId) {
@@ -31,6 +32,20 @@ public class WalletDAO {
             System.out.println("Unable to print Customer wallet details!");
             System.out.println("Caught SQLException " + e.getErrorCode() + "/" + e.getSQLState() + " " + e.getMessage());
             return null;
+        }
+    }
+
+    public static int deductPoints(String customerId,String lpProgramName,int currentPoints,int points) {
+        try {
+            int newPoints=currentPoints-points;
+            String query="update wallet set points="+newPoints+"\n" +
+                    "where customer_id='"+customerId+"' and loyalty_program_code=(select id from loyalty_program where program_name='"+lpProgramName+"')";
+
+            return DBHelper.executeUpdate(query);
+        } catch (SQLException e) {
+            System.out.println("Unable to update wallet!");
+            System.out.println("Caught SQLException " + e.getErrorCode() + "/" + e.getSQLState() + " " + e.getMessage());
+            return -1;
         }
     }
 }
