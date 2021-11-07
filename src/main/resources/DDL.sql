@@ -17,7 +17,8 @@ create table re_rule(
 re_rule_code varchar2(100) primary key,
 activity_category_code references Activity_category(id),
 nums_points number,
-version number 
+version number,
+status VARCHAR2(1) DEFAULT 'E' 
 );
 
 create table rr_rule(
