@@ -17,14 +17,14 @@ create table re_rule(
 re_rule_code varchar2(100) primary key,
 activity_category_code references Activity_category(id),
 nums_points number,
-version number 
+version number,
+status VARCHAR2(1) DEFAULT 'E' 
 );
 
 create table rr_rule(
 rr_rule_code varchar2(100) primary key,
 reward varchar2(200),
 num_points number,
-instances number not null,
 version number,
 status VARCHAR2(1) DEFAULT 'E',
 check(INSTANCES>=0)
@@ -126,8 +126,8 @@ id varchar2(100) primary key,
 customer_id references customer(id) on delete CASCADE,
 activity_date date DEFAULT CURRENT_DATE,
 activity_lp_map_id references activities_for_loyalty_program(activity_lp_map_id),
-reward_lp_map_id references rewards_for_loyalty_program(reward_lp_map_id),
-points number(10)
+customer_redeem_activity_id references customer_redeem_activity(id),
+points number(10) 
 );
 
 create table customer_redeem_activity(
