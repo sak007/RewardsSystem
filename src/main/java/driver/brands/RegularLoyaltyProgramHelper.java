@@ -10,6 +10,7 @@ import java.util.Scanner;
 public class RegularLoyaltyProgramHelper {
     public static void display() {
         Scanner scanner = new Scanner(System.in);
+
         String display_string = "Choose from one of the options below:\n" + "1)Activity Types\n" +
                                 "2)Reward Types\n" + "3)Go back\n";
         System.out.println(display_string);
