@@ -92,7 +92,7 @@ public class RewardDAO {
         try {
             int instances=0,points=0;
             List<Integer> list=new ArrayList<>();
-            String query = "SELECT rr.instances,rr.num_points\n" +
+            String query = "SELECT rlp.reward_count,rr.num_points\n" +
                     "from customer_lp_enroll cle join rr_rule_for_lp rrlp on cle.loyalty_program_code=rrlp.lp_code\n" +
                     "join rr_rule rr on rr.rr_rule_code=rrlp.rr_rule_code\n" +
                     "join loyalty_program lp on lp.id=cle.loyalty_program_code\n" +
