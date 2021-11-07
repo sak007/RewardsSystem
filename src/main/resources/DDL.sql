@@ -126,7 +126,7 @@ customer_id references customer(id) on delete CASCADE,
 activity_date date DEFAULT CURRENT_DATE,
 activity_lp_map_id references activities_for_loyalty_program(activity_lp_map_id),
 customer_redeem_activity_id references customer_redeem_activity(id),
-points number(10) DEFAULT 0
+points number(10) 
 );
 
 create table customer_redeem_activity(
