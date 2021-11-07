@@ -41,14 +41,30 @@ where b.name='Brand01';
 their reward rules.
 
 
+select DISTINCT lp.program_name
+from loyalty_program lp join re_rule_for_lp relp on lp.id=relp.lp_code
+join re_rule re on re.re_rule_code=relp.re_rule_code
+join activity_category ac on ac.id=re.activity_category_code
+where ac.activity_name='refer a friend';
+
+
 
 5. For Brand01, list for each activity type in their loyalty program, the number instances that
 have occurred.
 
 
+select ac.activity_name,count(*)
+from brand b join loyalty_program lp on lp.brand_id=b.id
+join customer_lp_enroll cle on cle.loyalty_program_code=lp.id
+join customer_activity ca on ca.customer_id=cle.customer_id
+join activities_for_loyalty_program alp on alp.activity_lp_map_id=ca.activity_lp_map_id
+join activity_category ac on alp.activity_category_code=ac.id
+where b.name='Brand01'
+group by ac.activity_name;
+
+
 6. List customers of Brand01 that have redeemed at least twice.
 
-customer,loyalty_program,brand,customer_redeem_activity,customer_lp_enroll
 
 select c.id,c.name
 from customer c join customer_lp_enroll cle on c.id=cle.customer_id
@@ -74,3 +90,11 @@ where cre.points<=500;
 
 8. For Customer C0003, and Brand02, number of activities they have done in the period of
 08/1/2021 and 9/30/2021
+
+
+select count(*)
+from customer c join customer_lp_enroll cle on c.id=cle.customer_id
+join loyalty_program lp on cle.loyalty_program_code=lp.id
+join brand b on b.id=lp.brand_id
+join customer_activity ca on ca.customer_id=cle.customer_id
+where c.name='C0003' and b.name='Brand02' and ca.activity_date between '01-AUG-21' and '30-SEP-21';

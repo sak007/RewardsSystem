@@ -1,5 +1,6 @@
 package driver.dao;
 
+import driver.MainMenu;
 import driver.object.Wallet;
 
 import java.sql.ResultSet;
@@ -26,20 +27,28 @@ public class ShowQueriesDAO {
         int opt=scanner.nextInt();
         switch (opt){
             case 1:runQuery1();
+                MainMenu.run();
                 break;
             case 2:runQuery2();
+                MainMenu.run();
                 break;
             case 3:runQuery3();
+                MainMenu.run();
                 break;
             case 4:runQuery4();
+                MainMenu.run();
                 break;
             case 5:runQuery5();
+                MainMenu.run();
                 break;
             case 6:runQuery6();
+                MainMenu.run();
                 break;
             case 7:runQuery7();
+                MainMenu.run();
                 break;
             case 8:runQuery8();
+                MainMenu.run();
                 break;
         }
     }
@@ -110,20 +119,15 @@ public class ShowQueriesDAO {
 
     public static void  runQuery4(){
         try {
-            String query = "select c.id,c.name\n" +
-                    "from customer c join customer_lp_enroll cle on c.id=cle.customer_id\n" +
-                    "join loyalty_program lp on cle.loyalty_program_code=lp.id\n" +
-                    "join brand b on lp.brand_id=b.id\n" +
-                    "minus\n" +
-                    "select c.id,c.name\n" +
-                    "from customer c join customer_lp_enroll cle on c.id=cle.customer_id\n" +
-                    "join loyalty_program lp on cle.loyalty_program_code=lp.id\n" +
-                    "join brand b on lp.brand_id=b.id\n" +
-                    "where b.name='Brand02'";
+            String query = "select DISTINCT lp.program_name\n" +
+                    "from loyalty_program lp join re_rule_for_lp relp on lp.id=relp.lp_code\n" +
+                    "join re_rule re on re.re_rule_code=relp.re_rule_code\n" +
+                    "join activity_category ac on ac.id=re.activity_category_code\n" +
+                    "where ac.activity_name='refer a friend'";
             List<Object[]> rs = DBHelper.executeQueryUpdated(query);
-            System.out.println("Customer ID"+"\t"+"Customer Name");
+            System.out.println("Loyalty Program Name");
             for(Object[] object:rs){
-                System.out.println(object[0].toString()+"\t"+object[1].toString());
+                System.out.println(object[0].toString());
             }
         }
         catch (SQLException e) {
@@ -134,18 +138,16 @@ public class ShowQueriesDAO {
 
     public static void  runQuery5(){
         try {
-            String query = "select c.id,c.name\n" +
-                    "from customer c join customer_lp_enroll cle on c.id=cle.customer_id\n" +
-                    "join loyalty_program lp on cle.loyalty_program_code=lp.id\n" +
-                    "join brand b on lp.brand_id=b.id\n" +
-                    "minus\n" +
-                    "select c.id,c.name\n" +
-                    "from customer c join customer_lp_enroll cle on c.id=cle.customer_id\n" +
-                    "join loyalty_program lp on cle.loyalty_program_code=lp.id\n" +
-                    "join brand b on lp.brand_id=b.id\n" +
-                    "where b.name='Brand02'";
+            String query = "select ac.activity_name,count(*)\n" +
+                    "from brand b join loyalty_program lp on lp.brand_id=b.id\n" +
+                    "join customer_lp_enroll cle on cle.loyalty_program_code=lp.id\n" +
+                    "join customer_activity ca on ca.customer_id=cle.customer_id\n" +
+                    "join activities_for_loyalty_program alp on alp.activity_lp_map_id=ca.activity_lp_map_id\n" +
+                    "join activity_category ac on alp.activity_category_code=ac.id\n" +
+                    "where b.name='Brand01'\n" +
+                    "group by ac.activity_name;";
             List<Object[]> rs = DBHelper.executeQueryUpdated(query);
-            System.out.println("Customer ID"+"\t"+"Customer Name");
+            System.out.println("Activity Name"+"\t"+"Count");
             for(Object[] object:rs){
                 System.out.println(object[0].toString()+"\t"+object[1].toString());
             }
@@ -201,20 +203,16 @@ public class ShowQueriesDAO {
 
     public static void  runQuery8(){
         try {
-            String query = "select c.id,c.name\n" +
+            String query = "select count(*)\n" +
                     "from customer c join customer_lp_enroll cle on c.id=cle.customer_id\n" +
                     "join loyalty_program lp on cle.loyalty_program_code=lp.id\n" +
-                    "join brand b on lp.brand_id=b.id\n" +
-                    "minus\n" +
-                    "select c.id,c.name\n" +
-                    "from customer c join customer_lp_enroll cle on c.id=cle.customer_id\n" +
-                    "join loyalty_program lp on cle.loyalty_program_code=lp.id\n" +
-                    "join brand b on lp.brand_id=b.id\n" +
-                    "where b.name='Brand02'";
+                    "join brand b on b.id=lp.brand_id\n" +
+                    "join customer_activity ca on ca.customer_id=cle.customer_id\n" +
+                    "where c.name='C0003' and b.name='Brand02' and ca.activity_date between '01-AUG-21' and '30-SEP-21'";
             List<Object[]> rs = DBHelper.executeQueryUpdated(query);
-            System.out.println("Customer ID"+"\t"+"Customer Name");
+            System.out.println("Count");
             for(Object[] object:rs){
-                System.out.println(object[0].toString()+"\t"+object[1].toString());
+                System.out.println(object[0].toString());
             }
         }
         catch (SQLException e) {
