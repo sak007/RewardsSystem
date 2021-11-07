@@ -13,7 +13,7 @@ import java.util.UUID;
 public class TiersHelper {
     public static void display() {
         Scanner scanner = new Scanner(System.in);
-        String test_brand_id = "3";
+        String test_brand_id = "4";
         String display_string = "Enter number of tiers \n";
         System.out.println(display_string);
         String uniqId;

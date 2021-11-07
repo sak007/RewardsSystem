@@ -27,6 +27,7 @@ public class ReRulesHelper {
                 reRule.setVersion(1);
                 reRule.setStatus("E");
                 RERuleDAO.saveData(reRule);
+                ReRulesHelper.add();
                 break;
             case 2:
                 BrandLandingPage.run();

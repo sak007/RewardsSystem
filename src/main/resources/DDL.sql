@@ -112,7 +112,9 @@ reward_name varchar2(100) not null
 create table rewards_for_loyalty_program(
     reward_lp_map_id varchar2(50) primary key,
     loyalty_program_code REFERENCES Loyalty_program(id) on DELETE CASCADE,
-    reward_category_code references reward_category(id) on DELETE CASCADE
+    reward_category_code references reward_category(id) on DELETE CASCADE,
+    reward_count number,
+    reward_value varchar2(50)
 );
 
 create table reward_instance(
@@ -138,7 +140,3 @@ points number not null,
 multiplier number not null,
 lp_program_id REFERENCES loyalty_program(id) on DELETE CASCADE
 );
-
-
-
-

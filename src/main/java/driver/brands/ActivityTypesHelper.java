@@ -17,7 +17,7 @@ public class ActivityTypesHelper {
                 "2)Leave a review\n" + "3)Refer a friend\n" + "4) Go back\n";
         System.out.println(display_string);
         Integer input = scanner.nextInt();
-        String test_brand_id = "3";
+        String test_brand_id = "4";
         String uniqId;
         switch (input){
             case 1:
