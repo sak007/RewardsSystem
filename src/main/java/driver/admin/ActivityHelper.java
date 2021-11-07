@@ -24,9 +24,9 @@ public class ActivityHelper {
     private static Activity getActivityDetails() {
         Activity activity = new Activity();
         System.out.print("Enter Activity Code: ");
-        activity.setCode(scanner.next());
+        activity.setCode(scanner.nextLine());
         System.out.print("Enter Activity Name: ");
-        activity.setName(scanner.next());
+        activity.setName(scanner.nextLine());
         return activity;
     }
 

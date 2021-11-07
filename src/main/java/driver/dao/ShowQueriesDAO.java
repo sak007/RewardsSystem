@@ -184,11 +184,12 @@ public class ShowQueriesDAO {
 
     public static void  runQuery7(){
         try {
-            String query = "select distinct b.name\n" +
+            String query = "select b.name\n" +
                     "from customer_redeem_activity cre join rewards_for_loyalty_program rlp on cre.redeem_lp_map_id=rlp.reward_lp_map_id\n" +
                     "join loyalty_program lp on lp.id=rlp.loyalty_program_code\n" +
                     "join brand b on b.id=lp.brand_id\n" +
-                    "where cre.points<=500";
+                    "group by b.name\n" +
+                    "having sum(cre.points)<=500";
             List<Object[]> rs = DBHelper.executeQueryUpdated(query);
             System.out.println("Brand Name");
             for(Object[] object:rs){

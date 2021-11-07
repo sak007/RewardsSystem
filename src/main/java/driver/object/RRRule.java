@@ -1,10 +1,12 @@
-package driver.brands;
+package driver.object;
 
 public class RRRule {
     private String rrRuleCode;
     private String reward;
     private Integer numPoints;
     private Integer version;
+    private String status;
+    private Integer instances;
 
     public RRRule() {
     }
@@ -14,6 +16,15 @@ public class RRRule {
         this.reward = reward;
         this.numPoints = numPoints;
         this.version = version;
+    }
+
+    public RRRule(String rrRuleCode, String reward, Integer numPoints, Integer version, String status, Integer instances) {
+        this.rrRuleCode = rrRuleCode;
+        this.reward = reward;
+        this.numPoints = numPoints;
+        this.version = version;
+        this.status = status;
+        this.instances = instances;
     }
 
     public String getRrRuleCode() {
@@ -46,5 +57,21 @@ public class RRRule {
 
     public void setVersion(Integer version) {
         this.version = version;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Integer getInstances() {
+        return instances;
+    }
+
+    public void setInstances(Integer instances) {
+        this.instances = instances;
     }
 }

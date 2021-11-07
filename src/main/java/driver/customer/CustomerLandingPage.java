@@ -24,7 +24,7 @@ public class CustomerLandingPage {
                 CustomerLoyaltyHelper.run(customerId);
                 break;
             case 2:
-                CustomerHelper.run();
+                RewardActivityHelper.run(customerId);
                 break;
             case 3:
                 WalletHelper.run(customerId);

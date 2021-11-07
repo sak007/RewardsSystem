@@ -82,11 +82,12 @@ where cra.customer_id=c.id);
 7. All brands where total number of points redeemed overall is less than 500 points
 
 
-select distinct b.name
+select b.name
 from customer_redeem_activity cre join rewards_for_loyalty_program rlp on cre.redeem_lp_map_id=rlp.reward_lp_map_id
 join loyalty_program lp on lp.id=rlp.loyalty_program_code
 join brand b on b.id=lp.brand_id
-where cre.points<=500;
+group by b.name
+having sum(cre.points)<=500;
 
 8. For Customer C0003, and Brand02, number of activities they have done in the period of
 08/1/2021 and 9/30/2021

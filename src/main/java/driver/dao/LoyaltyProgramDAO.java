@@ -6,10 +6,7 @@ import driver.object.Reward;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class LoyaltyProgramDAO {
     public static void saveData(LoyaltyProgram loyaltyProg) {
@@ -64,4 +61,50 @@ public class LoyaltyProgramDAO {
             return null;
         }
     }
+
+    public static List<LoyaltyProgram> getActiveLoyaltyPrograms() {
+        try {
+            String query = "Select * from loyalty_program where state='ACTIVE'";
+            List<LoyaltyProgram> loyaltyProgramList = new ArrayList<>();
+            List<Object[]> list = DBHelper.executeQueryUpdated(query);
+            list.stream().forEach(l -> {
+                LoyaltyProgram loyaltyProgram = new LoyaltyProgram();
+                loyaltyProgram.setLpId((String) l[0]);
+                loyaltyProgram.setProgramName((String) l[1]);
+                loyaltyProgram.setBrandId((String) l[2]);
+                loyaltyProgram.setTierType((String) l[3]);
+                loyaltyProgram.setState((String) l[4]);
+                loyaltyProgramList.add(loyaltyProgram);
+            });
+            return loyaltyProgramList;
+        } catch (SQLException e){
+            System.out.println("Unable to load Loyalty Program");
+            System.out.println("Caught SQLException " + e.getErrorCode() + "/" + e.getSQLState() + " " + e.getMessage());
+            return Collections.emptyList();
+        }
+    }
+
+    public static List<LoyaltyProgram> getActiveLoyaltyProgramsForCustomer(String customerId) {
+        try {
+            String loadLpIdForCustomer = "Select loyalty_program_code from customer_lp_enroll where customer_id='" + customerId + "'";
+            String query = "Select * from loyalty_program where state='ACTIVE' and id in (" + loadLpIdForCustomer + ")";
+            List<LoyaltyProgram> loyaltyProgramList = new ArrayList<>();
+            List<Object[]> list = DBHelper.executeQueryUpdated(query);
+            list.stream().forEach(l -> {
+                LoyaltyProgram loyaltyProgram = new LoyaltyProgram();
+                loyaltyProgram.setLpId((String) l[0]);
+                loyaltyProgram.setProgramName((String) l[1]);
+                loyaltyProgram.setBrandId((String) l[2]);
+                loyaltyProgram.setTierType((String) l[3]);
+                loyaltyProgram.setState((String) l[4]);
+                loyaltyProgramList.add(loyaltyProgram);
+            });
+            return loyaltyProgramList;
+        } catch (SQLException e){
+            System.out.println("Unable to load Loyalty Program");
+            System.out.println("Caught SQLException " + e.getErrorCode() + "/" + e.getSQLState() + " " + e.getMessage());
+            return Collections.emptyList();
+        }
+    }
+
 }

@@ -22,9 +22,9 @@ public class Login {
     public static void displayLoginPage()  {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter username: ");
-        String usr = scanner.next();
+        String usr = scanner.nextLine();
         System.out.print("Enter password: ");
-        String pwd = scanner.next();
+        String pwd = scanner.nextLine();
         System.out.println("1. Sign In\n2. Go Back\n");
         Integer option = scanner.nextInt();
         switch(option) {

@@ -145,6 +145,3 @@ points number not null,
 multiplier number not null,
 lp_program_id REFERENCES loyalty_program(id) on DELETE CASCADE
 );
-
-
-

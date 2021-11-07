@@ -8,15 +8,17 @@ import driver.object.Activity;
 import driver.object.LoyaltyProgram;
 
 import java.util.Scanner;
+import java.util.UUID;
 
 public class ActivityTypesHelper {
-    public static void display(){
+    public static void display(String tier_type){
         Scanner scanner = new Scanner(System.in);
         String display_string = "Choose from one of the options below:\n" + "1)Purchase\n" +
                 "2)Leave a review\n" + "3)Refer a friend\n" + "4) Go back\n";
         System.out.println(display_string);
         Integer input = scanner.nextInt();
-        String test_brand_id = "2";
+        String test_brand_id = "4";
+        String uniqId;
         switch (input){
             case 1:
                 //NOTE: If already added purchase, Say So.
@@ -34,13 +36,14 @@ public class ActivityTypesHelper {
                 }
                 //Add it's ID as the code in the mapping table object
                 ActivitiesForLoyaltyProgram activityLp = new ActivitiesForLoyaltyProgram();
-
+                uniqId = UUID.randomUUID().toString().replace("-","");
+                activityLp.setId(uniqId);
                 activityLp.setActivity_category_code(activity.getCode());
                 activityLp.setLoyalty_program_code(loyaltyProgram.getLpId());
 
                 //Save
                 ActivitiesForLoyaltyProgramDAO.saveData(activityLp);
-                ActivityTypesHelper.display();
+                ActivityTypesHelper.display(tier_type);
                 break;
             case 2:
                 //NOTE: If already added Review, Say So.
@@ -58,12 +61,14 @@ public class ActivityTypesHelper {
 
                 //Add it's ID as the code in the mapping table
                 ActivitiesForLoyaltyProgram activityLpReview = new ActivitiesForLoyaltyProgram();
+                uniqId = UUID.randomUUID().toString().replace("-","");
+                activityLpReview.setId(uniqId);
                 activityLpReview.setActivity_category_code(activity_review.getCode());
                 activityLpReview.setLoyalty_program_code(loyaltyProgram_review.getLpId());
 
                 //Save
                 ActivitiesForLoyaltyProgramDAO.saveData(activityLpReview);
-                ActivityTypesHelper.display();
+                ActivityTypesHelper.display(tier_type);
                 break;
             case 3:
                 //NOTE: If already added Refer, Say So.
@@ -76,16 +81,23 @@ public class ActivityTypesHelper {
 
                 //Add it's ID as the code in the mapping table
                 ActivitiesForLoyaltyProgram activityLpRefer = new ActivitiesForLoyaltyProgram();
+                uniqId = UUID.randomUUID().toString().replace("-","");
+                activityLpRefer.setId(uniqId);
                 activityLpRefer.setActivity_category_code(activity_refer.getCode());
                 activityLpRefer.setLoyalty_program_code(loyaltyProgram_refer.getLpId());
 
                 //Save
                 ActivitiesForLoyaltyProgramDAO.saveData(activityLpRefer);
-                ActivityTypesHelper.display();
+                ActivityTypesHelper.display(tier_type);
                 break;
             case 4:
                 //Go Back
-                RegularLoyaltyProgramHelper.display();
+                if (tier_type == "Regular") {
+                    RegularLoyaltyProgramHelper.display();
+                }
+                else{
+                    TieredLoyaltyProgramHelper.display();
+                }
                 break;
         }
     }

@@ -23,12 +23,12 @@ public class AdminLandingPage {
                 break;
             case 3:
                 System.out.print("Enter Brand Id: ");
-                String brandId = scanner.next();
+                String brandId = scanner.nextLine();
                 BrandHelper.show(brandId);
                 break;
             case 4:
                 System.out.print("Enter Customer Id: ");
-                String customerId = scanner.next();
+                String customerId = scanner.nextLine();
                 CustomerHelper.show(customerId);
                 break;
             case 5:
