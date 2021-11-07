@@ -86,8 +86,8 @@ public class LoyaltyProgramDAO {
 
     public static List<LoyaltyProgram> getActiveLoyaltyProgramsForCustomer(String customerId) {
         try {
-            String loadLpIdForCustomer = "Select * from customer_lp_enroll where customer_id='" + customerId + "'";
-            String query = "Select * from loyalty_program where state='ACTIVE' and id in ()";
+            String loadLpIdForCustomer = "Select loyalty_program_code from customer_lp_enroll where customer_id='" + customerId + "'";
+            String query = "Select * from loyalty_program where state='ACTIVE' and id in (" + loadLpIdForCustomer + ")";
             List<LoyaltyProgram> loyaltyProgramList = new ArrayList<>();
             List<Object[]> list = DBHelper.executeQueryUpdated(query);
             list.stream().forEach(l -> {

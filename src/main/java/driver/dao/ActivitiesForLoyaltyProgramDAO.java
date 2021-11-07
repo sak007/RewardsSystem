@@ -66,4 +66,16 @@ public class ActivitiesForLoyaltyProgramDAO {
         }
 
     }
+
+    public static String getIdByActivityAndLp(String aId, String lpId) {
+        try {
+            String query = "select * from activities_for_loyalty_program where loyalty_program_code='"+ lpId
+                    + "' and activity_category_code='" + aId + "'";
+            List<Object[]> list = DBHelper.executeQueryUpdated(query);
+            return (String)list.get(0)[0];
+        } catch (SQLException e) {
+            System.out.println("Caught SQLException " + e.getErrorCode() + "/" + e.getSQLState() + " " + e.getMessage());
+            return null;
+        }
+    }
 }

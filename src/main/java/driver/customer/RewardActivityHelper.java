@@ -2,7 +2,9 @@ package driver.customer;
 
 import driver.brands.ActivityCategory;
 import driver.dao.ActivitiesForLoyaltyProgramDAO;
+import driver.dao.CustomerActivityDAO;
 import driver.dao.LoyaltyProgramDAO;
+import driver.object.CustomerActivity;
 import driver.object.LoyaltyProgram;
 
 import java.util.HashMap;
@@ -25,11 +27,13 @@ public class RewardActivityHelper {
                 System.out.println(i + ". " + loyaltyProgramList.get(i-1).getProgramName());
             }
             Integer option = scanner.nextInt();
-            displayActivityCategoriesByLp(loyaltyProgramList.get(option - 1), customerId);
+            CustomerActivity customerActivity = new CustomerActivity();
+            customerActivity.setCustomerId(customerId);
+            displayActivityCategoriesByLp(loyaltyProgramList.get(option - 1), customerActivity);
         }
     }
 
-    private static void displayActivityCategoriesByLp(LoyaltyProgram loyaltyProgram, String customerId) {
+    private static void displayActivityCategoriesByLp(LoyaltyProgram loyaltyProgram, CustomerActivity customerActivity) {
         String lpId = loyaltyProgram.getLpId();
         List<ActivityCategory> activityCategoryList = ActivitiesForLoyaltyProgramDAO.loadActivityCategoriesByLp(lpId);
         int i = 1;
@@ -43,24 +47,26 @@ public class RewardActivityHelper {
         System.out.println(i + ". Go Back");
         Integer option = scanner.nextInt();
         if (option >= i) {
-            CustomerLandingPage.run(customerId);
+            CustomerLandingPage.run(customerActivity.getCustomerId());
         } else {
+            String aId = activityCategoryList.get(option - 1).getId();
+            String activityLpId = ActivitiesForLoyaltyProgramDAO.getIdByActivityAndLp(aId, lpId);
+            customerActivity.setActivityLpId(activityLpId);
             String activity = activityCategoryList.get(option - 1).getActivityName();
             switch (activity) {
                 case "Purchase":
-                    System.out.println(activity);
-                    PurchaseHelper.run(customerId);
+                    PurchaseHelper.run(customerActivity, lpId);
                     break;
                 case "Review":
-                    System.out.println(activity);
-                    break;
+                    System.out.println("Enter review comments:");
+                    String review = scanner.nextLine();
+                    // save review details if necessary
                 case "Refer":
-                    System.out.println(activity);
-                    break;
                 default:
-                    System.out.println(activity);
+                    CustomerActivityDAO.saveData(customerActivity);
             }
         }
 
     }
+
 }

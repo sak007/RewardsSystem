@@ -85,7 +85,7 @@ user_name varchar2(100) references actor(user_name)
 
 create table customer_lp_enroll(
 customer_id REFERENCES customer(id),
-loyalty_program_code references Loyalty_program(id),
+loyalty_program_code references Loyalty_program(id) on delete cascade,
 UNIQUE(customer_id,loyalty_program_code)
 );
 
@@ -133,7 +133,9 @@ create table customer_activity(
 id varchar2(100) primary key,
 customer_id references customer(id) on delete CASCADE,
 activity_date date DEFAULT CURRENT_DATE,
-activity_lp_map_id references activities_for_loyalty_program(activity_lp_map_id)
+activity_lp_map_id references activities_for_loyalty_program(activity_lp_map_id),
+reward_lp_map_id references rewards_for_loyalty_program(reward_lp_map_id),
+points number(10)
 );
 
 create table tier(
