@@ -9,10 +9,10 @@ import java.util.Scanner;
 import java.util.UUID;
 
 public class RewardTypesHelper {
-    public static void display(){
+    public static void display(String tier_type){
         Scanner scanner = new Scanner(System.in);
 
-        String display_string = "Enter Quantity for the chosen option:";
+        String display_string = "Enter Quantity for the reward:";
         System.out.println(display_string);
         Integer quantity = scanner.nextInt();
 
@@ -20,7 +20,12 @@ public class RewardTypesHelper {
                 "2)Free Product\n" + "3) Go back\n";
         System.out.println(display_string);
         Integer input = scanner.nextInt();
-        String test_brand_id = "2";
+
+        display_string = "Enter value for the chosen reward option\n";
+        System.out.println(display_string);
+        String reward_value = scanner.next();
+
+        String test_brand_id = "4";
         String uniqId;
         int iterator;
         RewardInstance reward_instance = new RewardInstance();
@@ -42,6 +47,8 @@ public class RewardTypesHelper {
                 lpGiftCode = UUID.randomUUID().toString().replace("-","");
                 rewardLPGift.setReward_lp_map_id(lpGiftCode);
                 rewardLPGift.setReward_category_code(reward_gift.getCode());
+                rewardLPGift.setReward_count(quantity);
+                rewardLPGift.setReward_value(reward_value);
                 rewardLPGift.setLoyalty_program_code(loyaltyProgramGift.getLpId());
                 RewardsForLoyaltyProgramDAO.saveData(rewardLPGift);
 
@@ -54,9 +61,9 @@ public class RewardTypesHelper {
 //                    reward_instance.setExpiryDate(); Default value of 1 year
                     reward_instance.setValue("100");
                     //Save reward instance object
-                    RewardInstanceDAO.saveData(reward_instance);
+//                    RewardInstanceDAO.saveData(reward_instance);
                 }
-
+                RewardTypesHelper.display(tier_type);
                 break;
             case 2:
                 //Find the reward category obj for with Gift Card as name.
@@ -71,6 +78,8 @@ public class RewardTypesHelper {
                 //Create reward LP mapping
                 rewardLPFree.setReward_lp_map_id(FPcode);
                 rewardLPFree.setReward_category_code(reward_free.getCode());
+                rewardLPFree.setReward_count(quantity);
+                rewardLPFree.setReward_value(reward_value);
                 rewardLPFree.setLoyalty_program_code(loyaltyProgramFree.getLpId());
                 RewardsForLoyaltyProgramDAO.saveData(rewardLPFree);
 
@@ -82,10 +91,19 @@ public class RewardTypesHelper {
                     reward_instance.setBrand_id(test_brand_id);
 //                    reward_instance.setExpiryDate(); Default value of 1 year
                     reward_instance.setValue("Product Name X");
+                    //Save reward instance object
+//                    RewardInstanceDAO.saveData(reward_instance);
                 }
+                RewardTypesHelper.display(tier_type);
                 break;
             case 3:
-                // Go Back
+                // Go Back to tier or regular
+                if (tier_type == "Regular"){
+                    RegularLoyaltyProgramHelper.display();
+                }
+                else{
+                    TieredLoyaltyProgramHelper.display();
+                }
                 break;
         }
     }

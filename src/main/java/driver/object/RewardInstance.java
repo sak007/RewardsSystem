@@ -25,6 +25,7 @@ public class RewardInstance {
 
     public String getMeta() {return "(instance_id, reward_id, brand_id, value)";}
 
+
     public String toString() {
         String res = "(";
         res = res + "'";

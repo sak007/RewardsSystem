@@ -16,10 +16,10 @@ public class RegularLoyaltyProgramHelper {
         Integer input = scanner.nextInt();
         switch (input){
             case 1:
-                ActivityTypesHelper.display();
+                ActivityTypesHelper.display("Regular");
                 break;
             case 2:
-                RewardTypesHelper.display();
+                RewardTypesHelper.display("Regular");
                 break;
             case 3:
                 //Go back
