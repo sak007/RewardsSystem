@@ -51,9 +51,7 @@ public class ReRulesHelper {
             case 2:
                 BrandLandingPage.run(brand_id);
                 break;
-
         }
-
     }
 
     public static void update(String brand_id){

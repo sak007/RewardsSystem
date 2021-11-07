@@ -60,36 +60,54 @@ public class LoyaltyProgramHelper {
     public static void validate(String brand_id){
         String display_string = "Choose one option from below:\n1) Validate\n2) Go back\n";
         Scanner scanner = new Scanner(System.in);
-        Integer re_rule_count = 0, rr_rule_count = 0, valid = 1;
+        Integer re_rule_count = 0, rr_rule_count = 0, tier_count = 0, valid = 1;
         System.out.println();
         String query;
+        String error_string = "";
         LoyaltyProgram loyaltyProgram = LoyaltyProgramDAO.loadByBrandId(brand_id);
         // Check for atleast 1 re rule and rr rule
         try {
-            query = "SELECT COUNT(*) from re_rule_for_lp GROUPBY LP_CODE HAVING LP_CODE=" + loyaltyProgram.getLpId() + ";";
+            query = "";
+            query = "select count(*) from(select re_rule_code  from re_rule_for_lp  where lp_code = '" + loyaltyProgram.getLpId() + "')" +"where status = 'E'";
             List<Object[]> rs_re = DBHelper.executeQueryUpdated(query);
             re_rule_count = (Integer)rs_re.get(0)[0];
             System.out.println(query);
 
-            query = "SELECT COUNT(*) from rr_rule_for_lp GROUPBY LP_CODE HAVING LP_CODE=" + loyaltyProgram.getLpId() + ";";
+            query = "select count(*) from(select rr_rule_code  from rr_rule_for_lp  where lp_code = '" + loyaltyProgram.getLpId() + "')" +"where status = 'E'";
             System.out.println(query);
             List<Object[]> rs_rr = DBHelper.executeQueryUpdated(query);
             rr_rule_count = (Integer)rs_rr.get(0)[0];
             if (re_rule_count == 0) {
+                error_string = error_string + "Loyalty Program does not have atleast one re_rule\n";
                 valid = 0;
             }
             if (rr_rule_count == 0) {
+                error_string = error_string + "Loyalty Program does not have atleast one rr_rule\n";
                 valid = 0;
             }
 
-            if (valid == 1 && loyaltyProgram.getTierType() == "Tier") {
-                //Check if it has tiers
+            if (loyaltyProgram.getTierType() == "Tier") {
+                query = "select count(*) from tier where lp_program_id = '" + loyaltyProgram.getLpId() + "'";
+                System.out.println(query);
+                List<Object[]> rs_tier = DBHelper.executeQueryUpdated(query);
+                tier_count = (Integer)rs_tier.get(0)[0];
+                if(tier_count == 0){
+                    error_string = error_string + "No tiers assigned for this Loyalty Program";
+                    valid = 0;
+                }
+            }
 
+            if(valid == 1){
+                //Update loyalty_program state to ACTIVE
+                query = "Update loyalty_program SET state ='ACTIVE' where id = '" + loyaltyProgram.getLpId() +"'";
+                System.out.println(query);
+                DBHelper.executeUpdate(query);
             }
         }
         catch (SQLException e){
-            System.out.println("Unable to load Brand");
+            System.out.println("Error while validating Loyalty Program. Retry\n");
             System.out.println("Caught SQLException " + e.getErrorCode() + "/" + e.getSQLState() + " " + e.getMessage());
+            LoyaltyProgramHelper.validate(brand_id);
         }
     }
 }

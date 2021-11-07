@@ -50,9 +50,10 @@ program_name varchar2(200) not null,
 -- activity_code references Activity_category(id),
 brand_id REFERENCES brand(id) on DELETE CASCADE,
 tier_type varchar2(100) not null,
-state varchar2(10) DEFAULT 'INACTIVE'
+state varchar2(10) DEFAULT 'INACTIVE',
 -- re_rule_code references re_rule(re_rule_code),
 -- rr_rule_code references rr_rule(rr_rule_code)
+CONSTRAINT uniq_brand_state UNIQUE(brand_id,state)
 );
 
 create table re_rule_for_lp(
