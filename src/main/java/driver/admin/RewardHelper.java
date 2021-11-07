@@ -25,9 +25,9 @@ public class RewardHelper {
     private static Reward getRewardDetails() {
         Reward reward = new Reward();
         System.out.print("Enter Reward Code: ");
-        reward.setCode(scanner.next());
+        reward.setCode(scanner.nextLine());
         System.out.print("Enter Reward Name: ");
-        reward.setName(scanner.next());
+        reward.setName(scanner.nextLine());
         return reward;
     }
 

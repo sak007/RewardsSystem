@@ -24,15 +24,13 @@ public class CustomerLandingPage {
                 CustomerLoyaltyHelper.run(customerId);
                 break;
             case 2:
-                CustomerHelper.run();
+                RewardActivityHelper.run(customerId);
                 break;
             case 3:
                 WalletHelper.run(customerId);
                 break;
             case 4:
-                System.out.print("Enter Customer Id: ");
-                //Long customerId = scanner.nextLong();
-                //CustomerHelper.show(customerId);
+                CustomerRewardHelper.run(customerId);
                 break;
             case 5:
                 MainMenu.run();

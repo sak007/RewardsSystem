@@ -2,6 +2,7 @@ package driver;
 
 import driver.SignUp;
 import driver.brands.BrandLandingPage;
+import driver.dao.ShowQueriesDAO;
 
 import java.sql.SQLException;
 import java.util.Scanner;
@@ -30,8 +31,7 @@ public class MainMenu {
                 SignUp.run();
                 break;
             case 3:
-                System.out.println("Show Queries");
-                // TODO: 10/29/21
+                ShowQueriesDAO.run();
                 break;
             case 4:
                 System.out.println("Exit");

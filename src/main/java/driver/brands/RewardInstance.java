@@ -5,13 +5,14 @@ import java.sql.Date;
 public class RewardInstance {
     private String rewardId;
     private String brandId; // will have to refer to class Brand
-    private Integer value;
+    private String value;
     private Date expiryDate;
+
 
     public RewardInstance() {
     }
 
-    public RewardInstance(String rewardId, String brandId, Integer value, Date expiryDate) {
+    public RewardInstance(String rewardId, String brandId, String value, Date expiryDate) {
         this.rewardId = rewardId;
         this.brandId = brandId;
         this.value = value;
@@ -34,11 +35,11 @@ public class RewardInstance {
         this.brandId = brandId;
     }
 
-    public Integer getValue() {
+    public String getValue() {
         return value;
     }
 
-    public void setValue(Integer value) {
+    public void setValue(String value) {
         this.value = value;
     }
 

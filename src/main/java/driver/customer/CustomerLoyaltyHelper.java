@@ -1,13 +1,8 @@
 package driver.customer;
 
-import driver.admin.AdminLandingPage;
-import driver.dao.BrandDAO;
 import driver.dao.CustomerLPEnrollDAO;
 import driver.dao.LoyaltyProgramDAO;
-import driver.object.Brand;
 
-import java.sql.SQLException;
-import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
