@@ -162,12 +162,14 @@ public class ShowQueriesDAO {
                     "from customer c join customer_lp_enroll cle on c.id=cle.customer_id\n" +
                     "join loyalty_program lp on cle.loyalty_program_code=lp.id\n" +
                     "join brand b on b.id=lp.brand_id\n" +
-                    "where b.name='Brand01'\n" +
+                    "where b.id='Brand01'\n" +
                     "group by c.id,c.name\n" +
-                    "having 2<= (\n" +
+                    "having 1< (\n" +
                     "select count(cra.customer_id)\n" +
-                    "from customer_redeem_activity cra\n" +
-                    "where cra.customer_id=c.id)";
+                    "from customer_redeem_activity cra join rewards_for_loyalty_program rlp on  cra.redeem_lp_map_id=rlp.reward_lp_map_id\n" +
+                    "join loyalty_program lp1 on rlp.loyalty_program_code=lp1.id\n" +
+                    "join brand b1 on b1.id=lp1.brand_id\n" +
+                    "where b1.id='Brand01' and cra.customer_id=c.id)";
             List<Object[]> rs = DBHelper.executeQueryUpdated(query);
             System.out.println("Customer ID"+"\t"+"Customer Name");
             for(Object[] object:rs){
