@@ -1,27 +1,25 @@
 1. List all customers that are not part of Brand02’s program.
 
 select c.id,c.name
-from customer c join customer_lp_enroll cle on c.id=cle.customer_id
-join loyalty_program lp on cle.loyalty_program_code=lp.id
-join brand b on lp.brand_id=b.id
+from customer c 
 minus
 select c.id,c.name
 from customer c join customer_lp_enroll cle on c.id=cle.customer_id
 join loyalty_program lp on cle.loyalty_program_code=lp.id
 join brand b on lp.brand_id=b.id
-where b.name='Brand02';
+where b.id='Brand02';
 
 
 2. List customers that have joined a loyalty program but have not participated in any activity
 in that program (list the customerid and the loyalty program id).
 
-select c.id,c.name
+select c.id,cle.loyalty_program_code
 from customer c join customer_lp_enroll cle on c.id=cle.customer_id
 minus
-select c.id,c.name
+select c.id,loyalty_program_code
 from customer c join customer_lp_enroll cle on c.id=cle.customer_id
 join customer_activity ca on c.id=ca.customer_id
-group by c.id,c.name
+group by c.id,loyalty_program_code
 having count(*)>0;
 
 
@@ -32,7 +30,7 @@ select rc.reward_name
 from reward_category rc join rewards_for_loyalty_program rlp on rc.id=rlp.reward_category_code
 join loyalty_program lp on lp.id=rlp.loyalty_program_code
 join brand b on lp.brand_id=b.id
-where b.name='Brand01';
+where b.id='Brand01';
 
 
 
@@ -45,7 +43,7 @@ select DISTINCT lp.program_name
 from loyalty_program lp join re_rule_for_lp relp on lp.id=relp.lp_code
 join re_rule re on re.re_rule_code=relp.re_rule_code
 join activity_category ac on ac.id=re.activity_category_code
-where ac.activity_name='refer a friend';
+where ac.activity_name='Refer a friend';
 
 
 
