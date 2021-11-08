@@ -183,11 +183,14 @@ public class ShowQueriesDAO {
     public static void  runQuery7(){
         try {
             String query = "select b.name\n" +
+                    "from brand b\n" +
+                    "minus\n" +
+                    "select b.name\n" +
                     "from customer_redeem_activity cre join rewards_for_loyalty_program rlp on cre.redeem_lp_map_id=rlp.reward_lp_map_id\n" +
                     "join loyalty_program lp on lp.id=rlp.loyalty_program_code\n" +
                     "join brand b on b.id=lp.brand_id\n" +
                     "group by b.name\n" +
-                    "having sum(cre.points)<=500";
+                    "having sum(cre.points)>=500";
             List<Object[]> rs = DBHelper.executeQueryUpdated(query);
             System.out.println("Brand Name");
             for(Object[] object:rs){
@@ -207,7 +210,7 @@ public class ShowQueriesDAO {
                     "join loyalty_program lp on cle.loyalty_program_code=lp.id\n" +
                     "join brand b on b.id=lp.brand_id\n" +
                     "join customer_activity ca on ca.customer_id=cle.customer_id\n" +
-                    "where c.name='C0003' and b.name='Brand02' and ca.activity_date between '01-AUG-21' and '30-SEP-21'";
+                    "where c.id='C0003' and b.id='Brand02' and ca.activity_date between '01-AUG-21' and '30-SEP-21'";
             List<Object[]> rs = DBHelper.executeQueryUpdated(query);
             System.out.println("Count");
             for(Object[] object:rs){
