@@ -21,6 +21,13 @@ version number,
 status VARCHAR2(1) DEFAULT 'E' 
 );
 
+create table reward_category(
+id varchar2(100) primary key,
+reward_name varchar2(100) not null
+-- brand_id REFERENCES brand(id) on DELETE CASCADE, // Removed
+-- lp_program_id REFERENCES loyalty_program(id) on DELETE CASCADE // Removed
+);
+
 create table rr_rule(
 rr_rule_code varchar2(100) primary key,
 reward varchar2(200) REFERENCES reward_category(id) on DELETE CASCADE,
@@ -37,12 +44,7 @@ join_date date DEFAULT CURRENT_DATE,
 user_name varchar2(100) references actor(user_name)
 );
 
-create or replace trigger brand_insert_trigger
-after insert on brand
-for each row
-begin
-insert into actor values(:new.user_name, 'abcd1234', 'brand');
-end;
+
 
 create table Loyalty_program(
 id varchar2(100) primary key,
@@ -88,6 +90,59 @@ loyalty_program_code references Loyalty_program(id) on delete cascade,
 UNIQUE(customer_id,loyalty_program_code)
 );
 
+
+
+
+create table wallet(
+id varchar2(100) primary key,
+points number DEFAULT 0,
+customer_id REFERENCES customer(id) on DELETE CASCADE,
+loyalty_program_code REFERENCES Loyalty_program(id) on DELETE CASCADE,
+check(points>=0)
+);
+
+
+create table rewards_for_loyalty_program(
+    reward_lp_map_id varchar2(50) primary key,
+    loyalty_program_code REFERENCES Loyalty_program(id) on DELETE CASCADE,
+    reward_category_code references reward_category(id) on DELETE CASCADE,
+    reward_count number,
+    reward_value varchar2(50)
+);
+
+
+create table customer_redeem_activity(
+id varchar2(100) primary key,
+customer_id references customer(id) on delete CASCADE,
+activity_date date DEFAULT CURRENT_DATE,
+redeem_lp_map_id references rewards_for_loyalty_program(reward_lp_map_id),
+points number(10)
+);
+
+create table customer_activity(
+id varchar2(100) primary key,
+customer_id references customer(id) on delete CASCADE,
+activity_date date DEFAULT CURRENT_DATE,
+activity_lp_map_id references activities_for_loyalty_program(activity_lp_map_id),
+customer_redeem_activity_id references customer_redeem_activity(id),
+points number(10) 
+);
+
+create table tier(
+id varchar2(100) primary key,
+name varchar2(100) not null,
+points number not null,
+multiplier number not null,
+lp_program_id REFERENCES loyalty_program(id) on DELETE CASCADE
+);
+
+create or replace trigger brand_insert_trigger
+after insert on brand
+for each row
+begin
+insert into actor values(:new.user_name, 'abcd1234', 'brand');
+end;
+
 create or replace trigger customer_insert_trigger
 after insert on customer
 for each row
@@ -101,53 +156,3 @@ for each row
 begin
     insert into wallet (id,customer_id,loyalty_program_code) values(sys_guid(),:new.customer_id, :new.loyalty_program_code);
 end;
-
-
-create table wallet(
-id varchar2(100) primary key,
-points number DEFAULT 0,
-customer_id REFERENCES customer(id) on DELETE CASCADE,
-loyalty_program_code REFERENCES Loyalty_program(id) on DELETE CASCADE,
-check(points>=0)
-);
-
-
-create table reward_category(
-id varchar2(100) primary key,
-reward_name varchar2(100) not null
--- brand_id REFERENCES brand(id) on DELETE CASCADE, // Removed
--- lp_program_id REFERENCES loyalty_program(id) on DELETE CASCADE // Removed
-);
-
-create table rewards_for_loyalty_program(
-    reward_lp_map_id varchar2(50) primary key,
-    loyalty_program_code REFERENCES Loyalty_program(id) on DELETE CASCADE,
-    reward_category_code references reward_category(id) on DELETE CASCADE,
-    reward_count number,
-    reward_value varchar2(50)
-);
-
-create table customer_activity(
-id varchar2(100) primary key,
-customer_id references customer(id) on delete CASCADE,
-activity_date date DEFAULT CURRENT_DATE,
-activity_lp_map_id references activities_for_loyalty_program(activity_lp_map_id),
-customer_redeem_activity_id references customer_redeem_activity(id),
-points number(10) 
-);
-
-create table customer_redeem_activity(
-id varchar2(100) primary key,
-customer_id references customer(id) on delete CASCADE,
-activity_date date DEFAULT CURRENT_DATE,
-redeem_lp_map_id references rewards_for_loyalty_program(reward_lp_map_id),
-points number(10)
-);
-
-create table tier(
-id varchar2(100) primary key,
-name varchar2(100) not null,
-points number not null,
-multiplier number not null,
-lp_program_id REFERENCES loyalty_program(id) on DELETE CASCADE
-);
