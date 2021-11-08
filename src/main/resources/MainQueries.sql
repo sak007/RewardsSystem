@@ -81,11 +81,15 @@ where cra.customer_id=c.id);
 
 
 select b.name
+from brand b
+minus
+select b.name
 from customer_redeem_activity cre join rewards_for_loyalty_program rlp on cre.redeem_lp_map_id=rlp.reward_lp_map_id
 join loyalty_program lp on lp.id=rlp.loyalty_program_code
 join brand b on b.id=lp.brand_id
 group by b.name
-having sum(cre.points)<=500;
+having sum(cre.points)>=500;
+
 
 8. For Customer C0003, and Brand02, number of activities they have done in the period of
 08/1/2021 and 9/30/2021
@@ -96,4 +100,4 @@ from customer c join customer_lp_enroll cle on c.id=cle.customer_id
 join loyalty_program lp on cle.loyalty_program_code=lp.id
 join brand b on b.id=lp.brand_id
 join customer_activity ca on ca.customer_id=cle.customer_id
-where c.name='C0003' and b.name='Brand02' and ca.activity_date between '01-AUG-21' and '30-SEP-21';
+where c.id='C0003' and b.id='Brand02' and ca.activity_date between '01-AUG-21' and '30-SEP-21';
