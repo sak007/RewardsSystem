@@ -55,15 +55,13 @@ public class ShowQueriesDAO {
     public static void  runQuery1(){
         try {
             String query = "select c.id,c.name\n" +
-                    "from customer c join customer_lp_enroll cle on c.id=cle.customer_id\n" +
-                    "join loyalty_program lp on cle.loyalty_program_code=lp.id\n" +
-                    "join brand b on lp.brand_id=b.id\n" +
+                    "from customer c \n" +
                     "minus\n" +
                     "select c.id,c.name\n" +
                     "from customer c join customer_lp_enroll cle on c.id=cle.customer_id\n" +
                     "join loyalty_program lp on cle.loyalty_program_code=lp.id\n" +
                     "join brand b on lp.brand_id=b.id\n" +
-                    "where b.name='Brand02'";
+                    "where b.id='Brand02'";
             List<Object[]> rs = DBHelper.executeQueryUpdated(query);
             System.out.println("Customer ID"+"\t"+"Customer Name");
             for(Object[] object:rs){
@@ -78,16 +76,16 @@ public class ShowQueriesDAO {
 
     public static void  runQuery2(){
         try {
-            String query = "select c.id,c.name\n" +
+            String query = "select c.id,cle.loyalty_program_code\n" +
                     "from customer c join customer_lp_enroll cle on c.id=cle.customer_id\n" +
                     "minus\n" +
-                    "select c.id,c.name\n" +
+                    "select c.id,loyalty_program_code\n" +
                     "from customer c join customer_lp_enroll cle on c.id=cle.customer_id\n" +
                     "join customer_activity ca on c.id=ca.customer_id\n" +
-                    "group by c.id,c.name\n" +
+                    "group by c.id,loyalty_program_code\n" +
                     "having count(*)>0";
             List<Object[]> rs = DBHelper.executeQueryUpdated(query);
-            System.out.println("Customer ID"+"\t"+"Customer Name");
+            System.out.println("Customer ID"+"\t"+"Loyalty Program ID");
             for(Object[] object:rs){
                 System.out.println(object[0].toString()+"\t"+object[1].toString());
             }
@@ -104,7 +102,7 @@ public class ShowQueriesDAO {
                     "from reward_category rc join rewards_for_loyalty_program rlp on rc.id=rlp.reward_category_code\n" +
                     "join loyalty_program lp on lp.id=rlp.loyalty_program_code\n" +
                     "join brand b on lp.brand_id=b.id\n" +
-                    "where b.name='Brand01'";
+                    "where b.id='Brand01'";
             List<Object[]> rs = DBHelper.executeQueryUpdated(query);
             System.out.println("Reward Name");
             for(Object[] object:rs){
@@ -139,13 +137,12 @@ public class ShowQueriesDAO {
     public static void  runQuery5(){
         try {
             String query = "select ac.activity_name,count(*)\n" +
-                    "from brand b join loyalty_program lp on lp.brand_id=b.id\n" +
-                    "join customer_lp_enroll cle on cle.loyalty_program_code=lp.id\n" +
-                    "join customer_activity ca on ca.customer_id=cle.customer_id\n" +
-                    "join activities_for_loyalty_program alp on alp.activity_lp_map_id=ca.activity_lp_map_id\n" +
+                    "from customer_activity ca join activities_for_loyalty_program alp on alp.activity_lp_map_id=ca.activity_lp_map_id\n" +
+                    "join loyalty_program lp on lp.id=alp.loyalty_program_code\n" +
                     "join activity_category ac on alp.activity_category_code=ac.id\n" +
-                    "where b.name='Brand01'\n" +
-                    "group by ac.activity_name;";
+                    "join brand b on lp.brand_id=b.id\n" +
+                    "where b.id='Brand01'\n" +
+                    "group by ac.activity_name";
             List<Object[]> rs = DBHelper.executeQueryUpdated(query);
             System.out.println("Activity Name"+"\t"+"Count");
             for(Object[] object:rs){
@@ -164,12 +161,14 @@ public class ShowQueriesDAO {
                     "from customer c join customer_lp_enroll cle on c.id=cle.customer_id\n" +
                     "join loyalty_program lp on cle.loyalty_program_code=lp.id\n" +
                     "join brand b on b.id=lp.brand_id\n" +
-                    "where b.name='Brand01'\n" +
+                    "where b.id='Brand01'\n" +
                     "group by c.id,c.name\n" +
-                    "having 2<= (\n" +
+                    "having 1< (\n" +
                     "select count(cra.customer_id)\n" +
-                    "from customer_redeem_activity cra\n" +
-                    "where cra.customer_id=c.id)";
+                    "from customer_redeem_activity cra join rewards_for_loyalty_program rlp on  cra.redeem_lp_map_id=rlp.reward_lp_map_id\n" +
+                    "join loyalty_program lp1 on rlp.loyalty_program_code=lp1.id\n" +
+                    "join brand b1 on b1.id=lp1.brand_id\n" +
+                    "where b1.id='Brand01' and cra.customer_id=c.id)";
             List<Object[]> rs = DBHelper.executeQueryUpdated(query);
             System.out.println("Customer ID"+"\t"+"Customer Name");
             for(Object[] object:rs){
@@ -185,11 +184,14 @@ public class ShowQueriesDAO {
     public static void  runQuery7(){
         try {
             String query = "select b.name\n" +
+                    "from brand b\n" +
+                    "minus\n" +
+                    "select b.name\n" +
                     "from customer_redeem_activity cre join rewards_for_loyalty_program rlp on cre.redeem_lp_map_id=rlp.reward_lp_map_id\n" +
                     "join loyalty_program lp on lp.id=rlp.loyalty_program_code\n" +
                     "join brand b on b.id=lp.brand_id\n" +
                     "group by b.name\n" +
-                    "having sum(cre.points)<=500";
+                    "having sum(cre.points)>=500";
             List<Object[]> rs = DBHelper.executeQueryUpdated(query);
             System.out.println("Brand Name");
             for(Object[] object:rs){
@@ -209,7 +211,7 @@ public class ShowQueriesDAO {
                     "join loyalty_program lp on cle.loyalty_program_code=lp.id\n" +
                     "join brand b on b.id=lp.brand_id\n" +
                     "join customer_activity ca on ca.customer_id=cle.customer_id\n" +
-                    "where c.name='C0003' and b.name='Brand02' and ca.activity_date between '01-AUG-21' and '30-SEP-21'";
+                    "where c.id='C0003' and b.id='Brand02' and ca.activity_date between '01-AUG-21' and '30-SEP-21'";
             List<Object[]> rs = DBHelper.executeQueryUpdated(query);
             System.out.println("Count");
             for(Object[] object:rs){

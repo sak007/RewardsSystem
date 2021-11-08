@@ -65,19 +65,13 @@ public class RewardDAO {
         }
     }
 
-    public static int fetchAvailablePoints(String customerId, String rewardName, String lpProgramName){
+    public static int fetchAvailablePoints(String customerId, String lpProgramName){
         try {
             int points=0;
-            String query = "select w.points\n" +
-                    "from wallet w join customer_lp_enroll cle  on w.loyalty_program_code=cle.loyalty_program_code\n" +
-                    "join loyalty_program lp on lp.id=cle.loyalty_program_code\n" +
-                    "join rewards_for_loyalty_program rlp on cle.loyalty_program_code=rlp.loyalty_program_code\n" +
-                    "join reward_category rc on rlp.reward_category_code=rc.id\n" +
-                    "where w.customer_id='" + customerId + "' and lp.program_name='"+lpProgramName+"' and rc.reward_name='"+rewardName+"'";
+            String query = "select points from wallet where customer_id='"+customerId+"' and loyalty_program_code=(select id from loyalty_program where program_name='"+lpProgramName+"')";
             List<Object[]> rs = DBHelper.executeQueryUpdated(query);
             for(Object[] object:rs){
                 points=((BigDecimal)object[0]).intValueExact();
-
             }
             return points;
         }
