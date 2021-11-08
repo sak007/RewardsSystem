@@ -145,24 +145,28 @@ begin
 end;
 
 create or replace trigger calc_points
-after insert on customer_activity
-for each row
+    before insert on customer_activity
+    for each row
+declare
+    pts number(10);
 begin
     if :new.points is null then
-        update customer_activity set points =
-            (select nums_points
-            from re_rile where activity_category_code =
-                               (select activity_category_code
-                               from activities_for_loyalty_program
-                               where activities_for_loyalty_program.activity_lp_map_id = :new.activity_lp_map_id) and
-                                version = (select max(version)
-                                            from re_rule
-                                            where re_rule.activity_category_code =
-                                                  (select activity_category_code
-                                                   from activities_for_loyalty_program
-                                                   where activities_for_loyalty_program.activity_lp_map_id = :new.activity_lp_map_id)));
+        select nums_points into pts
+        from re_rule where activity_category_code =
+                           (select activity_category_code
+                            from activities_for_loyalty_program
+                            where activities_for_loyalty_program.activity_lp_map_id = :new.activity_lp_map_id) and
+                version = (select max(version)
+                           from re_rule
+                           where re_rule.activity_category_code =
+                                 (select activity_category_code
+                                  from activities_for_loyalty_program
+                                  where activities_for_loyalty_program.activity_lp_map_id = :new.activity_lp_map_id));
+        :new.points := pts;
     end if;
+
 end;
+
 create or replace trigger brand_insert_trigger
 after insert on brand
 for each row

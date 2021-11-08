@@ -16,7 +16,7 @@ public class CustomerRedeemActivityDAO {
             String query = "select c.id, c.customer_id, c.activity_date, c.redeem_lp_map_id, c.points, r.reward_value"
                     + " from customer_redeem_activity c, rewards_for_loyalty_program r"
                     + " where c.customer_id = '" + cId + "' and c.redeem_lp_map_id=r.reward_lp_map_id"
-                    + " and r.reward_category_code='" + loadCategoryCode + "'";
+                    + " and r.reward_category_code=" + loadCategoryCode;
             List<Object[]> objectList = DBHelper.executeQueryUpdated(query);
             List<CustomerRedeemActivity> customerRedeemActivities = new ArrayList<>();
             objectList.forEach(o -> {
