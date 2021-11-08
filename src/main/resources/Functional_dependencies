@@ -10,11 +10,12 @@ Functional Dependencies
 8)rr_rule_for_lp(lp_code,rr_rule_code->lp_code,rr_rule_code)
 9)activities_for_loyalty_program(activity_lp_map_id->loyalty_program_code,activity_category_code)
 10)customer(id->name,phone,address,user_name)
-11)tier(id-> customer_id, activity_date, redeem_lp_map_id, points)
+11)tier(id-> name, points, multiplier, lp_program_id)
 12)customer_redeem_activity(id -> customer_id,activity_date,redeem_lp_map_id,points)
 13)customer_activity(id -> customer_id,activity_date,activity_lp_map_id, customer_redeem_activity_id,points)
 14)reward_category(id -> reward_name)
 15)wallet(id -> points,customer_id,loyalty_program_code)
 16)customer_lp_enroll(customer_id,loyalty_program_code -> customer_id,loyalty_program_code)
+17)rewards_for_loyalty_program(reward_lp_map_id->loyalty_program_code,reward_category_code,reward_count,reward_value)
 
 All above relation have primary keys and they determine the entire relation. So all relations are in BCNF.

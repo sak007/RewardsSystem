@@ -15,7 +15,7 @@ activity_name varchar2(200)
 
 create table re_rule(
 re_rule_code varchar2(100) primary key,
-activity_category_code references Activity_category(id),
+activity_category_code references Activity_category(id) on DELETE CASCADE,
 nums_points number,
 version number,
 status VARCHAR2(1) DEFAULT 'E' 
@@ -23,7 +23,7 @@ status VARCHAR2(1) DEFAULT 'E'
 
 create table rr_rule(
 rr_rule_code varchar2(100) primary key,
-reward varchar2(200),
+reward varchar2(200) REFERENCES reward_category(id) on DELETE CASCADE,
 num_points number,
 version number,
 status VARCHAR2(1) DEFAULT 'E'
