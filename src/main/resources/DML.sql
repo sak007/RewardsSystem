@@ -36,7 +36,7 @@ insert into re_rule_for_lp values('TLP02','4');
 
 insert into re_rule values('5','A03',10,1,'E');
 
-insert into re_rule_for_lp values('TLP02','5');
+insert into re_rule_for_lp values('RLP01','5');
 
 insert into rr_rule values('1','R01',80,1,'E');
 insert into rr_rule values('2','R02',70,1,'E');
