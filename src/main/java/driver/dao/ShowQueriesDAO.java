@@ -137,13 +137,12 @@ public class ShowQueriesDAO {
     public static void  runQuery5(){
         try {
             String query = "select ac.activity_name,count(*)\n" +
-                    "from brand b join loyalty_program lp on lp.brand_id=b.id\n" +
-                    "join customer_lp_enroll cle on cle.loyalty_program_code=lp.id\n" +
-                    "join customer_activity ca on ca.customer_id=cle.customer_id\n" +
-                    "join activities_for_loyalty_program alp on alp.activity_lp_map_id=ca.activity_lp_map_id\n" +
+                    "from customer_activity ca join activities_for_loyalty_program alp on alp.activity_lp_map_id=ca.activity_lp_map_id\n" +
+                    "join loyalty_program lp on lp.id=alp.loyalty_program_code\n" +
                     "join activity_category ac on alp.activity_category_code=ac.id\n" +
-                    "where b.name='Brand01'\n" +
-                    "group by ac.activity_name;";
+                    "join brand b on lp.brand_id=b.id\n" +
+                    "where b.id='Brand01'\n" +
+                    "group by ac.activity_name";
             List<Object[]> rs = DBHelper.executeQueryUpdated(query);
             System.out.println("Activity Name"+"\t"+"Count");
             for(Object[] object:rs){

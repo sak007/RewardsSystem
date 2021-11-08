@@ -52,12 +52,11 @@ have occurred.
 
 
 select ac.activity_name,count(*)
-from brand b join loyalty_program lp on lp.brand_id=b.id
-join customer_lp_enroll cle on cle.loyalty_program_code=lp.id
-join customer_activity ca on ca.customer_id=cle.customer_id
-join activities_for_loyalty_program alp on alp.activity_lp_map_id=ca.activity_lp_map_id
+from customer_activity ca join activities_for_loyalty_program alp on alp.activity_lp_map_id=ca.activity_lp_map_id
+join loyalty_program lp on lp.id=alp.loyalty_program_code
 join activity_category ac on alp.activity_category_code=ac.id
-where b.name='Brand01'
+join brand b on lp.brand_id=b.id
+where b.id='Brand01'
 group by ac.activity_name;
 
 
