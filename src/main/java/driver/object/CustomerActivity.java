@@ -8,7 +8,7 @@ public class CustomerActivity {
     private String customerId;
     private Date activityDate;
     private String activityLpId;
-    private String rewardLpId;
+    private String customerRedeemActivityId;
     private Long points;
 
     public CustomerActivity() {
@@ -47,12 +47,12 @@ public class CustomerActivity {
         this.activityLpId = activityLpId;
     }
 
-    public String getRewardLpId() {
-        return rewardLpId;
+    public String getCustomerRedeemActivityId() {
+        return customerRedeemActivityId;
     }
 
-    public void setRewardLpId(String rewardLpId) {
-        this.rewardLpId = rewardLpId;
+    public void setCustomerRedeemActivityId(String customerRedeemActivityId) {
+        this.customerRedeemActivityId = customerRedeemActivityId;
     }
 
     public Long getPoints() {
@@ -64,7 +64,7 @@ public class CustomerActivity {
     }
 
     public String getMeta() {
-        return "(id, customer_id, activity_lp_map_id, reward_lp_map_id, points)";
+        return "(id, customer_id, activity_lp_map_id, customer_redeem_activity_id, points)";
     }
 
     public String toString() {
@@ -87,10 +87,10 @@ public class CustomerActivity {
             res = res + activityLpId;
         }
         res = res + ",";
-        if (rewardLpId != null) {
-            res = res + "'" + rewardLpId + "'";
+        if (customerRedeemActivityId != null) {
+            res = res + "'" + customerRedeemActivityId + "'";
         } else {
-            res = res + rewardLpId;
+            res = res + customerRedeemActivityId;
         }
         res = res + ",";
         if (points != null) {
