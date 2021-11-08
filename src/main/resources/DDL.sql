@@ -26,11 +26,7 @@ reward_name varchar2(100) not null
 
 create table rr_rule(
 rr_rule_code varchar2(100) primary key,
-<<<<<<< HEAD
-reward varchar2(200) references reward_category(id),
-=======
 reward varchar2(200) REFERENCES reward_category(id) on DELETE CASCADE,
->>>>>>> origin/master
 num_points number,
 version number,
 status VARCHAR2(1) DEFAULT 'E'
