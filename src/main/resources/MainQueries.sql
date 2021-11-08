@@ -52,12 +52,11 @@ have occurred.
 
 
 select ac.activity_name,count(*)
-from brand b join loyalty_program lp on lp.brand_id=b.id
-join customer_lp_enroll cle on cle.loyalty_program_code=lp.id
-join customer_activity ca on ca.customer_id=cle.customer_id
-join activities_for_loyalty_program alp on alp.activity_lp_map_id=ca.activity_lp_map_id
+from customer_activity ca join activities_for_loyalty_program alp on alp.activity_lp_map_id=ca.activity_lp_map_id
+join loyalty_program lp on lp.id=alp.loyalty_program_code
 join activity_category ac on alp.activity_category_code=ac.id
-where b.name='Brand01'
+join brand b on lp.brand_id=b.id
+where b.id='Brand01'
 group by ac.activity_name;
 
 
@@ -68,12 +67,14 @@ select c.id,c.name
 from customer c join customer_lp_enroll cle on c.id=cle.customer_id
 join loyalty_program lp on cle.loyalty_program_code=lp.id
 join brand b on b.id=lp.brand_id
-where b.name='Brand01'
+where b.id='Brand01'
 group by c.id,c.name
-having 2<= (
+having 1< (
 select count(cra.customer_id)
-from customer_redeem_activity cra
-where cra.customer_id=c.id);
+from customer_redeem_activity cra join rewards_for_loyalty_program rlp on  cra.redeem_lp_map_id=rlp.reward_lp_map_id
+join loyalty_program lp1 on rlp.loyalty_program_code=lp1.id
+join brand b1 on b1.id=lp1.brand_id
+where b1.id='Brand01' and cra.customer_id=c.id);
 
 
 

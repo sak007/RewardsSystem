@@ -137,13 +137,12 @@ public class ShowQueriesDAO {
     public static void  runQuery5(){
         try {
             String query = "select ac.activity_name,count(*)\n" +
-                    "from brand b join loyalty_program lp on lp.brand_id=b.id\n" +
-                    "join customer_lp_enroll cle on cle.loyalty_program_code=lp.id\n" +
-                    "join customer_activity ca on ca.customer_id=cle.customer_id\n" +
-                    "join activities_for_loyalty_program alp on alp.activity_lp_map_id=ca.activity_lp_map_id\n" +
+                    "from customer_activity ca join activities_for_loyalty_program alp on alp.activity_lp_map_id=ca.activity_lp_map_id\n" +
+                    "join loyalty_program lp on lp.id=alp.loyalty_program_code\n" +
                     "join activity_category ac on alp.activity_category_code=ac.id\n" +
-                    "where b.name='Brand01'\n" +
-                    "group by ac.activity_name;";
+                    "join brand b on lp.brand_id=b.id\n" +
+                    "where b.id='Brand01'\n" +
+                    "group by ac.activity_name";
             List<Object[]> rs = DBHelper.executeQueryUpdated(query);
             System.out.println("Activity Name"+"\t"+"Count");
             for(Object[] object:rs){
@@ -162,12 +161,14 @@ public class ShowQueriesDAO {
                     "from customer c join customer_lp_enroll cle on c.id=cle.customer_id\n" +
                     "join loyalty_program lp on cle.loyalty_program_code=lp.id\n" +
                     "join brand b on b.id=lp.brand_id\n" +
-                    "where b.name='Brand01'\n" +
+                    "where b.id='Brand01'\n" +
                     "group by c.id,c.name\n" +
-                    "having 2<= (\n" +
+                    "having 1< (\n" +
                     "select count(cra.customer_id)\n" +
-                    "from customer_redeem_activity cra\n" +
-                    "where cra.customer_id=c.id)";
+                    "from customer_redeem_activity cra join rewards_for_loyalty_program rlp on  cra.redeem_lp_map_id=rlp.reward_lp_map_id\n" +
+                    "join loyalty_program lp1 on rlp.loyalty_program_code=lp1.id\n" +
+                    "join brand b1 on b1.id=lp1.brand_id\n" +
+                    "where b1.id='Brand01' and cra.customer_id=c.id)";
             List<Object[]> rs = DBHelper.executeQueryUpdated(query);
             System.out.println("Customer ID"+"\t"+"Customer Name");
             for(Object[] object:rs){
