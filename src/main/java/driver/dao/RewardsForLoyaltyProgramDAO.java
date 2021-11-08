@@ -44,4 +44,24 @@ public class RewardsForLoyaltyProgramDAO {
             return null;
         }
     }
+
+    public static RewardsForLoyaltyProgram loadById(String id) {
+        try {
+            String query = "select * from rewards_for_loyalty_program where reward_lp_map_id='" + id + "'";
+            Object[] obj = DBHelper.executeQueryUpdated(query).get(0);
+
+            RewardsForLoyaltyProgram rewardsForLoyaltyProgram = new RewardsForLoyaltyProgram();
+            rewardsForLoyaltyProgram.setReward_lp_map_id((String)obj[0]);
+            rewardsForLoyaltyProgram.setLoyalty_program_code((String)obj[1]);
+            rewardsForLoyaltyProgram.setReward_category_code((String)obj[2]);
+            rewardsForLoyaltyProgram.setReward_count((Integer)obj[3]);
+            rewardsForLoyaltyProgram.setReward_value((String)obj[4]);
+
+            return rewardsForLoyaltyProgram;
+        } catch (SQLException e) {
+            System.out.println("Unable to map reward to the Loyalty Program!");
+            System.out.println("Caught SQLException " + e.getErrorCode() + "/" + e.getSQLState() + " " + e.getMessage());
+            return null;
+        }
+    }
 }
