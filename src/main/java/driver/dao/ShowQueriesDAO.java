@@ -14,7 +14,7 @@ public class ShowQueriesDAO {
                 "2. List customers that have joined a loyalty program but have not participated in any activity\n" +
                 "in that program (list the customerid and the loyalty program id).\n" +
                 "3. List the rewards that are part of Brand01 loyalty program.\n" +
-                "4. List all the loyalty programs that include “refer a friend” as an activity in at least one of\n" +
+                "4. List all the loyalty programs that include “Refer a friend” as an activity in at least one of\n" +
                 "their reward rules.\n" +
                 "5. For Brand01, list for each activity type in their loyalty program, the number instances that\n" +
                 "have occurred.\n" +
@@ -123,7 +123,7 @@ public class ShowQueriesDAO {
                     "from loyalty_program lp join re_rule_for_lp relp on lp.id=relp.lp_code\n" +
                     "join re_rule re on re.re_rule_code=relp.re_rule_code\n" +
                     "join activity_category ac on ac.id=re.activity_category_code\n" +
-                    "where ac.activity_name='refer a friend'";
+                    "where ac.activity_name='Refer a friend'";
             List<Object[]> rs = DBHelper.executeQueryUpdated(query);
             System.out.println("Loyalty Program Name");
             for(Object[] object:rs){
