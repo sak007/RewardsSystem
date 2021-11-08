@@ -20,8 +20,9 @@ public class RERuleDAO {
 
     public static void saveData(RERule reRule) {
         boolean checkInsert = false;
-        try(Connection connection = DBHelper.connect();
-            PreparedStatement preparedStatement = connection.prepareStatement(INSERT_RE_RULE);) {
+        try{
+            Connection connection = DBHelper.connect();
+            PreparedStatement preparedStatement = connection.prepareStatement(INSERT_RE_RULE);
             //System.out.println("Inside RERule");
             //String query = "Insert into brand" + brand.getMeta() + " values" + brand.toString();
             /*String query = "INSERT INTO re_rule"+ reRule.getMeta() +" VALUES"+ reRule.toString();
@@ -42,6 +43,7 @@ public class RERuleDAO {
             }else{
                 System.out.println("There was an issue while inserting RE Rule");
             }
+            connection.close();
         } catch (SQLException e) {
             System.out.println("Unable to add RE Rule!");
             System.out.println("Caught SQLException " + e.getErrorCode() + "/" + e.getSQLState() + " " + e.getMessage());

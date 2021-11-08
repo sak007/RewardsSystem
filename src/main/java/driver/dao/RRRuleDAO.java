@@ -35,8 +35,9 @@ public class RRRuleDAO {
     public static void saveData(RRRule rrRule){
         boolean checkInsert = false;
 
-        try(Connection connection = DBHelper.connect();
-            PreparedStatement preparedStatement = connection.prepareStatement(INSERT_RR_RULE);) {
+        try{
+            Connection connection = DBHelper.connect();
+            PreparedStatement preparedStatement = connection.prepareStatement(INSERT_RR_RULE);
             preparedStatement.setString(1,rrRule.getRrRuleCode());
             preparedStatement.setString(2,rrRule.getReward());
             preparedStatement.setInt(3,rrRule.getNumPoints());
@@ -51,10 +52,12 @@ public class RRRuleDAO {
                 System.out.println("There was an issue while inserting RR Rule");
             }
 
+            connection.close();
         }catch (SQLException e) {
             System.out.println("Unable to add RR Rule!");
             System.out.println("Caught SQLException " + e.getErrorCode() + "/" + e.getSQLState() + " " + e.getMessage());
         }
+
     }
 
     public static void updateRRRule(RRRule rrRule, String brandId){
