@@ -47,13 +47,12 @@ public class CustomerRewardHelper {
         }
     }
     public static int redeemReward(String customerId,String rewardName,String lpProgramName){
-        int availablePoints=RewardDAO.fetchAvailablePoints(customerId,rewardName,lpProgramName);
+        int availablePoints=RewardDAO.fetchAvailablePoints(customerId,lpProgramName);
         List<Integer> list=RewardDAO.fetchActualRewardDetails(customerId,rewardName,lpProgramName);
-        if(list.get(0)>=1 && list.get(1)<=availablePoints) {
-            if(RewardDAO.insertRedeemActivity(customerId, rewardName, lpProgramName, list.get(1))>0){
-                return WalletDAO.deductPoints(customerId,lpProgramName,availablePoints,list.get(1));
-            }
-        }
+        if(list.get(0)>=1 && list.get(1)<=availablePoints)
+            return RewardDAO.insertRedeemActivity(customerId, rewardName, lpProgramName, list.get(1));
+        else
+            System.out.println("Customer does not have enough points in wallet to redeem");
         return -1;
     }
 
