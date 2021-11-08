@@ -8,6 +8,7 @@ import driver.object.Activity;
 import driver.object.Brand;
 
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 import driver.customer.CustomerLandingPage;
 import driver.dao.CustomerDAO;
@@ -65,7 +66,7 @@ public class Login {
                         brand.setId((String) object[0]);
                         brand.setName((String) object[1]);
                         brand.setAddress((String) object[2]);
-                        brand.setJoinDate((String) object[3]);
+                        brand.setJoinDate(((Date) object[3]).toString());
                     }
                 }
                 catch(SQLException e){

@@ -10,8 +10,8 @@ import java.util.UUID;
 
 public class RRRuleDAO {
 
-    private static final String INSERT_RR_RULE = "INSERT INTO rr_rule"+"(rr_rule_code, reward, num_points, instances, version, status) VALUES"+"(?,?,?,?,?,?)";
-    private static final String UPDATE_RR_RULE = "UPDATE rr_rule SET num_points = ?, instances = ?, version = ?, status = ? WHERE reward = ? AND rr_rule_code = (select rrlp.rr_rule_code from rr_rule_for_lp rrlp where rrlp.lp_code = (select lp.id from Loyalty_program lp where lp.brand_id = (select b.id from brand b where b.id = ?)))";
+    private static final String INSERT_RR_RULE = "INSERT INTO rr_rule"+"(rr_rule_code, reward, num_points, version, status) VALUES"+"(?,?,?,?,?)";
+    private static final String UPDATE_RR_RULE = "UPDATE rr_rule SET num_points = ?, version = ?, status = ? WHERE reward = ? AND rr_rule_code = (select rrlp.rr_rule_code from rr_rule_for_lp rrlp where rrlp.lp_code = (select lp.id from Loyalty_program lp where lp.brand_id = (select b.id from brand b where b.id = ?)))";
     private static final String SELECT_RR_RULE_BY_RRC = "SELECT * FROM rr_rule_code WHERE reward = ? AND rr_rule_code = (select rrlp.rr_rule_code from rr_rule_for_lp rrlp where rrlp.lp_code = (select lp.id from Loyalty_program lp where lp.brand_id = (select b.id from brand b where b.id = ?)))";
 
     public RRRuleDAO(){
@@ -40,8 +40,8 @@ public class RRRuleDAO {
             preparedStatement.setString(1,rrRule.getRrRuleCode());
             preparedStatement.setString(2,rrRule.getReward());
             preparedStatement.setInt(3,rrRule.getNumPoints());
-            preparedStatement.setInt(5,rrRule.getVersion());
-            preparedStatement.setString(6,rrRule.getStatus());
+            preparedStatement.setInt(4,rrRule.getVersion());
+            preparedStatement.setString(5,rrRule.getStatus());
             checkInsert = preparedStatement.executeUpdate() > 0;
 
             if (checkInsert){
@@ -61,7 +61,6 @@ public class RRRuleDAO {
         try {
 
             Integer version = 0;
-            Integer instances = 0;
             Integer points = 0;
             String rrRuleCode ="";
             String lpCode = "";

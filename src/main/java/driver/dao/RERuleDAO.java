@@ -106,9 +106,8 @@ public class RERuleDAO {
             DBHelper.executeUpdate(insertQuery);
 
             DBHelper.executeUpdate(insertLPRR);
-
-            connection.close();
-
+//            connection.close();
+            System.out.println("Update was successful..!!");
         } catch (SQLException e) {
             System.out.println("Unable to Update RE Rule !");
             System.out.println("Caught SQLException " + e.getErrorCode() + "/" + e.getSQLState() + " " + e.getMessage());

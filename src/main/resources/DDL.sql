@@ -157,4 +157,3 @@ for each row
 begin
     insert into wallet (id,customer_id,loyalty_program_code) values(sys_guid(),:new.customer_id, :new.loyalty_program_code);
 end;
->>>>>>> cabfa503ebcadeb0e0bdce1d832e3007e39bfd84

@@ -37,17 +37,17 @@ public class RrRulesHelper {
                 rrRule.setNumPoints(points);
                 RRRuleDAO.saveData(rrRule);
 
-                try {
-                    mapping_query = "insert into rr_rule_for_lp values(" + "'"+loyaltyProgram.getLpId()+"'"+ "," + "'"+rrRule.getRrRuleCode()+"'"+")";
-                    System.out.print(mapping_query);
-                    DBHelper.executeUpdate(mapping_query);
-                    System.out.println("New RrRule mapped successfully to the Loyalty Program");
-                } catch (SQLException e) {
-                    System.out.println("Unable to map the created RrRule with Loyalty Program!");
-                    System.out.println("Caught SQLException " + e.getErrorCode() + "/" + e.getSQLState() + " " + e.getMessage());
-                }
-
-                RrRulesHelper.add(brand_id);
+//                try {
+//                    mapping_query = "insert into rr_rule_for_lp values(" + "'"+loyaltyProgram.getLpId()+"'"+ "," + "'"+rrRule.getRrRuleCode()+"'"+")";
+//                    System.out.print(mapping_query);
+//                    DBHelper.executeUpdate(mapping_query);
+//                    System.out.println("New RrRule mapped successfully to the Loyalty Program");
+//                } catch (SQLException e) {
+//                    System.out.println("Unable to map the created RrRule with Loyalty Program!");
+//                    System.out.println("Caught SQLException " + e.getErrorCode() + "/" + e.getSQLState() + " " + e.getMessage());
+//                }
+//
+//                RrRulesHelper.add(brand_id);
                 //Add it in the mapping
 
                 try {

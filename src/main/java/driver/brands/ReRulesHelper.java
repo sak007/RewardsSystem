@@ -24,7 +24,7 @@ public class ReRulesHelper {
                 RERule reRule = new RERule();
                 //reRule.setReRuleCode(UUID.randomUUID().toString().replace("-",""));
                 System.out.println("Enter an unique rule code for Re Rule");
-                String re_rule_code = scanner.next();
+                String re_rule_code = scanner.nextLine();
                 reRule.setReRuleCode(re_rule_code);
 
                 System.out.println("Please enter the Activity Category Code:");
