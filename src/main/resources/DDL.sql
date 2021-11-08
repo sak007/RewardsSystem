@@ -115,12 +115,7 @@ create table customer_redeem_activity(
 id varchar2(100) primary key,
 customer_id references customer(id) on delete CASCADE,
 activity_date date DEFAULT CURRENT_DATE,
-<<<<<<< HEAD
-activity_lp_map_id references activities_for_loyalty_program(activity_lp_map_id),
-customer_redeem_activity_id references customer_redeem_activity(id),
-=======
 redeem_lp_map_id references rewards_for_loyalty_program(reward_lp_map_id),
->>>>>>> origin/master
 points number(10)
 );
 
@@ -141,7 +136,6 @@ multiplier number not null,
 lp_program_id REFERENCES loyalty_program(id) on DELETE CASCADE
 );
 
-<<<<<<< HEAD
 create or replace trigger update_reward_count_and_wallet
 after insert on customer_redeem_activity
 for each row
@@ -168,7 +162,7 @@ begin
                                                    from activities_for_loyalty_program
                                                    where activities_for_loyalty_program.activity_lp_map_id = :new.activity_lp_map_id)));
     end if;
-=======
+end;
 create or replace trigger brand_insert_trigger
 after insert on brand
 for each row
@@ -188,5 +182,4 @@ after insert on customer_lp_enroll
 for each row
 begin
     insert into wallet (id,customer_id,loyalty_program_code) values(sys_guid(),:new.customer_id, :new.loyalty_program_code);
->>>>>>> origin/master
 end;
