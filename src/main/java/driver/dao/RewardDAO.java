@@ -62,6 +62,7 @@ public class RewardDAO {
             return null;
         }
     }
+
     public static List<List<String>> fetchApplicableRewards(String customerId){
         try {
             List<List<String>> rewards = new ArrayList<>();
