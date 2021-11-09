@@ -94,6 +94,7 @@ id varchar2(100) primary key,
 points number DEFAULT 0,
 customer_id REFERENCES customer(id) on DELETE CASCADE,
 loyalty_program_code REFERENCES Loyalty_program(id) on DELETE CASCADE,
+tier_id references tier(id),
 check(points>=0)
 );
 
@@ -135,16 +136,20 @@ lp_program_id REFERENCES loyalty_program(id) on DELETE CASCADE
 create or replace trigger update_reward_count_and_wallet
     after insert on customer_redeem_activity
     for each row
+declare
+    lpCode varchar2(100);
 begin
+    select loyalty_program_code into lpCode
+    from rewards_for_loyalty_program
+    where reward_lp_map_id = :new.redeem_lp_map_id;
+
     update rewards_for_loyalty_program set reward_count = reward_count - 1 where reward_lp_map_id = :new.redeem_lp_map_id;
     update wallet
     set points = points - :new.points
     where customer_id = :new.customer_id and
-            loyalty_program_code = (select loyalty_program_code
-                                    from rewards_for_loyalty_program
-                                    where reward_lp_map_id = :new.redeem_lp_map_id);
-end;
-/
+            loyalty_program_code = lpCode;
+    update_customer_tier(:new.customer_id, lpCode);
+end;/
 create or replace trigger calc_points
     before insert on customer_activity
     for each row
@@ -162,12 +167,13 @@ begin
     if :new.points is null then
         select nums_points into pts
         from re_rule r1, re_rule_for_lp rlp1
-        where r1.activity_category_code = actCode  and rlp1.lp_code = lpcode and rlp1.re_rule_code = r1.re_rule_code
+        where r1.activity_category_code = actCode  and rlp1.lp_code = lpCode and rlp1.re_rule_code = r1.re_rule_code
           and version = (select max(version)
                          from re_rule r2, re_rule_for_lp rlp2
-                         where r2.activity_category_code = actCode and rlp2.lp_code = lpcode and rlp2.re_rule_code = r2.re_rule_code);
+                         where r2.activity_category_code = actCode and rlp2.lp_code = lpCode and rlp2.re_rule_code = r2.re_rule_code);
         :new.points := pts;
-        update wallet set points = points + pts where customer_id = :new.customer_id and loyalty_program_code = lpcode;
+        update wallet set points = points + pts where customer_id = :new.customer_id and loyalty_program_code = lpCode;
+        update_customer_tier(:new.customer_id, lpCode);
     end if;
 
 end;
@@ -189,7 +195,10 @@ end;
 create or replace trigger customer_wallet_trigger
     after insert on customer_lp_enroll
     for each row
+declare
+    tierType varchar2(100);
 begin
     insert into wallet (id,customer_id,loyalty_program_code) values(sys_guid(),:new.customer_id, :new.loyalty_program_code);
+    update_customer_tier(:new.customer_id, :new.loyalty_program_code);
 end;
 /
