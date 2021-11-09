@@ -12,16 +12,13 @@ import java.util.UUID;
 public class RewardTypesHelper {
     public static void display(String tier_type, String brand_id){
         Scanner scanner = new Scanner(System.in);
-
-        // Choose the quantity of rewards
-        String display_string = "Enter Quantity for the reward:";
-        System.out.println(display_string);
-        Integer quantity = scanner.nextInt();
+        String display_string = "";
 
         //Choose a Reward from the available list
         List<Reward> rewards = RewardDAO.getList();
         int display_i = 0;
         int reward_index = 0;
+
         display_string = "Choose from one of the options below:\n";
         for(Reward rew:rewards){
             display_string = display_string + (display_i + 1) + ") " + rew.getName() + "\n";
@@ -31,15 +28,10 @@ public class RewardTypesHelper {
         System.out.println(display_string);
         Integer input = scanner.nextInt();
 
-        //Choose a value for the chosen reward
-
-        //Change: IF it is not Go back then ask this
-        display_string = "Enter value for the chosen reward option\n";
-        System.out.println(display_string);
-        String reward_value = scanner.next();
 
         String lpGiftCode;
 
+        //Go back
         if(input == display_i + 1) {
             if (tier_type == "Regular") {
                 RegularLoyaltyProgramHelper.display(brand_id);
@@ -48,6 +40,15 @@ public class RewardTypesHelper {
             }
         }
         else{
+            display_string = "Enter Quantity for the reward:";
+            System.out.println(display_string);
+            Integer quantity = scanner.nextInt();
+
+            //Change: IF it is not Go back then ask this
+            display_string = "Enter value for the chosen reward option\n";
+            System.out.println(display_string);
+            String reward_value = scanner.next();
+
             reward_index = input - 1;
             Reward reward = rewards.get(reward_index);
             LoyaltyProgram loyaltyProgram = LoyaltyProgramDAO.loadByBrandId(brand_id);

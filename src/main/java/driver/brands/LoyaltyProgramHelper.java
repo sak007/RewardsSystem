@@ -50,6 +50,7 @@ public class LoyaltyProgramHelper {
                 //Insert the Loyalty Program with basic values
                 LoyaltyProgramDAO.saveData(loyaltyProgramtier);
                 System.out.println("Loyalty Program inserted");
+
                 TieredLoyaltyProgramHelper.display(brand_id);
                 break;
             case 3:

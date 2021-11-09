@@ -30,7 +30,8 @@ public class ActivityTypesHelper {
         System.out.println(display_string);
         Integer input = scanner.nextInt();
         String uniqId;
-        System.out.println("Input DISPLAY:" + input + "adddddd" + display_i);
+
+        //Go Back
         if(input == display_i + 1){
             if (tier_type == "Regular") {
                 RegularLoyaltyProgramHelper.display(brand_id);
@@ -55,6 +56,7 @@ public class ActivityTypesHelper {
 
             //Save
             ActivitiesForLoyaltyProgramDAO.saveData(activityLp);
+
             ActivityTypesHelper.display(tier_type,brand_id);
         }
     }
