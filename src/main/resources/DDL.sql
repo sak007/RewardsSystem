@@ -74,6 +74,13 @@ loyalty_program_code references Loyalty_program(id) on delete cascade,
 UNIQUE(customer_id,loyalty_program_code)
 );
 
+create table tier(
+id varchar2(100) primary key,
+name varchar2(100) not null,
+points number not null,
+multiplier number not null,
+lp_program_id REFERENCES loyalty_program(id) on DELETE CASCADE
+);
 
 create table wallet(
 id varchar2(100) primary key,
@@ -111,14 +118,6 @@ customer_redeem_activity_id references customer_redeem_activity(id),
 points number(10) 
 );
 
-create table tier(
-id varchar2(100) primary key,
-name varchar2(100) not null,
-points number not null,
-multiplier number not null,
-lp_program_id REFERENCES loyalty_program(id) on DELETE CASCADE
-);
-
 create or replace
 procedure update_customer_tier(
     cId customer.id%type, lpId loyalty_program.id%type)
@@ -151,7 +150,8 @@ begin
     where customer_id = :new.customer_id and
             loyalty_program_code = lpCode;
     update_customer_tier(:new.customer_id, lpCode);
-end;/
+end;
+/
 create or replace trigger calc_points
     before insert on customer_activity
     for each row
@@ -168,11 +168,11 @@ begin
     where activities_for_loyalty_program.activity_lp_map_id = :new.activity_lp_map_id;
     if :new.points is null then
         select nums_points into pts
-        from re_rule r1, re_rule_for_lp rlp1
-        where r1.activity_category_code = actCode  and rlp1.lp_code = lpCode and rlp1.re_rule_code = r1.re_rule_code
+        from re_rule
+        where activity_category_code = actCode  and lp_code = lpCode
           and version = (select max(version)
-                         from re_rule r2, re_rule_for_lp rlp2
-                         where r2.activity_category_code = actCode and rlp2.lp_code = lpCode and rlp2.re_rule_code = r2.re_rule_code);
+                         from re_rule
+                         where activity_category_code = actCode and lp_code = lpCode);
         :new.points := pts;
         update wallet set points = points + pts where customer_id = :new.customer_id and loyalty_program_code = lpCode;
         update_customer_tier(:new.customer_id, lpCode);
