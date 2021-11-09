@@ -5,9 +5,11 @@ import driver.brands.ActivityCategory;
 public class RERule {
     private String reRuleCode;
     private String activityCategoryCode;
+    private String lpCode;
     private Integer numPoints;
     private Integer version;
     private String status;
+
 
     public RERule() {
     }
@@ -17,6 +19,10 @@ public class RERule {
         this.activityCategoryCode = activityCategoryCode;
         this.numPoints = numPoints;
         this.version = version;
+    }
+
+    public String getLpCode() {
+        return lpCode;
     }
 
     public String getReRuleCode() {
@@ -43,6 +49,10 @@ public class RERule {
         this.numPoints = numPoints;
     }
 
+    public void setLpCode(String lpCode) {
+        this.lpCode = lpCode;
+    }
+
     public Integer getVersion() {
         return version;
     }
@@ -60,7 +70,7 @@ public class RERule {
     }
 
     public String getMeta() {
-        return "(re_rule_code, activity_category_code, nums_points, version)";
+        return "(re_rule_code, activity_category_code, lp_code, nums_points, version)";
     }
 
     public String toString() {
@@ -72,6 +82,11 @@ public class RERule {
 
         res = res + "'";
         res = res + activityCategoryCode;
+        res = res + "'";
+        res = res + ",";
+
+        res = res + "'";
+        res = res + lpCode;
         res = res + "'";
         res = res + ",";
 

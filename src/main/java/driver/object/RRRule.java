@@ -6,7 +6,7 @@ public class RRRule {
     private Integer numPoints;
     private Integer version;
     private String status;
-    private Integer instances;
+    private String lpCode;
 
     public RRRule() {
     }
@@ -18,13 +18,16 @@ public class RRRule {
         this.version = version;
     }
 
-    public RRRule(String rrRuleCode, String reward, Integer numPoints, Integer version, String status, Integer instances) {
+    public RRRule(String rrRuleCode, String reward, Integer numPoints, Integer version, String status) {
         this.rrRuleCode = rrRuleCode;
         this.reward = reward;
         this.numPoints = numPoints;
         this.version = version;
         this.status = status;
-        this.instances = instances;
+    }
+
+    public String getLpCode() {
+        return lpCode;
     }
 
     public String getRrRuleCode() {
@@ -59,6 +62,10 @@ public class RRRule {
         this.version = version;
     }
 
+    public void setLpCode(String lpCode) {
+        this.lpCode = lpCode;
+    }
+
     public String getStatus() {
         return status;
     }
@@ -67,11 +74,41 @@ public class RRRule {
         this.status = status;
     }
 
-    public Integer getInstances() {
-        return instances;
+    public String getMeta() {
+        return "(rr_rule_code, reward, num_points, version, status, lp_code)";
     }
 
-    public void setInstances(Integer instances) {
-        this.instances = instances;
+    public String toString() {
+        String res = "(";
+        res = res + "'";
+        res = res + rrRuleCode;
+        res = res + "'";
+        res = res + ",";
+
+        res = res + "'";
+        res = res + reward;
+        res = res + "'";
+        res = res + ",";
+
+        res = res + "'";
+        res = res + numPoints;
+        res = res + "'";
+        res = res + ",";
+
+        res = res + "'";
+        res = res + version;
+        res = res + "'";
+        res = res + ",";
+
+        res = res + "'";
+        res = res + status;
+        res = res + "'";
+        res = res + ",";
+
+        res = res + "'";
+        res = res + lpCode;
+        res = res + "'";
+        res = res + ")";
+        return res;
     }
 }
