@@ -3,11 +3,12 @@ package driver.dao;
 import driver.object.Customer;
 
 import java.sql.SQLException;
+import java.util.List;
 
 public class CustomerLPEnrollDAO {
-    public static void saveData(String customerId, String loyaltyProgramId) {
+    public static void saveData(String customerId, List<String> loyaltyProgram) {
         try {
-            String query = "Insert into customer_lp_enroll values ('"+customerId+"','"+loyaltyProgramId+"')";
+            String query = "Insert into customer_lp_enroll values ('"+customerId+"','"+loyaltyProgram.get(0)+"')";
             DBHelper.executeUpdate(query);
             System.out.println("Customer Enrolled to Loyalty program successfully!");
         } catch (SQLException e) {
