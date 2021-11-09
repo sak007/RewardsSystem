@@ -133,6 +133,7 @@ multiplier number not null,
 lp_program_id REFERENCES loyalty_program(id) on DELETE CASCADE
 );
 
+create or replace
 procedure update_customer_tier(
     cId customer.id%type, lpId loyalty_program.id%type)
 is

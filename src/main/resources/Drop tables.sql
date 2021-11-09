@@ -1,3 +1,4 @@
+drop procedure update_customer_tier;
 drop table customer_activity purge;
 drop table customer_redeem_activity purge;
 drop table customer_lp_enroll purge;
