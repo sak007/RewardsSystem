@@ -16,10 +16,11 @@ public class CustomerRedeemActivityDAO {
     public static List<CustomerRedeemActivity> loadByCustomerLpIdAndReward(String cId, String lpId, String reward) {
         try {
             String loadCategoryCode = "(Select id from reward_category where reward_name='" + reward + "')";
+            String redeemedIds = "(select customer_redeem_activity_id from customer_activity where customer_redeem_activity_id is not null)";
             String query = "select c.id, c.customer_id, c.activity_date, c.redeem_lp_map_id, c.points, r.reward_value"
                     + " from customer_redeem_activity c, rewards_for_loyalty_program r"
                     + " where c.customer_id = '" + cId + "' and c.redeem_lp_map_id=r.reward_lp_map_id"
-                    + " and r.reward_category_code=" + loadCategoryCode;
+                    + " and r.reward_category_code=" + loadCategoryCode + " and c.id not in " + redeemedIds;
             List<Object[]> objectList = DBHelper.executeQueryUpdated(query);
             List<CustomerRedeemActivity> customerRedeemActivities = new ArrayList<>();
             objectList.forEach(o -> {
