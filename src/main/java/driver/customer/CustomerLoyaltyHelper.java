@@ -23,7 +23,6 @@ public class CustomerLoyaltyHelper {
                 for(int i=0;i< programNames.size();i++){
                     if(ans==(i+1)) {
                         CustomerLPEnrollDAO.saveData(customerId, programNames.get(i));
-                        CustomerLandingPage.run(customerId);
                         break;
                     }
                 }
