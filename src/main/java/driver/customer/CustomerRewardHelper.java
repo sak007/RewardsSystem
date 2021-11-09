@@ -18,12 +18,12 @@ public class CustomerRewardHelper {
             System.out.println(count + " " + reward.get(0) + "  " + reward.get(1));
             count++;
         }
+        System.out.println("Please Enter the Redeem Reward");
+        int ans=scanner.nextInt();
         System.out.println("1. Redeem Rewards\n2. Go Back");
         Integer option = scanner.nextInt();
         switch (option) {
             case 1:
-                System.out.println("Please Enter the Redeem Reward");
-                int ans=scanner.nextInt();
                 count=1;String rewardName="";String lpProgramName="";
                 for(List<String> reward:rewards) {
                     if(count==ans){
@@ -36,9 +36,12 @@ public class CustomerRewardHelper {
                 int result=redeemReward(customerId,rewardName,lpProgramName);
                 if(result>0) {
                     System.out.println("Redeem activity saved successfully!");
+                    RewardActivityHelper.run(customerId);
                 }
-                else
+                else {
                     System.out.println("Unable to save redeem activity!");
+                    CustomerLandingPage.run(customerId);
+                }
                 break;
             case 2:
                 CustomerLandingPage.run(customerId);
