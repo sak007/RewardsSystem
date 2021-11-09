@@ -9,7 +9,6 @@ public class CustomerActivityDAO {
     public static void saveData(CustomerActivity customerActivity) {
         try {
             String query = "Insert into customer_activity" + customerActivity.getMeta() + " values" + customerActivity.toString();
-            System.out.println(query);
             DBHelper.executeUpdate(query);
             System.out.println("Customer Activity Added!");
         } catch (SQLException e) {
