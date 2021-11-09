@@ -18,8 +18,8 @@ user_name varchar2(100) references actor(user_name)
 );
 
 create table Loyalty_program(
-id varchar2(100) primary key,
-program_name varchar2(200) not null,
+ id varchar2(100) primary key,
+ program_name varchar2(200) not null,
 -- activity_code references Activity_category(id),
 brand_id REFERENCES brand(id) on DELETE CASCADE,
 tier_type varchar2(100) not null,
@@ -55,7 +55,6 @@ status VARCHAR2(1) DEFAULT 'E',
 lp_code references Loyalty_program(id) on DELETE CASCADE,
 CONSTRAINT pk_rr_rule PRIMARY KEY (rr_rule_code, version)
 );
-
 
 create table activities_for_loyalty_program(
     activity_lp_map_id varchar2(50) primary key,
