@@ -22,33 +22,19 @@ insert into tier values('3','Gold',270,3,'TLP01');
 insert into tier values('4','Special',0,1,'TLP02');
 insert into tier values('5','Premium',210,2,'TLP02');
 
-insert into re_rule values('1','A01',15,1,'E');
-insert into re_rule values('2','A02',10,1,'E');
+insert into re_rule values('1','A01',15,1,'E','TLP01');
+insert into re_rule values('2','A02',10,1,'E','TLP01');
 
-insert into re_rule_for_lp values('TLP01','1');
-insert into re_rule_for_lp values('TLP01','2');
+insert into re_rule values('3','A01',40,1,'E','TLP02');
+insert into re_rule values('4','A03',30,1,'E','TLP02');
 
-insert into re_rule values('3','A01',40,1,'E');
-insert into re_rule values('4','A03',30,1,'E');
+insert into re_rule values('5','A03',10,1,'E','RLP01');
 
-insert into re_rule_for_lp values('TLP02','3');
-insert into re_rule_for_lp values('TLP02','4');
-
-insert into re_rule values('5','A03',10,1,'E');
-
-insert into re_rule_for_lp values('RLP01','5');
-
-insert into rr_rule values('1','R01',80,1,'E');
-insert into rr_rule values('2','R02',70,1,'E');
-insert into rr_rule values('3','R01',120,1,'E');
-insert into rr_rule values('4','R02',90,1,'E');
-insert into rr_rule values('5','R01',100,1,'E');
-
-insert into rr_rule_for_lp values('TLP01','1');
-insert into rr_rule_for_lp values('TLP01','2');
-insert into rr_rule_for_lp values('TLP02','3');
-insert into rr_rule_for_lp values('TLP02','4');
-insert into rr_rule_for_lp values('RLP01','5');
+insert into rr_rule values('1','R01',80,1,'E','TLP01');
+insert into rr_rule values('2','R02',70,1,'E','TLP01');
+insert into rr_rule values('3','R01',120,1,'E','TLP02');
+insert into rr_rule values('4','R02',90,1,'E','TLP02');
+insert into rr_rule values('5','R01',100,1,'E','RLP01');
 
 insert into rewards_for_loyalty_program values('1','TLP01','R01',40,'10');
 insert into rewards_for_loyalty_program values('2','TLP01','R02',25,'10');

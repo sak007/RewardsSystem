@@ -9,12 +9,32 @@ id varchar2(100) primary key,
 activity_name varchar2(200)
 );
 
+create table brand(
+id varchar2(100) primary key,
+name varchar2(100) Unique,
+address varchar2(200),
+join_date date DEFAULT CURRENT_DATE,
+user_name varchar2(100) references actor(user_name)
+);
+
+create table Loyalty_program(
+id varchar2(100) primary key,
+program_name varchar2(200) not null,
+-- activity_code references Activity_category(id),
+brand_id REFERENCES brand(id) on DELETE CASCADE,
+tier_type varchar2(100) not null,
+state varchar2(10) DEFAULT 'INACTIVE'
+-- re_rule_code references re_rule(re_rule_code),
+-- rr_rule_code references rr_rule(rr_rule_code)
+);
+
 create table re_rule(
 re_rule_code varchar2(100) primary key,
 activity_category_code references Activity_category(id) on DELETE CASCADE,
 nums_points number,
 version number,
-status VARCHAR2(1) DEFAULT 'E' 
+status VARCHAR2(1) DEFAULT 'E' ,
+lp_code references Loyalty_program(id)
 );
 
 create table reward_category(
@@ -29,40 +49,8 @@ rr_rule_code varchar2(100) primary key,
 reward varchar2(200) REFERENCES reward_category(id) on DELETE CASCADE,
 num_points number,
 version number,
-status VARCHAR2(1) DEFAULT 'E'
-);
-
-create table brand(
-id varchar2(100) primary key,
-name varchar2(100) Unique,
-address varchar2(200),
-join_date date DEFAULT CURRENT_DATE,
-user_name varchar2(100) references actor(user_name)
-);
-
-
-
-create table Loyalty_program(
-id varchar2(100) primary key,
-program_name varchar2(200) not null,
--- activity_code references Activity_category(id),
-brand_id REFERENCES brand(id) on DELETE CASCADE,
-tier_type varchar2(100) not null,
-state varchar2(10) DEFAULT 'INACTIVE'
--- re_rule_code references re_rule(re_rule_code),
--- rr_rule_code references rr_rule(rr_rule_code)
-);
-
-create table re_rule_for_lp(
-    lp_code references Loyalty_program(id) on DELETE CASCADE,
-    re_rule_code references re_rule(re_rule_code) on DELETE CASCADE,
-    CONSTRAINT pk_re_lp_map PRIMARY KEY (lp_code, re_rule_code)
-);
-
-create table rr_rule_for_lp(
-    lp_code references Loyalty_program(id) on DELETE CASCADE,
-    rr_rule_code references rr_rule(rr_rule_code) on DELETE CASCADE,
-    CONSTRAINT pk_rr_lp_map PRIMARY KEY (lp_code, rr_rule_code)
+status VARCHAR2(1) DEFAULT 'E',
+lp_code references Loyalty_program(id)
 );
 
 create table activities_for_loyalty_program(
@@ -85,8 +73,6 @@ customer_id REFERENCES customer(id),
 loyalty_program_code references Loyalty_program(id) on delete cascade,
 UNIQUE(customer_id,loyalty_program_code)
 );
-
-
 
 
 create table wallet(
