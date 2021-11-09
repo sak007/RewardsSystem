@@ -20,7 +20,7 @@ public class PurchaseHelper {
         if (!customerRedeemActivityList.isEmpty()) {
             System.out.println("Select Gift Cards to use");
             for (int i=1; i<=customerRedeemActivityList.size(); i++) {
-                CustomerRedeemActivity r = customerRedeemActivityList.get(i);
+                CustomerRedeemActivity r = customerRedeemActivityList.get(i-1);
                 System.out.println(i + ". Gift Card " + i + ": " + r.getValue());
             }
             System.out.println(customerRedeemActivityList.size() + 1 + ". None");
