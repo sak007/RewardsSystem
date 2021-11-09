@@ -1,10 +1,9 @@
 package driver.dao;
 
 import driver.object.Activity;
-import driver.object.Brand;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ActivityDAO {
@@ -59,6 +58,28 @@ public class ActivityDAO {
             return activity;
         } catch (SQLException e) {
             System.out.println("Unable to load Activity from name");
+            System.out.println("Caught SQLException " + e.getErrorCode() + "/" + e.getSQLState() + " " + e.getMessage());
+            return null;
+        }
+    }
+
+
+    public static List<Activity> getList() {
+        try {
+            String query = "Select * from activity_category";
+            System.out.println(query);
+            List<Object[]> items = DBHelper.executeQueryUpdated(query);
+            List<Activity> activity = new ArrayList<>(items.size());
+            for(Object[] item:items) {
+                Activity act = new Activity();
+                System.out.println("ANSWER: " + (String) item[0] + " and " + (String) item[1]);
+                act.setCode((String) item[0]);
+                act.setName((String) item[1]);
+                activity.add(act);
+            }
+            return activity;
+        } catch (SQLException e) {
+            System.out.println("Unable to get the list of available activities");
             System.out.println("Caught SQLException " + e.getErrorCode() + "/" + e.getSQLState() + " " + e.getMessage());
             return null;
         }

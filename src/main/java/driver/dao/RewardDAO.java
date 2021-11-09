@@ -41,6 +41,27 @@ public class RewardDAO {
         }
     }
 
+    public static List<Reward> getList() {
+        try {
+            String query = "Select * from reward_category";
+            System.out.println(query);
+            List<Object[]> items = DBHelper.executeQueryUpdated(query);
+
+            List<Reward> reward = new ArrayList<>(items.size());
+            for(Object[] item:items) {
+                Reward rew = new Reward();
+                System.out.println("ANSWER: " + (String) item[0] + " and " + (String) item[1]);
+                rew.setCode((String) item[0]);
+                rew.setName((String) item[1]);
+                reward.add(rew);
+            }
+            return reward;
+        } catch (SQLException e) {
+            System.out.println("Unable to get the list of available rewards");
+            System.out.println("Caught SQLException " + e.getErrorCode() + "/" + e.getSQLState() + " " + e.getMessage());
+            return null;
+        }
+    }
     public static List<List<String>> fetchApplicableRewards(String customerId){
         try {
             List<List<String>> rewards = new ArrayList<>();
