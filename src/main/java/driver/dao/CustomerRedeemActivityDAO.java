@@ -3,8 +3,11 @@ package driver.dao;
 import driver.object.CustomerRedeemActivity;
 import driver.object.RewardsForLoyaltyProgram;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -23,10 +26,10 @@ public class CustomerRedeemActivityDAO {
                 CustomerRedeemActivity c = new CustomerRedeemActivity();
                 c.setId((String)o[0]);
                 c.setCustomerId((String)o[1]);
-                c.setActivityDate((Date)o[2]);
+                c.setActivityDate((Timestamp)o[2]);
                 c.setRedeemLpMapId((String)o[3]);
-                c.setPoints((Long)o[4]);
-                c.setValue((Long)o[5]);
+                c.setPoints(((BigDecimal)o[4]).longValueExact());
+                c.setValue(Long.valueOf((String)o[5]));
                 customerRedeemActivities.add(c);
             });
             return customerRedeemActivities;
