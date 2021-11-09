@@ -26,7 +26,7 @@ tier_type varchar2(100) not null,
 state varchar2(10) DEFAULT 'INACTIVE',
 -- re_rule_code references re_rule(re_rule_code),
 -- rr_rule_code references rr_rule(rr_rule_code)
-CONSTRAINT uniq_brand_state UNIQUE(brand_id,state)
+CONSTRAINT uniq_brand UNIQUE(brand_id)
 );
 
 create table re_rule(
