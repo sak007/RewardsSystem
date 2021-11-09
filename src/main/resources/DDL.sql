@@ -133,6 +133,21 @@ multiplier number not null,
 lp_program_id REFERENCES loyalty_program(id) on DELETE CASCADE
 );
 
+procedure update_customer_tier(
+    cId customer.id%type, lpId loyalty_program.id%type)
+is
+tierId varchar2(100);
+begin
+    update wallet set tier_id =
+                          (select id
+                           from tier t
+                           where lp_program_id = lpId
+                             and points = (select max(points) from tier where lp_program_id = lpId
+                                                                          and points <= (select points
+                                                                                         from wallet where customer_id = cId and loyalty_program_code = lpId)))
+    where customer_id = cId and loyalty_program_code = lpId;
+end;
+/
 create or replace trigger update_reward_count_and_wallet
     after insert on customer_redeem_activity
     for each row
