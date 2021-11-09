@@ -29,17 +29,13 @@ public class BrandLandingPage {
                 ReRulesHelper.add(brand_id);
                 break;
             case 3:
-                System.out.print("Enter Brand Id: \n");
-                String brandId = scanner.nextLine();
-                ReRulesHelper.update(brandId);
+                ReRulesHelper.update(brand_id);
                 break;
             case 4:
                 RrRulesHelper.add(brand_id);
                 break;
             case 5:
-                System.out.print("Enter Brand Id: ");
-                String brandIdRR = scanner.nextLine();
-                RrRulesHelper.update(brandIdRR);
+                RrRulesHelper.update(brand_id);
                 break;
             case 6:
                 LoyaltyProgramHelper.validate(brand_id);

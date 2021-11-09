@@ -22,11 +22,12 @@ public class ReRulesHelper {
         switch(selected_option){
             case 1:
                 RERule reRule = new RERule();
-                //reRule.setReRuleCode(UUID.randomUUID().toString().replace("-",""));
+
                 System.out.println("Enter an unique rule code for Re Rule");
                 String re_rule_code = scanner.nextLine();
                 reRule.setReRuleCode(re_rule_code);
 
+                //Change: Verify if the activity is mapped?
                 System.out.println("Please enter the Activity Category Code:");
                 String activityCategoryCode = scanner.nextLine();
                 reRule.setActivityCategoryCode(activityCategoryCode);
@@ -39,31 +40,10 @@ public class ReRulesHelper {
 
                 reRule.setStatus("E");
 
+                reRule.setLpCode(loyaltyProgram.getLpId());
+
                 RERuleDAO.saveData(reRule);
 
-                //Add it in the mapping
-                try {
-                    mapping_query = "insert into re_rule_for_lp values(" + "'"+loyaltyProgram.getLpId()+"'"+ "," + "'"+reRule.getReRuleCode()+"'"+")";
-
-                    System.out.print(mapping_query);
-                    DBHelper.executeUpdate(mapping_query);
-                    System.out.println("New ReRule mapped successfully to the Loyalty Program");
-                } catch (SQLException e) {
-
-                    try {
-                        mapping_query = "delete from re_rules where re_rule_code = '" + reRule.getReRuleCode() + "'";
-                        DBHelper.executeUpdate(mapping_query);
-
-                        System.out.println("Unable to map the created ReRule with Loyalty Program! Retry");
-                        System.out.println("Caught SQLException " + e.getErrorCode() + "/" + e.getSQLState() + " " + e.getMessage());
-                        ReRulesHelper.add(brand_id);
-                    }
-                    catch(SQLException e2){
-                        System.out.println("Unable to remove re_rule after the failing to map the re_rule to Loyalty Program. Retry\n");
-                        System.out.println("Caught SQLException " + e.getErrorCode() + "/" + e.getSQLState() + " " + e.getMessage());
-                        ReRulesHelper.add(brand_id);
-                    }
-                }
                 ReRulesHelper.add(brand_id);
                 break;
             case 2:
@@ -75,18 +55,28 @@ public class ReRulesHelper {
     public static void update(String brand_id){
         Scanner scanner = new Scanner(System.in);
         System.out.println("Select the operation that you would like to perform:\n1) Update RERule\n2) Go Back\n");
+        LoyaltyProgram loyaltyProgram = LoyaltyProgramDAO.loadByBrandId(brand_id);
         Integer selected_option = scanner.nextInt();
         scanner.nextLine();
         switch(selected_option){
             case 1:
                 RERule reRule = new RERule();
+
+                System.out.println("Enter the Brand RE rule code");
+                String RrrCode = scanner.nextLine();
+                reRule.setReRuleCode(RrrCode);
+
                 System.out.println("Enter the Activity Category Code for the Rule you want to update: ");
                 String activityCategoryCode = scanner.nextLine();
                 reRule.setActivityCategoryCode(activityCategoryCode);
+
+
                 System.out.println("Enter the points that you want to replace the existing points with:");
                 Integer points = scanner.nextInt();
                 reRule.setNumPoints(points);
-                RERuleDAO.updateReRule(reRule,brand_id);
+
+                //Find using re_rule_code and status = 'E' and disable it
+                RERuleDAO.updateReRule(reRule,loyaltyProgram.getLpId());
                 /*if(updateCheck){
                     System.out.println("Update was successful..!!");
                 }else{

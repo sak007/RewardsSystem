@@ -32,6 +32,8 @@ public class RewardTypesHelper {
         Integer input = scanner.nextInt();
 
         //Choose a value for the chosen reward
+
+        //Change: IF it is not Go back then ask this
         display_string = "Enter value for the chosen reward option\n";
         System.out.println(display_string);
         String reward_value = scanner.next();

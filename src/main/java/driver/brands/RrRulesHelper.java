@@ -25,53 +25,27 @@ public class RrRulesHelper {
         switch (selected_option) {
             case 1:
                 RRRule rrRule = new RRRule();
-                rrRule.setRrRuleCode(UUID.randomUUID().toString().replace("-",""));
+
+                System.out.println("Please enter the reward rule code: \n");
+                String rrcode = scanner.nextLine();
+                rrRule.setRrRuleCode(rrcode);
+
                 rrRule.setVersion(1);
                 rrRule.setStatus("E");
-                System.out.println("Please enter the reward Name: \n");
-                String rewardName = scanner.nextLine();
-                rrRule.setReward(rewardName);
+                rrRule.setLpCode(loyaltyProgram.getLpId());
+
+                System.out.println("Please enter the reward category ID: \n");
+                String rewardCategoryID = scanner.nextLine();
+                rrRule.setReward(rewardCategoryID);
+
                 System.out.println("Enter the points for this reward\n");
                 Integer points = scanner.nextInt();
                 scanner.nextLine();
                 rrRule.setNumPoints(points);
+
                 RRRuleDAO.saveData(rrRule);
 
-//                try {
-//                    mapping_query = "insert into rr_rule_for_lp values(" + "'"+loyaltyProgram.getLpId()+"'"+ "," + "'"+rrRule.getRrRuleCode()+"'"+")";
-//                    System.out.print(mapping_query);
-//                    DBHelper.executeUpdate(mapping_query);
-//                    System.out.println("New RrRule mapped successfully to the Loyalty Program");
-//                } catch (SQLException e) {
-//                    System.out.println("Unable to map the created RrRule with Loyalty Program!");
-//                    System.out.println("Caught SQLException " + e.getErrorCode() + "/" + e.getSQLState() + " " + e.getMessage());
-//                }
-//
-//                RrRulesHelper.add(brand_id);
-                //Add it in the mapping
-
-                try {
-                    mapping_query = "insert into rr_rule_for_lp values(" + "'"+loyaltyProgram.getLpId()+"'"+ "," + "'"+rrRule.getRrRuleCode()+"'"+")";
-
-                    System.out.print(mapping_query);
-                    DBHelper.executeUpdate(mapping_query);
-                    System.out.println("New RrRule mapped successfully to the Loyalty Program");
-                } catch (SQLException e) {
-
-                    try {
-                        mapping_query = "delete from rr_rules where rr_rule_code = '" + rrRule.getRrRuleCode() + "'";
-                        DBHelper.executeUpdate(mapping_query);
-                        System.out.println("Unable to map the created RrRule with Loyalty Program! Retry");
-                        System.out.println("Caught SQLException " + e.getErrorCode() + "/" + e.getSQLState() + " " + e.getMessage());
-                        RrRulesHelper.add(brand_id);
-                    }
-                    catch(SQLException e2){
-                        System.out.println("Unable to remove rr_rule after the failing to map the rr_rule to Loyalty Program. Retry\n");
-                        System.out.println("Caught SQLException " + e.getErrorCode() + "/" + e.getSQLState() + " " + e.getMessage());
-                        RrRulesHelper.add(brand_id);
-                    }
-                }
-
+                RrRulesHelper.add(brand_id);
                 break;
             case 2:
                 BrandLandingPage.run(brand_id);
@@ -84,27 +58,29 @@ public class RrRulesHelper {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Select the operation that you would like to perform:\n1) Update RRRule\n2) Go Back\n");
         Integer selected_option = scanner.nextInt();
+        LoyaltyProgram loyaltyProgram = LoyaltyProgramDAO.loadByBrandId(brand_id);
         scanner.nextLine();
         switch (selected_option) {
             case 1:
                 RRRule rrRule = new RRRule();
-                /*System.out.println("Enter the rule code which you want to update:\n");
-                String rrRuleCode = scanner.nextLine();
-                rrRule.setRrRuleCode(rrRuleCode);*/
-                System.out.println("Enter the name of the reward that needs to be updated: ");
+
+                System.out.println("Enter the Brand RR rule code");
+                String RrrCode = scanner.nextLine();
+                rrRule.setRrRuleCode(RrrCode);
+                rrRule.setLpCode(loyaltyProgram.getLpId());
+
+                System.out.println("Enter the name of the reward category you want to update with: ");
                 String rewardName = scanner.nextLine();
                 rrRule.setReward(rewardName);
+
                 System.out.println("Enter the points that you want to replace with the current points:");
                 Integer points = scanner.nextInt();
                 scanner.nextLine();
                 rrRule.setNumPoints(points);
-                RRRuleDAO.updateRRRule(rrRule,brand_id);
+
+                RRRuleDAO.updateRRRule(rrRule,loyaltyProgram.getLpId());
+
                 System.out.println("Update was successful..!!");
-                /*if(updateCheck){
-                    System.out.println("Update was successful..!!");
-                }else{
-                    System.out.println("There was an issue while updating the entry.");
-                }*/
                 RrRulesHelper.update(brand_id);
                 break;
             case 2:

@@ -6,6 +6,7 @@ public class RRRule {
     private Integer numPoints;
     private Integer version;
     private String status;
+    private String lpCode;
 
     public RRRule() {
     }
@@ -23,6 +24,10 @@ public class RRRule {
         this.numPoints = numPoints;
         this.version = version;
         this.status = status;
+    }
+
+    public String getLpCode() {
+        return lpCode;
     }
 
     public String getRrRuleCode() {
@@ -57,6 +62,10 @@ public class RRRule {
         this.version = version;
     }
 
+    public void setLpCode(String lpCode) {
+        this.lpCode = lpCode;
+    }
+
     public String getStatus() {
         return status;
     }
@@ -66,7 +75,7 @@ public class RRRule {
     }
 
     public String getMeta() {
-        return "(rr_rule_code, reward, num_points, version, status)";
+        return "(rr_rule_code, reward, num_points, version, status, lp_code)";
     }
 
     public String toString() {
@@ -93,6 +102,11 @@ public class RRRule {
 
         res = res + "'";
         res = res + status;
+        res = res + "'";
+        res = res + ",";
+
+        res = res + "'";
+        res = res + lpCode;
         res = res + "'";
         res = res + ")";
         return res;

@@ -5,6 +5,7 @@ import driver.dao.LoyaltyProgramDAO;
 import driver.object.Brand;
 import driver.object.LoyaltyProgram;
 
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
@@ -68,15 +69,17 @@ public class LoyaltyProgramHelper {
         // Check for atleast 1 re rule and rr rule
         try {
             query = "";
-            query = "select count(*) from(select re_rule_code  from re_rule_for_lp  where lp_code = '" + loyaltyProgram.getLpId() + "')" +"where status = 'E'";
+
+            query = "select count(*) from re_rule where lp_code = '" + loyaltyProgram.getLpId() + "' and status = 'E' ";
             List<Object[]> rs_re = DBHelper.executeQueryUpdated(query);
-            re_rule_count = (Integer)rs_re.get(0)[0];
+            re_rule_count = ((BigDecimal)rs_re.get(0)[0]).intValueExact();
             System.out.println(query);
 
-            query = "select count(*) from(select rr_rule_code  from rr_rule_for_lp  where lp_code = '" + loyaltyProgram.getLpId() + "')" +"where status = 'E'";
+            query = "select count(*) from rr_rule where lp_code = '" + loyaltyProgram.getLpId() + "' and status = 'E' ";
             System.out.println(query);
             List<Object[]> rs_rr = DBHelper.executeQueryUpdated(query);
-            rr_rule_count = (Integer)rs_rr.get(0)[0];
+            rr_rule_count = ((BigDecimal)rs_rr.get(0)[0]).intValueExact();
+
             if (re_rule_count == 0) {
                 error_string = error_string + "Loyalty Program does not have atleast one re_rule\n";
                 valid = 0;
