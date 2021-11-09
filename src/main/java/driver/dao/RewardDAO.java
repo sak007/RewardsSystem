@@ -41,6 +41,27 @@ public class RewardDAO {
         }
     }
 
+    public static List<Reward> getList() {
+        try {
+            String query = "Select * from reward_category";
+            System.out.println(query);
+            List<Object[]> items = DBHelper.executeQueryUpdated(query);
+
+            List<Reward> reward = new ArrayList<>(items.size());
+            for(Object[] item:items) {
+                Reward rew = new Reward();
+                System.out.println("ANSWER: " + (String) item[0] + " and " + (String) item[1]);
+                rew.setCode((String) item[0]);
+                rew.setName((String) item[1]);
+                reward.add(rew);
+            }
+            return reward;
+        } catch (SQLException e) {
+            System.out.println("Unable to get the list of available rewards");
+            System.out.println("Caught SQLException " + e.getErrorCode() + "/" + e.getSQLState() + " " + e.getMessage());
+            return null;
+        }
+    }
     public static List<List<String>> fetchApplicableRewards(String customerId){
         try {
             List<List<String>> rewards = new ArrayList<>();
@@ -86,12 +107,11 @@ public class RewardDAO {
         try {
             int instances=0,points=0;
             List<Integer> list=new ArrayList<>();
-            String query = "SELECT rlp.reward_count,rr.num_points\n" +
-                    "from customer_lp_enroll cle join rr_rule_for_lp rrlp on cle.loyalty_program_code=rrlp.lp_code\n" +
-                    "join rr_rule rr on rr.rr_rule_code=rrlp.rr_rule_code\n" +
-                    "join loyalty_program lp on lp.id=cle.loyalty_program_code\n" +
-                    "join rewards_for_loyalty_program rlp on cle.loyalty_program_code=rlp.loyalty_program_code\n" +
-                    "join reward_category rc on rlp.reward_category_code=rc.id\n" +
+            String query = "select rlp.reward_count,rr.num_points\n" +
+                    "from customer_lp_enroll cle join loyalty_program lp on lp.id=cle.loyalty_program_code\n" +
+                    "join rr_rule rr on rr.lp_code=lp.id\n" +
+                    "join reward_category rc on rr.reward=rc.id  \n" +
+                    "join rewards_for_loyalty_program rlp on rc.id=rlp.reward_category_code and rlp.loyalty_program_code=lp.id\n" +
                     "where cle.customer_id='" + customerId + "' and lp.program_name='"+lpProgramName+"' and rc.reward_name='"+rewardName+"' and rr.status='E'";
             List<Object[]> rs = DBHelper.executeQueryUpdated(query);
             for(Object[] object:rs){

@@ -16,6 +16,9 @@ public class RewardActivityHelper {
     static Scanner scanner = new Scanner(System.in);
 
     public static void run(String customerId) {
+        System.out.println("**********************************************************************************");
+        System.out.println("************************   REWARD ACTIVITIES   ***********************************");
+        System.out.println("**********************************************************************************");
         List<LoyaltyProgram> loyaltyProgramList = LoyaltyProgramDAO.getActiveLoyaltyProgramsForCustomer(customerId);
         if (loyaltyProgramList.size() == 0) {
             System.out.println("Sorry, no Loyalty programs Available!");
@@ -23,6 +26,7 @@ public class RewardActivityHelper {
             scanner.nextInt();
             CustomerLandingPage.run(customerId);
         } else {
+            System.out.println("Select Loyalty Program");
             for (int i=1; i <= loyaltyProgramList.size(); i++) {
                 System.out.println(i + ". " + loyaltyProgramList.get(i-1).getProgramName());
             }

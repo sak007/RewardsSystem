@@ -98,15 +98,15 @@ public class ShowQueriesDAO {
 
     public static void  runQuery3(){
         try {
-            String query = "select rc.reward_name\n" +
+            String query = "select rc.id,rc.reward_name\n" +
                     "from reward_category rc join rewards_for_loyalty_program rlp on rc.id=rlp.reward_category_code\n" +
                     "join loyalty_program lp on lp.id=rlp.loyalty_program_code\n" +
                     "join brand b on lp.brand_id=b.id\n" +
                     "where b.id='Brand01'";
             List<Object[]> rs = DBHelper.executeQueryUpdated(query);
-            System.out.println("Reward Name");
+            System.out.println("Reward Code Reward Name");
             for(Object[] object:rs){
-                System.out.println(object[0].toString());
+                System.out.println(object[0].toString() +"\t"+object[1].toString());
             }
         }
         catch (SQLException e) {
@@ -118,8 +118,7 @@ public class ShowQueriesDAO {
     public static void  runQuery4(){
         try {
             String query = "select DISTINCT lp.program_name\n" +
-                    "from loyalty_program lp join re_rule_for_lp relp on lp.id=relp.lp_code\n" +
-                    "join re_rule re on re.re_rule_code=relp.re_rule_code\n" +
+                    "from loyalty_program lp join re_rule re on re.lp_code=lp.id\n" +
                     "join activity_category ac on ac.id=re.activity_category_code\n" +
                     "where ac.activity_name='Refer a friend'";
             List<Object[]> rs = DBHelper.executeQueryUpdated(query);
@@ -183,19 +182,19 @@ public class ShowQueriesDAO {
 
     public static void  runQuery7(){
         try {
-            String query = "select b.name\n" +
+            String query = "select b.id,b.name\n" +
                     "from brand b\n" +
                     "minus\n" +
-                    "select b.name\n" +
+                    "select b.id,b.name\n" +
                     "from customer_redeem_activity cre join rewards_for_loyalty_program rlp on cre.redeem_lp_map_id=rlp.reward_lp_map_id\n" +
                     "join loyalty_program lp on lp.id=rlp.loyalty_program_code\n" +
                     "join brand b on b.id=lp.brand_id\n" +
-                    "group by b.name\n" +
+                    "group by b.id,b.name\n" +
                     "having sum(cre.points)>=500";
             List<Object[]> rs = DBHelper.executeQueryUpdated(query);
-            System.out.println("Brand Name");
+            System.out.println("Brand ID  Brand Name");
             for(Object[] object:rs){
-                System.out.println(object[0].toString());
+                System.out.println(object[0].toString() +"\t"+object[1].toString());
             }
         }
         catch (SQLException e) {

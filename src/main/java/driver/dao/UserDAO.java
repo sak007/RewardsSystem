@@ -61,7 +61,7 @@ public class UserDAO {
             return Boolean.FALSE;
         } catch (SQLException e) {
             System.out.println("Caught SQLException " + e.getErrorCode() + "/" + e.getSQLState() + " " + e.getMessage());
-            return null;
+            return Boolean.FALSE;
         }
 
     }
@@ -73,6 +73,7 @@ public class UserDAO {
 
             while (resultList.size() > 0) {
                 String role = (String)resultList.get(0)[2];
+                role = role.toLowerCase();
                 switch (role) {
                     case "admin":
                         return UserType.ADMIN;

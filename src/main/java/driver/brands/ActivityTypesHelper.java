@@ -7,113 +7,57 @@ import driver.object.ActivitiesForLoyaltyProgram;
 import driver.object.Activity;
 import driver.object.LoyaltyProgram;
 
+import javax.accessibility.AccessibleIcon;
+import java.util.List;
 import java.util.Scanner;
 import java.util.UUID;
 
 public class ActivityTypesHelper {
-    public static void display(String tier_type){
+    public static void display(String tier_type , String brand_id){
         Scanner scanner = new Scanner(System.in);
-        String display_string = "Choose from one of the options below:\n" + "1)Purchase\n" +
-                "2)Leave a review\n" + "3)Refer a friend\n" + "4) Go back\n";
+
+        // Print dynamic available list of activity categories
+        List<Activity> activities = ActivityDAO.getList();
+        int display_i = 0;
+        int activity_index = 0;
+        String display_string = "Choose from one of the options below:\n";
+        for(Activity act:activities){
+            display_string = display_string + (display_i + 1) + ") " + act.getName() + "\n";
+            display_i++;
+        }
+        display_string = display_string + (display_i + 1) + ") Go Back\n";
+
         System.out.println(display_string);
         Integer input = scanner.nextInt();
-        String test_brand_id = "4";
         String uniqId;
-        switch (input){
-            case 1:
-                //NOTE: If already added purchase, Say So.
 
-                //Purchase
+        //Go Back
+        if(input == display_i + 1){
+            if (tier_type == "Regular") {
+                RegularLoyaltyProgramHelper.display(brand_id);
+            }
+            else{
+                TieredLoyaltyProgramHelper.display(brand_id);
+            }
+        }
+        else{
+            activity_index = input - 1;
+            Activity activity = activities.get(activity_index);
+            LoyaltyProgram loyaltyProgram = LoyaltyProgramDAO.loadByBrandId(brand_id);
+            if (loyaltyProgram == null){
+                // Ideally should never come here
+                System.out.println("Loyalty Program Not found!");
+            }
+            ActivitiesForLoyaltyProgram activityLp = new ActivitiesForLoyaltyProgram();
+            uniqId = UUID.randomUUID().toString().replace("-","");
+            activityLp.setId(uniqId);
+            activityLp.setActivity_category_code(activity.getCode());
+            activityLp.setLoyalty_program_code(loyaltyProgram.getLpId());
 
-                //Find the activity category obj for with Purchase as name.
-                //Find the loyalty program of this brand
+            //Save
+            ActivitiesForLoyaltyProgramDAO.saveData(activityLp);
 
-                Activity activity = ActivityDAO.loadByName("Purchase");
-                LoyaltyProgram loyaltyProgram = LoyaltyProgramDAO.loadByBrandId(test_brand_id);
-                if (loyaltyProgram == null){
-                    // Ideally should never come here
-                    System.out.println("Loyalty Program Not found!");
-                }
-                //Add it's ID as the code in the mapping table object
-                ActivitiesForLoyaltyProgram activityLp = new ActivitiesForLoyaltyProgram();
-                uniqId = UUID.randomUUID().toString().replace("-","");
-                activityLp.setId(uniqId);
-                activityLp.setActivity_category_code(activity.getCode());
-                activityLp.setLoyalty_program_code(loyaltyProgram.getLpId());
-
-                //Save
-                ActivitiesForLoyaltyProgramDAO.saveData(activityLp);
-                ActivityTypesHelper.display(tier_type);
-                break;
-            case 2:
-                //NOTE: If already added Review, Say So.
-                //Leave a Review
-
-                //Find the activity category obj for with Review as name.
-                //Find the loyalty program of this brand
-                Activity activity_review = ActivityDAO.loadByName("Review");
-                LoyaltyProgram loyaltyProgram_review = LoyaltyProgramDAO.loadByBrandId(test_brand_id);
-
-                if (loyaltyProgram_review == null){
-                    // Ideally should never come here
-                    System.out.println("Loyalty Program Not found!");
-                }
-
-                //Add it's ID as the code in the mapping table
-                ActivitiesForLoyaltyProgram activityLpReview = new ActivitiesForLoyaltyProgram();
-                uniqId = UUID.randomUUID().toString().replace("-","");
-                activityLpReview.setId(uniqId);
-                activityLpReview.setActivity_category_code(activity_review.getCode());
-                activityLpReview.setLoyalty_program_code(loyaltyProgram_review.getLpId());
-
-                //Save
-                ActivitiesForLoyaltyProgramDAO.saveData(activityLpReview);
-                ActivityTypesHelper.display(tier_type);
-                break;
-            case 3:
-                //NOTE: If already added Refer, Say So.
-                //Refer a friend
-
-                //Find the activity category obj for with Review as name.
-                //Find the loyalty program of this brand
-                Activity activity_refer = ActivityDAO.loadByName("Refer");
-                LoyaltyProgram loyaltyProgram_refer = LoyaltyProgramDAO.loadByBrandId(test_brand_id);
-
-                //Add it's ID as the code in the mapping table
-                ActivitiesForLoyaltyProgram activityLpRefer = new ActivitiesForLoyaltyProgram();
-                uniqId = UUID.randomUUID().toString().replace("-","");
-                activityLpRefer.setId(uniqId);
-                activityLpRefer.setActivity_category_code(activity_refer.getCode());
-                activityLpRefer.setLoyalty_program_code(loyaltyProgram_refer.getLpId());
-
-                //Save
-                ActivitiesForLoyaltyProgramDAO.saveData(activityLpRefer);
-                ActivityTypesHelper.display(tier_type);
-                break;
-            case 4:
-                //Go Back
-                if (tier_type == "Regular") {
-                    RegularLoyaltyProgramHelper.display();
-                }
-                else{
-                    TieredLoyaltyProgramHelper.display();
-                }
-                break;
+            ActivityTypesHelper.display(tier_type,brand_id);
         }
     }
-
-//    public static void purchase(){
-//        //Add purchase activity type for the LP of the brand
-//        ActivitiesForLoyaltyProgram activityLp = new ActivitiesForLoyaltyProgram();
-//
-//        ActivitiesForLoyaltyProgramDAO.saveData(activityLp);
-//    }
-//
-//    public static void review(){
-//
-//    }
-//
-//    public static void refer(){
-//
-//    }
 }

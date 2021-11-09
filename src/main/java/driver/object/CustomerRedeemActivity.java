@@ -1,11 +1,13 @@
 package driver.object;
 
 import java.sql.Date;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 
 public class CustomerRedeemActivity {
     private String id;
     private String customerId;
-    private Date activityDate;
+    private Timestamp activityDate;
     private String redeemLpMapId;
     private Long points;
     private Long value;
@@ -26,11 +28,11 @@ public class CustomerRedeemActivity {
         this.customerId = customerId;
     }
 
-    public Date getActivityDate() {
+    public Timestamp getActivityDate() {
         return activityDate;
     }
 
-    public void setActivityDate(Date activityDate) {
+    public void setActivityDate(Timestamp activityDate) {
         this.activityDate = activityDate;
     }
 
