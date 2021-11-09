@@ -46,9 +46,7 @@ public class RewardActivityHelper {
         }
         System.out.println(i + ". Go Back");
         Integer option = scanner.nextInt();
-        if (option >= i) {
-            CustomerLandingPage.run(customerActivity.getCustomerId());
-        } else {
+        if (option < i) {
             String aId = activityCategoryList.get(option - 1).getId();
             String activityLpId = ActivitiesForLoyaltyProgramDAO.getIdByActivityAndLp(aId, lpId);
             customerActivity.setActivityLpId(activityLpId);
@@ -66,6 +64,7 @@ public class RewardActivityHelper {
                     CustomerActivityDAO.saveData(customerActivity);
             }
         }
+        CustomerLandingPage.run(customerActivity.getCustomerId());
 
     }
 

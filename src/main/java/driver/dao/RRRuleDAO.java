@@ -9,51 +9,27 @@ import java.util.Properties;
 import java.util.UUID;
 
 public class RRRuleDAO {
-
-    private static final String INSERT_RR_RULE = "INSERT INTO rr_rule"+"(rr_rule_code, reward, num_points, version, status) VALUES"+"(?,?,?,?,?)";
-    private static final String UPDATE_RR_RULE = "UPDATE rr_rule SET num_points = ?, version = ?, status = ? WHERE reward = ? AND rr_rule_code = (select rrlp.rr_rule_code from rr_rule_for_lp rrlp where rrlp.lp_code = (select lp.id from Loyalty_program lp where lp.brand_id = (select b.id from brand b where b.id = ?)))";
-    private static final String SELECT_RR_RULE_BY_RRC = "SELECT * FROM rr_rule_code WHERE reward = ? AND rr_rule_code = (select rrlp.rr_rule_code from rr_rule_for_lp rrlp where rrlp.lp_code = (select lp.id from Loyalty_program lp where lp.brand_id = (select b.id from brand b where b.id = ?)))";
-
     public RRRuleDAO(){
     }
 
-   /* protected Connection getConnection() {
-        Connection connection = null;
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            connection = DriverManager.getConnection(jdbcURL, user, passwd);
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        return connection;
-    }*/
-
     public static void saveData(RRRule rrRule){
-        boolean checkInsert = false;
+        try {
+            String insertRRRuleQuery = "INSERT INTO rr_rule" + rrRule.getMeta() + " VALUES " + rrRule.toString();
 
-        try(Connection connection = DBHelper.connect();
-            PreparedStatement preparedStatement = connection.prepareStatement(INSERT_RR_RULE);) {
-            preparedStatement.setString(1,rrRule.getRrRuleCode());
-            preparedStatement.setString(2,rrRule.getReward());
-            preparedStatement.setInt(3,rrRule.getNumPoints());
-            preparedStatement.setInt(4,rrRule.getVersion());
-            preparedStatement.setString(5,rrRule.getStatus());
-            checkInsert = preparedStatement.executeUpdate() > 0;
+            boolean insertStatus = DBHelper.executeUpdate(insertRRRuleQuery) > 0;
 
-            if (checkInsert){
+            if(insertStatus){
                 System.out.println("RR Rule added..!!");
             }else{
                 System.out.println("There was an issue while inserting RR Rule");
             }
 
-        }catch (SQLException e) {
+
+        }catch (SQLException e){
             System.out.println("Unable to add RR Rule!");
             System.out.println("Caught SQLException " + e.getErrorCode() + "/" + e.getSQLState() + " " + e.getMessage());
         }
+
     }
 
     public static void updateRRRule(RRRule rrRule, String brandId){
@@ -118,7 +94,6 @@ public class RRRuleDAO {
             e.printStackTrace();
         }
 
-        //return rowUpdated;
     }
 
 }

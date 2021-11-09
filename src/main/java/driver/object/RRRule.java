@@ -64,4 +64,37 @@ public class RRRule {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    public String getMeta() {
+        return "(rr_rule_code, reward, num_points, version, status)";
+    }
+
+    public String toString() {
+        String res = "(";
+        res = res + "'";
+        res = res + rrRuleCode;
+        res = res + "'";
+        res = res + ",";
+
+        res = res + "'";
+        res = res + reward;
+        res = res + "'";
+        res = res + ",";
+
+        res = res + "'";
+        res = res + numPoints;
+        res = res + "'";
+        res = res + ",";
+
+        res = res + "'";
+        res = res + version;
+        res = res + "'";
+        res = res + ",";
+
+        res = res + "'";
+        res = res + status;
+        res = res + "'";
+        res = res + ")";
+        return res;
+    }
 }
