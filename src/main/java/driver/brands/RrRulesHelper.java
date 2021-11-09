@@ -29,10 +29,10 @@ public class RrRulesHelper {
                 Integer points = scanner.nextInt();
                 scanner.nextLine();
                 rrRule.setNumPoints(points);
-                System.out.println("Enter the count of instances that you would like to provide for this reward:\n");
+                /*System.out.println("Enter the count of instances that you would like to provide for this reward:\n");
                 Integer instances = scanner.nextInt();
                 scanner.nextLine();
-                rrRule.setInstances(instances);
+                rrRule.setInstances(instances);*/
                 RRRuleDAO.saveData(rrRule);
                 break;
             case 2:
@@ -60,10 +60,10 @@ public class RrRulesHelper {
                 Integer points = scanner.nextInt();
                 scanner.nextLine();
                 rrRule.setNumPoints(points);
-                System.out.println("Enter the updated count of the instances:");
+                /*System.out.println("Enter the updated count of the instances:");
                 Integer instances = scanner.nextInt();
                 scanner.nextLine();
-                rrRule.setInstances(instances);
+                rrRule.setInstances(instances);*/
                 RRRuleDAO.updateRRRule(rrRule,brandId);
                 System.out.println("Update was successful..!!");
                 /*if(updateCheck){
