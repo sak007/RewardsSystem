@@ -78,7 +78,10 @@ public class Login {
             case CUSTOMER:
                 String customerId= CustomerDAO.getCustomerIdByUserName(usr);
                 CustomerLandingPage.run(customerId);
-
+                break;
+            default:
+                System.out.println("Invalid user!");
+                run();
                 break;
         }
     }
