@@ -40,8 +40,7 @@ their reward rules.
 
 
 select DISTINCT lp.program_name
-from loyalty_program lp join re_rule_for_lp relp on lp.id=relp.lp_code
-join re_rule re on re.re_rule_code=relp.re_rule_code
+from loyalty_program lp join re_rule re on re.lp_code=lp.id
 join activity_category ac on ac.id=re.activity_category_code
 where ac.activity_name='Refer a friend';
 
