@@ -36,7 +36,8 @@ nums_points number,
 version number,
 status VARCHAR2(1) DEFAULT 'E',
 lp_code references Loyalty_program(id) on DELETE CASCADE,
-CONSTRAINT pk_re_rule PRIMARY KEY (re_rule_code, version)
+CONSTRAINT pk_re_rule PRIMARY KEY (re_rule_code, version),
+CONSTRAINT uniq_re_rule UNIQUE(activity_category_code, version, lp_code)
 );
 
 create table reward_category(
