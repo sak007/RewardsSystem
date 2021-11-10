@@ -14,6 +14,7 @@ public class AdminLandingPage {
 
         System.out.println("1. Add Brand\n2. Add Customer\n3. Show Brand's Info\n4. Show Customer's Info\n5. Add Activity Type\n6. Add Reward Type\n7. Logout");
         Integer option = scanner.nextInt();
+        scanner.nextLine();
         switch(option) {
             case 1:
                 BrandHelper.run();
