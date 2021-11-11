@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.util.*;
 
 public class LoyaltyProgramDAO {
-    public static void saveData(LoyaltyProgram loyaltyProg) {
+    public static void saveData(LoyaltyProgram loyaltyProg) throws SQLException {
         try {
             String query = "Insert into Loyalty_program" + loyaltyProg.getMeta() + " values" + loyaltyProg.toString();
             System.out.println(query);
@@ -20,6 +20,7 @@ public class LoyaltyProgramDAO {
         } catch (SQLException e) {
             System.out.println("Unable to add Loyalty Program!");
             System.out.println("Caught SQLException " + e.getErrorCode() + "/" + e.getSQLState() + " " + e.getMessage());
+            throw new SQLException();
         }
     }
 

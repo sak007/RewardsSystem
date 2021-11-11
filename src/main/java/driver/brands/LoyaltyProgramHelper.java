@@ -33,9 +33,13 @@ public class LoyaltyProgramHelper {
                 loyaltyProgramreg.setBrandId(brand_id);
                 loyaltyProgramreg.setTierType("Regular");
                 loyaltyProgramreg.setState("INACTIVE");
-
-                LoyaltyProgramDAO.saveData(loyaltyProgramreg); // Re RR Rules still not added.
-
+                try {
+                    LoyaltyProgramDAO.saveData(loyaltyProgramreg); // Re RR Rules still not added.
+                    System.out.println("Loyalty Program inserted");
+                }catch(SQLException e){
+                    System.out.println("Cannot create Loyalty Program");
+                    BrandLandingPage.run(brand_id);
+                }
                 RegularLoyaltyProgramHelper.display(brand_id);
                 break;
             case 2:
@@ -49,8 +53,13 @@ public class LoyaltyProgramHelper {
                 loyaltyProgramtier.setState("INACTIVE");
 
                 //Insert the Loyalty Program with basic values
-                LoyaltyProgramDAO.saveData(loyaltyProgramtier);
-                System.out.println("Loyalty Program inserted");
+                try {
+                    LoyaltyProgramDAO.saveData(loyaltyProgramtier);
+                    System.out.println("Loyalty Program inserted");
+                }catch (SQLException e){
+                    System.out.println("Cannot create Loyalty Program");
+                    BrandLandingPage.run(brand_id);
+                }
 
                 TieredLoyaltyProgramHelper.display(brand_id);
                 break;
