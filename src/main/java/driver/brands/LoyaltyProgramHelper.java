@@ -63,62 +63,71 @@ public class LoyaltyProgramHelper {
     public static void validate(String brand_id){
         String display_string = "Choose one option from below:\n1) Validate\n2) Go back\n";
         Scanner scanner = new Scanner(System.in);
+        System.out.println(display_string);
+        Integer input_lp_type = scanner.nextInt();
+        scanner.nextLine();
+
         Integer re_rule_count = 0, rr_rule_count = 0, tier_count = 0, valid = 1;
-        System.out.println();
         String query;
         String error_string = "";
         LoyaltyProgram loyaltyProgram = LoyaltyProgramDAO.loadByBrandId(brand_id);
         // Check for atleast 1 re rule and rr rule
-        try {
-            query = "";
+        switch (input_lp_type) {
+            case 1:
+            try {
+                query = "";
 
-            query = "select count(*) from re_rule where lp_code = '" + loyaltyProgram.getLpId() + "' and status = 'E' ";
-            List<Object[]> rs_re = DBHelper.executeQueryUpdated(query);
-            re_rule_count = ((BigDecimal)rs_re.get(0)[0]).intValueExact();
-            System.out.println(query);
+                query = "select count(*) from re_rule where lp_code = '" + loyaltyProgram.getLpId() + "' and status = 'E' ";
+                List<Object[]> rs_re = DBHelper.executeQueryUpdated(query);
+                re_rule_count = ((BigDecimal) rs_re.get(0)[0]).intValueExact();
+//                System.out.println(query);
 
-            query = "select count(*) from rr_rule where lp_code = '" + loyaltyProgram.getLpId() + "' and status = 'E' ";
-            System.out.println(query);
-            List<Object[]> rs_rr = DBHelper.executeQueryUpdated(query);
-            rr_rule_count = ((BigDecimal)rs_rr.get(0)[0]).intValueExact();
+                query = "select count(*) from rr_rule where lp_code = '" + loyaltyProgram.getLpId() + "' and status = 'E' ";
+//                System.out.println(query);
+                List<Object[]> rs_rr = DBHelper.executeQueryUpdated(query);
+                rr_rule_count = ((BigDecimal) rs_rr.get(0)[0]).intValueExact();
 
-            if (re_rule_count == 0) {
-                error_string = error_string + "Loyalty Program does not have atleast one re_rule\n";
-                valid = 0;
-            }
-            if (rr_rule_count == 0) {
-                error_string = error_string + "Loyalty Program does not have atleast one rr_rule\n";
-                valid = 0;
-            }
-
-            if (loyaltyProgram.getTierType() == "Tier") {
-                query = "select count(*) from tier where lp_program_id = '" + loyaltyProgram.getLpId() + "'";
-                System.out.println(query);
-                List<Object[]> rs_tier = DBHelper.executeQueryUpdated(query);
-                tier_count = (Integer)rs_tier.get(0)[0];
-                if(tier_count == 0){
-                    error_string = error_string + "No tiers assigned for this Loyalty Program";
+                if (re_rule_count == 0) {
+                    error_string = error_string + "Loyalty Program does not have atleast one re_rule\n";
                     valid = 0;
                 }
-            }
+                if (rr_rule_count == 0) {
+                    error_string = error_string + "Loyalty Program does not have atleast one rr_rule\n";
+                    valid = 0;
+                }
+                if ("Tier".equals(loyaltyProgram.getTierType())) {
+                    query = "select count(*) from tier where lp_program_id = '" + loyaltyProgram.getLpId() + "'";
+                    System.out.println(query);
+                    List<Object[]> rs_tier = DBHelper.executeQueryUpdated(query);
+                    tier_count = ((BigDecimal) rs_tier.get(0)[0]).intValueExact();
+                    if (tier_count == 0) {
+                        error_string = error_string + "No tiers assigned for this Loyalty Program";
+                        valid = 0;
+                    }
+                }
 
-            if(valid == 1){
-                //Update loyalty_program state to ACTIVE
-                query = "Update loyalty_program SET state ='ACTIVE' where id = '" + loyaltyProgram.getLpId() +"'";
-                DBHelper.executeUpdate(query);
-                System.out.println("Validation SUCCESS. Loyalty Program is set to ACTIVE");
+                if (valid == 1) {
+                    //Update loyalty_program state to ACTIVE
+                    query = "Update loyalty_program SET state ='ACTIVE' where id = '" + loyaltyProgram.getLpId() + "'";
+                    DBHelper.executeUpdate(query);
+                    System.out.println("Validation SUCCESS. Loyalty Program is set to ACTIVE");
+                } else {
+                    query = "Update loyalty_program SET state ='INACTIVE' where id = '" + loyaltyProgram.getLpId() + "'";
+                    DBHelper.executeUpdate(query);
+                    System.out.println("Validation failed. Loyalty Program is set to INACTIVE. Errors:\n");
+                    System.out.println(error_string);
+                }
+                BrandLandingPage.run(brand_id);
+            } catch (SQLException e) {
+                System.out.println("Error while validating Loyalty Program. Retry\n");
+                System.out.println("Caught SQLException " + e.getErrorCode() + "/" + e.getSQLState() + " " + e.getMessage());
+                LoyaltyProgramHelper.validate(brand_id);
+                BrandLandingPage.run(brand_id);
             }
-            else{
-                query = "Update loyalty_program SET state ='ACTIVE' where id = '" + loyaltyProgram.getLpId() +"'";
-                DBHelper.executeUpdate(query);
-                System.out.println("Validation failed. Loyalty Program is set to INACTIVE. Errors:\n");
-                System.out.println(error_string);
-            }
+            case 2:
+                //GO Back
+                BrandLandingPage.run(brand_id);
         }
-        catch (SQLException e){
-            System.out.println("Error while validating Loyalty Program. Retry\n");
-            System.out.println("Caught SQLException " + e.getErrorCode() + "/" + e.getSQLState() + " " + e.getMessage());
-            LoyaltyProgramHelper.validate(brand_id);
-        }
+
     }
 }
