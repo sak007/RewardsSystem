@@ -59,9 +59,7 @@ public class CustomerHelper {
         System.out.println("Enter Customer Phone Number");
         Long phone = scanner.nextLong();
         customer.setPhone(phone);
-        //System.out.println("Enter Customer Loyalty Program Id");
-        //String loyaltyProgramId = scanner.next();
-        //customer.setLoyaltyProgramId(loyaltyProgramId);
+        scanner.nextLine();
         System.out.println("Enter Customer Address");
         String address = scanner.nextLine();
         customer.setAddress(address);
@@ -74,7 +72,11 @@ public class CustomerHelper {
         switch (option) {
             case 1:
                 Customer customer = CustomerDAO.loadById(id);
-                customer.display();
+                if (customer != null) {
+                    customer.display();
+                } else {
+                    System.out.println("Customer not found!");
+                }
                 System.out.println("1. Go Back");
                 scanner.nextInt();
             case 2:

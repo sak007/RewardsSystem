@@ -83,21 +83,21 @@ public class LoyaltyProgramHelper {
         // Check for atleast 1 re rule and rr rule
         switch (input_lp_type) {
             case 1:
-            try {
+
+        try {
                 query = "";
 
                 query = "select count(*) from re_rule where lp_code = '" + loyaltyProgram.getLpId() + "' and status = 'E' ";
                 List<Object[]> rs_re = DBHelper.executeQueryUpdated(query);
-                re_rule_count = ((BigDecimal) rs_re.get(0)[0]).intValueExact();
-//                System.out.println(query);
+                re_rule_count = ((BigDecimal)rs_re.get(0)[0]).intValueExact();
 
                 query = "select count(*) from rr_rule where lp_code = '" + loyaltyProgram.getLpId() + "' and status = 'E' ";
-//                System.out.println(query);
                 List<Object[]> rs_rr = DBHelper.executeQueryUpdated(query);
-                rr_rule_count = ((BigDecimal) rs_rr.get(0)[0]).intValueExact();
+                rr_rule_count = ((BigDecimal)rs_rr.get(0)[0]).intValueExact();
 
                 if (re_rule_count == 0) {
                     error_string = error_string + "Loyalty Program does not have atleast one re_rule\n";
+
                     valid = 0;
                 }
                 if (rr_rule_count == 0) {

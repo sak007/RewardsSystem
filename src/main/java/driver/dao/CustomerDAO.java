@@ -2,6 +2,7 @@ package driver.dao;
 
 import driver.object.Customer;
 
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -25,17 +26,17 @@ public class CustomerDAO {
     public static Customer loadById(String id) {
         try {
             String query = "Select * from customer where id = '" + id + "'";
-            ResultSet rs = DBHelper.executeQuery(query);
-            Customer customer = new Customer();
-            if (rs.next()) {
-                customer.setId(rs.getString("id"));
-                customer.setName(rs.getString("name"));
-                customer.setPhone(Long.parseLong(rs.getString("phone")));
-                customer.setLoyaltyProgramId(rs.getString("lp_program_id"));
-                customer.setAddress(rs.getString("address"));
-                customer.setUserName(rs.getString("user_name"));
+            List<Object[]> rs = DBHelper.executeQueryUpdated(query);
+            if (rs.isEmpty()) {
+                return null;
             }
-            rs.close();
+            Object[] o = rs.get(0);
+            Customer customer = new Customer();
+            customer.setId((String)o[0]);
+            customer.setName((String)o[1]);
+            customer.setPhone(((BigDecimal)o[2]).longValueExact());
+            customer.setAddress((String)o[3]);
+            customer.setUserName((String)o[4]);
             return customer;
         } catch (SQLException e) {
             System.out.println("Unable to load Customer");

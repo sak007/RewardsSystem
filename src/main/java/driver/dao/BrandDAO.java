@@ -27,9 +27,10 @@ public class BrandDAO {
         try {
             String query = "Select * from brand where id = '" + id + "'";
             List<Object[]> rs = DBHelper.executeQueryUpdated(query);
-            Brand brand = new Brand();
+            Brand brand = null;
 
             for(Object[] object:rs) {
+                brand = new Brand();
                 brand.setId((String) object[0]);
                 brand.setName((String) object[1]);
                 brand.setAddress((String) object[2]);
