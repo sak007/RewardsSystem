@@ -5,7 +5,6 @@ import driver.object.Customer;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Date;
 import java.util.List;
 
 public class CustomerDAO {
@@ -36,9 +35,8 @@ public class CustomerDAO {
             customer.setId((String)o[0]);
             customer.setName((String)o[1]);
             customer.setPhone(((BigDecimal)o[2]).longValueExact());
-            customer.setLoyaltyProgramId((String)o[3]);
-            customer.setAddress((String)o[4]);
-            customer.setUserName((String)o[5]);
+            customer.setAddress((String)o[3]);
+            customer.setUserName((String)o[4]);
             return customer;
         } catch (SQLException e) {
             System.out.println("Unable to load Customer");
