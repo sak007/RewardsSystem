@@ -72,7 +72,11 @@ public class CustomerHelper {
         switch (option) {
             case 1:
                 Customer customer = CustomerDAO.loadById(id);
-                customer.display();
+                if (customer != null) {
+                    customer.display();
+                } else {
+                    System.out.println("Customer not found!");
+                }
                 System.out.println("1. Go Back");
                 scanner.nextInt();
             case 2:

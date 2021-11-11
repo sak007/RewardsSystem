@@ -17,6 +17,7 @@ public class TiersHelper {
         System.out.println(display_string);
         String uniqId;
         Integer number_of_tiers = scanner.nextInt();
+        scanner.nextLine();
         if(number_of_tiers < 0 || number_of_tiers > 3){
             System.out.println("Incorrect number of tiers entered. Retry");
             TiersHelper.display(brand_id);
@@ -53,6 +54,7 @@ public class TiersHelper {
                 display_string = "Enter points required for tier:" + i + 1 + " \n";
                 System.out.println(display_string);
                 pointsRequired = scanner.nextInt();
+                scanner.nextLine();
                 tier.get(i).setPoints(pointsRequired);
             }
 
@@ -67,12 +69,14 @@ public class TiersHelper {
                 display_string = "Enter multiplier for tier:" + i + 1 + " \n";
                 System.out.println(display_string);
                 multiplier = scanner.nextInt();
+                scanner.nextLine();
                 tier.get(i).setMultiplier(multiplier);
             }
 
             display_string = "Choose an option from below: \n 1)Setup\n2)Go Back";
             System.out.println(display_string);
             input = scanner.nextInt();
+            scanner.nextLine();
 
             //Save all the tiers created for this TieredLP
             switch (input) {

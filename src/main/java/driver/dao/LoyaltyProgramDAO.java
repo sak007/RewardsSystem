@@ -27,7 +27,7 @@ public class LoyaltyProgramDAO {
     public static LoyaltyProgram loadByBrandId(String brand_id) {
         try {
             String query = "Select * from Loyalty_program where brand_id = '" + brand_id + "'";
-            System.out.println(query);
+//            System.out.println(query);
             List<Object[]> items = DBHelper.executeQueryUpdated(query);
             LoyaltyProgram loyaltyProgram = new LoyaltyProgram();
             for(Object[] item:items) {

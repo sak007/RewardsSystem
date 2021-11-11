@@ -9,7 +9,7 @@ public class TierDAO {
     public static void saveData(Tier tier) {
         try {
             String query = "Insert into tier" + tier.getMeta() + " values" + tier.toString();
-            System.out.println(query);
+//            System.out.println(query);
             DBHelper.executeUpdate(query);
             System.out.println("Tier added for the LoyaltyProgram!");
         } catch (SQLException e) {
