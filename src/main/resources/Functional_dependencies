@@ -19,3 +19,4 @@ Functional Dependencies
 17)rewards_for_loyalty_program(reward_lp_map_id->loyalty_program_code,reward_category_code,reward_count,reward_value)
 
 All above relation have primary keys and they determine the entire relation. So all relations are in BCNF.
+
