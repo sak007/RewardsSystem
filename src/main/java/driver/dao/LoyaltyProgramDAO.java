@@ -12,7 +12,7 @@ public class LoyaltyProgramDAO {
     public static void saveData(LoyaltyProgram loyaltyProg) throws SQLException {
         try {
             String query = "Insert into Loyalty_program" + loyaltyProg.getMeta() + " values" + loyaltyProg.toString();
-            System.out.println(query);
+            //System.out.println(query);
             DBHelper.executeUpdate(query);
             System.out.println("Inserted\n");
 

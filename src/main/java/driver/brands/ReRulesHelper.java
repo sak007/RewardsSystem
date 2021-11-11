@@ -75,7 +75,7 @@ public class ReRulesHelper {
             case 1:
                 RERule reRule = new RERule();
 
-                System.out.println("Enter an unique rule code for Re Rule");
+                System.out.println("Enter the rule code for Re Rule");
                 String RrrCode = scanner.nextLine();
                 reRule.setReRuleCode(RrrCode);
 
