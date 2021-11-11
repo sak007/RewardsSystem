@@ -12,6 +12,7 @@ public class ActivityHelper {
         Activity activity = getActivityDetails();
         System.out.println("1. Add Activity Type\n2. Go Back");
         Integer option = scanner.nextInt();
+        scanner.nextLine();
         switch (option) {
             case 1:
                 ActivityDAO.saveData(activity);

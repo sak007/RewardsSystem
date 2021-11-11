@@ -27,17 +27,17 @@ public class Activity {
     }
 
     public String getMeta() {
-        return "(name, code)";
+        return "(id, activity_name)";
     }
 
     public String toString() {
         String res = "(";
         res = res + "'";
-        res = res + name;
+        res = res + code;
         res = res + "'";
         res = res + ",";
         res = res + "'";
-        res = res + code;
+        res = res + name;
         res = res + "'";
         res = res + ")";
         return res;
