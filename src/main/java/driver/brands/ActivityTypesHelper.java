@@ -29,6 +29,7 @@ public class ActivityTypesHelper {
 
         System.out.println(display_string);
         Integer input = scanner.nextInt();
+        scanner.nextLine();
         String uniqId;
 
         //Go Back

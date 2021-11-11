@@ -45,6 +45,7 @@ public class ReRulesHelper {
 
                 System.out.println("Enter the points that you would want to assign for this activity:");
                 Integer activityPoints = scanner.nextInt();
+                scanner.nextLine();
                 reRule.setNumPoints(activityPoints);
 
                 reRule.setVersion(1);
@@ -94,6 +95,7 @@ public class ReRulesHelper {
 
                 System.out.println("Enter the points that you want to replace the existing points with:");
                 Integer points = scanner.nextInt();
+                scanner.nextLine();
                 reRule.setNumPoints(points);
 
                 //Find using re_rule_code and status = 'E' and disable it

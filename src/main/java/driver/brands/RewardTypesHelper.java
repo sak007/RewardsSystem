@@ -27,6 +27,7 @@ public class RewardTypesHelper {
         display_string = display_string + (display_i + 1) + ") Go Back\n";
         System.out.println(display_string);
         Integer input = scanner.nextInt();
+        scanner.nextLine();
 
 
         String lpGiftCode;
@@ -43,6 +44,7 @@ public class RewardTypesHelper {
             display_string = "Enter Quantity for the reward:";
             System.out.println(display_string);
             Integer quantity = scanner.nextInt();
+            scanner.nextLine();
 
             //Change: IF it is not Go back then ask this
             display_string = "Enter value for the chosen reward option\n";

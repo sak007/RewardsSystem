@@ -8,6 +8,7 @@ public class TieredLoyaltyProgramHelper {
                                 "2)Activity types\n" + "3)Reward Types\n 4)Go Back\n";
         System.out.println(display_string);
         Integer input_lp_type = scanner.nextInt();
+        scanner.nextLine();
         switch (input_lp_type){
             case 1:
                 TiersHelper.display(brand_id);
