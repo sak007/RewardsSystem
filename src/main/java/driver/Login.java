@@ -64,9 +64,6 @@ public class Login {
                     List<Object[]> rs = DBHelper.executeQueryUpdated(brandQuery);
                     for(Object[] object:rs) {
                         brand.setId((String) object[0]);
-                        brand.setName((String) object[1]);
-                        brand.setAddress((String) object[2]);
-                        brand.setJoinDate(((Date) object[3]).toString());
                     }
                 }
                 catch(SQLException e){

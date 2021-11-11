@@ -4,6 +4,7 @@ import driver.object.Brand;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 
 public class BrandDAO {
@@ -32,7 +33,8 @@ public class BrandDAO {
                 brand.setId((String) object[0]);
                 brand.setName((String) object[1]);
                 brand.setAddress((String) object[2]);
-                brand.setJoinDate((String) object[3]);
+                brand.setJoinDate((Date) object[3]);
+                brand.setUserName((String) object[4]);
             }
 
             return brand;
