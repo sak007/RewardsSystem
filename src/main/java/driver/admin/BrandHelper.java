@@ -66,7 +66,11 @@ public class BrandHelper {
         switch (option) {
             case 1:
                 Brand brand = BrandDAO.loadById(id);
-                brand.display();
+                if (brand != null) {
+                    brand.display();
+                } else {
+                    System.out.println("Brand not found!");
+                }
                 System.out.println("1. Go Back");
                 scanner.nextInt();
             case 2:
