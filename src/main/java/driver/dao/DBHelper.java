@@ -67,15 +67,4 @@ public class DBHelper {
         }
     }
 
-    public static ResultSet executeQuery(String query) throws SQLException {
-        try (Connection conn =connect();
-             Statement stmt = conn.createStatement()) {
-            return stmt.executeQuery(query);
-        }
-        catch(SQLException e) {
-            System.out.println("Caught SQLException " + e.getErrorCode() + "/" + e.getSQLState() + " " + e.getMessage());
-            return null;
-        }
-    }
-
 }
