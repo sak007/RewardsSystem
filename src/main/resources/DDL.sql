@@ -20,12 +20,9 @@ user_name varchar2(100) references actor(user_name)
 create table Loyalty_program(
  id varchar2(100) primary key,
  program_name varchar2(200) not null,
--- activity_code references Activity_category(id),
 brand_id REFERENCES brand(id) on DELETE CASCADE,
 tier_type varchar2(100) not null,
 state varchar2(10) DEFAULT 'INACTIVE',
--- re_rule_code references re_rule(re_rule_code),
--- rr_rule_code references rr_rule(rr_rule_code)
 CONSTRAINT uniq_brand UNIQUE(brand_id)
 );
 
@@ -36,14 +33,13 @@ nums_points number,
 version number,
 status VARCHAR2(1) DEFAULT 'E',
 lp_code references Loyalty_program(id) on DELETE CASCADE,
-CONSTRAINT pk_re_rule PRIMARY KEY (re_rule_code, version)
+CONSTRAINT pk_re_rule PRIMARY KEY (re_rule_code, version),
+CONSTRAINT uniq_re_rule UNIQUE(activity_category_code, version, lp_code)
 );
 
 create table reward_category(
 id varchar2(100) primary key,
 reward_name varchar2(100) not null
--- brand_id REFERENCES brand(id) on DELETE CASCADE, // Removed
--- lp_program_id REFERENCES loyalty_program(id) on DELETE CASCADE // Removed
 );
 
 create table rr_rule(

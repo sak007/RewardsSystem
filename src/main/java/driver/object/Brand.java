@@ -7,7 +7,7 @@ public class Brand {
     private String name;
     private String username;
     private String address;
-    private String joinDate;
+    private Date joinDate;
     private String password;
 
     public String getId() {
@@ -42,11 +42,11 @@ public class Brand {
         this.address = address;
     }
 
-    public String getJoinDate() {
+    public Date getJoinDate() {
         return joinDate;
     }
 
-    public void setJoinDate(String joinDate) {
+    public void setJoinDate(Date joinDate) {
         this.joinDate = joinDate;
     }
 

@@ -45,13 +45,16 @@ public class LoyaltyProgramDAO {
             return null;
         }
     }
-    public static Map<String,String> getLoyaltyProgramList(){
-        Map<String,String> programNames=new HashMap<>();
+    public static List<List<String>> getLoyaltyProgramList(){
+        List<List<String>> programNames=new ArrayList<>();
         String query = "Select * from loyalty_program where state='ACTIVE'";
         try {
             List<Object[]> rs= DBHelper.executeQueryUpdated(query);
             for(Object[] object:rs){
-                programNames.put(object[0].toString(),object[1].toString());
+                List<String> programName=new ArrayList<>();
+                programName.add(object[0].toString());
+                programName.add(object[1].toString());
+                programNames.add(programName);
             }
             return programNames;
         }

@@ -3,10 +3,12 @@ package driver.brands;
 import driver.dao.DBHelper;
 import driver.dao.LoyaltyProgramDAO;
 import driver.dao.RERuleDAO;
+import driver.object.Activity;
 import driver.object.LoyaltyProgram;
 import driver.object.RERule;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Scanner;
 import java.util.UUID;
 
@@ -28,9 +30,18 @@ public class ReRulesHelper {
                 reRule.setReRuleCode(re_rule_code);
 
                 //Change: Verify if the activity is mapped?
-                System.out.println("Please enter the Activity Category Code:");
-                String activityCategoryCode = scanner.nextLine();
-                reRule.setActivityCategoryCode(activityCategoryCode);
+                String display_string = "Please choose from one of the mapped activities:\n";
+                int display_i = 0;
+                List<Activity> activities = RERuleDAO.getMappedActivities(loyaltyProgram.getLpId());
+                for(Activity act:activities){
+                    display_string = display_string + (display_i + 1) + ") " + act.getName() + "\n";
+                    display_i++;
+                }
+                System.out.println(display_string);
+                int activityCategoryOption = scanner.nextInt();
+                scanner.nextLine();
+                Activity chosenActivity = activities.get(activityCategoryOption - 1);
+                reRule.setActivityCategoryCode(chosenActivity.getCode());
 
                 System.out.println("Enter the points that you would want to assign for this activity:");
                 Integer activityPoints = scanner.nextInt();
@@ -41,6 +52,7 @@ public class ReRulesHelper {
                 reRule.setStatus("E");
 
                 reRule.setLpCode(loyaltyProgram.getLpId());
+
 
                 RERuleDAO.saveData(reRule);
 
@@ -62,13 +74,22 @@ public class ReRulesHelper {
             case 1:
                 RERule reRule = new RERule();
 
-                System.out.println("Enter the Brand RE rule code");
+                System.out.println("Enter an unique rule code for Re Rule");
                 String RrrCode = scanner.nextLine();
                 reRule.setReRuleCode(RrrCode);
 
-                System.out.println("Enter the Activity Category Code for the Rule you want to update: ");
-                String activityCategoryCode = scanner.nextLine();
-                reRule.setActivityCategoryCode(activityCategoryCode);
+                String display_string = "Please choose from one of the mapped activities:\n";
+                int display_i = 0;
+                List<Activity> activities = RERuleDAO.getMappedActivities(loyaltyProgram.getLpId());
+                for(Activity act:activities){
+                    display_string = display_string + (display_i + 1) + ") " + act.getName() + "\n";
+                    display_i++;
+                }
+                System.out.println(display_string);
+                int activityCategoryOption = scanner.nextInt();
+                scanner.nextLine();
+                Activity chosenActivity = activities.get(activityCategoryOption - 1);
+                reRule.setActivityCategoryCode(chosenActivity.getCode());
 
 
                 System.out.println("Enter the points that you want to replace the existing points with:");
