@@ -59,9 +59,7 @@ public class CustomerHelper {
         System.out.println("Enter Customer Phone Number");
         Long phone = scanner.nextLong();
         customer.setPhone(phone);
-        //System.out.println("Enter Customer Loyalty Program Id");
-        //String loyaltyProgramId = scanner.next();
-        //customer.setLoyaltyProgramId(loyaltyProgramId);
+        scanner.nextLine();
         System.out.println("Enter Customer Address");
         String address = scanner.nextLine();
         customer.setAddress(address);

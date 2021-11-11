@@ -19,6 +19,7 @@ public class LoyaltyProgramHelper {
         String display_string = "Choose the type of the Loyalty Program\n 1) Regular\n" + "2) Tier\n" + "3) Go Back\n";
         System.out.println(display_string);
         Integer input_lp_type = scanner.nextInt();
+        scanner.nextLine();
         String uniqId;
         switch (input_lp_type){
             case 1:
@@ -74,10 +75,8 @@ public class LoyaltyProgramHelper {
             query = "select count(*) from re_rule where lp_code = '" + loyaltyProgram.getLpId() + "' and status = 'E' ";
             List<Object[]> rs_re = DBHelper.executeQueryUpdated(query);
             re_rule_count = ((BigDecimal)rs_re.get(0)[0]).intValueExact();
-            System.out.println(query);
 
             query = "select count(*) from rr_rule where lp_code = '" + loyaltyProgram.getLpId() + "' and status = 'E' ";
-            System.out.println(query);
             List<Object[]> rs_rr = DBHelper.executeQueryUpdated(query);
             rr_rule_count = ((BigDecimal)rs_rr.get(0)[0]).intValueExact();
 
@@ -92,7 +91,6 @@ public class LoyaltyProgramHelper {
 
             if (loyaltyProgram.getTierType() == "Tier") {
                 query = "select count(*) from tier where lp_program_id = '" + loyaltyProgram.getLpId() + "'";
-                System.out.println(query);
                 List<Object[]> rs_tier = DBHelper.executeQueryUpdated(query);
                 tier_count = (Integer)rs_tier.get(0)[0];
                 if(tier_count == 0){
