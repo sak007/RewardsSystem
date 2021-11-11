@@ -32,7 +32,7 @@ public class TiersHelper {
             //Get names of each tier
             String name_of_tier = "";
             for (i = 0; i < number_of_tiers; i++) {      //Low to High
-                display_string = "Enter name of  of tier:" + i + 1 + " \n";
+                display_string = "Enter name of  of tier:" + (i + 1) + " \n";
                 System.out.println(display_string);
                 name_of_tier = scanner.next();
                 Tier t = new Tier();
@@ -51,7 +51,7 @@ public class TiersHelper {
                     tier.get(i).setPoints(0);
                     continue;
                 }
-                display_string = "Enter points required for tier:" + i + 1 + " \n";
+                display_string = "Enter points required for tier:" + (i + 1) + " \n";
                 System.out.println(display_string);
                 pointsRequired = scanner.nextInt();
                 scanner.nextLine();
@@ -66,7 +66,7 @@ public class TiersHelper {
                     tier.get(i).setMultiplier(1);
                     continue;
                 }
-                display_string = "Enter multiplier for tier:" + i + 1 + " \n";
+                display_string = "Enter multiplier for tier:" + (i + 1) + " \n";
                 System.out.println(display_string);
                 multiplier = scanner.nextInt();
                 scanner.nextLine();
