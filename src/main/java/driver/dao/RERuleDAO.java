@@ -43,7 +43,7 @@ public class RERuleDAO {
     public static List<Activity> getMappedActivities(String lpcode){
         try {
             String query = "select * from activity_category where id IN(select activity_category_code from activities_for_loyalty_program where loyalty_program_code = '" + lpcode + "')";
-            System.out.println(query);
+//            System.out.println(query);
             List<Object[]> items = DBHelper.executeQueryUpdated(query);
             List<Activity> activity = new ArrayList<>(items.size());
             for(Object[] item:items) {
@@ -63,7 +63,7 @@ public class RERuleDAO {
     public static void disableDoppleganger(RERule reRule) throws SQLException {
         try {
             String updateQuery2 = "UPDATE re_rule SET status = 'D' WHERE activity_category_code = '" + reRule.getActivityCategoryCode() + "' and lp_code ='" + reRule.getLpCode() + "'";
-            System.out.println(updateQuery2);
+//            System.out.println(updateQuery2);
             DBHelper.executeUpdate(updateQuery2);
             System.out.println("Disabled similar rules SUCCESSFULLY!");
         }
@@ -80,7 +80,7 @@ public class RERuleDAO {
         Integer version = 0;
         try{
             String selectQuery = "select * from re_rule where re_rule_code = '" + reRule.getReRuleCode()+ "'and lp_code = '"+ lpId +"' and status = 'E'";
-            System.out.println(selectQuery);
+//            System.out.println(selectQuery);
 
             List<Object[]> rs  = DBHelper.executeQueryUpdated(selectQuery);
 
@@ -89,7 +89,7 @@ public class RERuleDAO {
             }else{
                 version = ((BigDecimal)rs.get(0)[3]).intValueExact();
                 String updateQuery = "UPDATE re_rule SET status = 'D' WHERE re_rule_code = '"+ reRule.getReRuleCode() + "'";
-                System.out.println(updateQuery);
+//                System.out.println(updateQuery);
                 DBHelper.executeUpdate(updateQuery);
 
                 reRule.setVersion(version + 1);
@@ -99,7 +99,7 @@ public class RERuleDAO {
                 RERuleDAO.disableDoppleganger(reRule);
 
                 String insertQuery = "INSERT INTO re_rule"+ reRule.getMeta() +" VALUES"+ reRule.toString();
-                System.out.println(insertQuery);
+//                System.out.println(insertQuery);
                 DBHelper.executeUpdate(insertQuery);
             }
 

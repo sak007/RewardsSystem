@@ -19,6 +19,7 @@ public class LoyaltyProgramHelper {
         String display_string = "Choose the type of the Loyalty Program\n 1) Regular\n" + "2) Tier\n" + "3) Go Back\n";
         System.out.println(display_string);
         Integer input_lp_type = scanner.nextInt();
+        scanner.nextLine();
         String uniqId;
         switch (input_lp_type){
             case 1:
