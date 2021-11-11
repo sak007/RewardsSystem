@@ -15,6 +15,7 @@ public class RegularLoyaltyProgramHelper {
                                 "2)Reward Types\n" + "3)Go back\n";
         System.out.println(display_string);
         Integer input = scanner.nextInt();
+        scanner.nextLine();
         switch (input){
             case 1:
                 ActivityTypesHelper.display("Regular", brand_id);

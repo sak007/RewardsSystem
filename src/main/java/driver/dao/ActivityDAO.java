@@ -43,7 +43,7 @@ public class ActivityDAO {
     public static Activity loadByName(String name) {
         try {
             String query = "Select * from activity_category where activity_name = '" + name + "'";
-            System.out.println(query);
+//            System.out.println(query);
             List<Object[]> rs = DBHelper.executeQueryUpdated(query);
 //            System.out.println(rs.getFetchSize());
             Activity activity = new Activity();
@@ -54,7 +54,7 @@ public class ActivityDAO {
                 activity.setName((String) object[1]);
             }
 
-            System.out.println("ACTIVITY!!!: "+ activity.getCode() + activity.getName());
+//            System.out.println("ACTIVITY!!!: "+ activity.getCode() + activity.getName());
             return activity;
         } catch (SQLException e) {
             System.out.println("Unable to load Activity from name");
@@ -67,12 +67,12 @@ public class ActivityDAO {
     public static List<Activity> getList() {
         try {
             String query = "Select * from activity_category";
-            System.out.println(query);
+//            System.out.println(query);
             List<Object[]> items = DBHelper.executeQueryUpdated(query);
             List<Activity> activity = new ArrayList<>(items.size());
             for(Object[] item:items) {
                 Activity act = new Activity();
-                System.out.println("ANSWER: " + (String) item[0] + " and " + (String) item[1]);
+//                System.out.println("ANSWER: " + (String) item[0] + " and " + (String) item[1]);
                 act.setCode((String) item[0]);
                 act.setName((String) item[1]);
                 activity.add(act);
