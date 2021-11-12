@@ -49,7 +49,7 @@ public class ActivityDAO {
             Activity activity = new Activity();
 
             for(Object[] object:rs) {
-                System.out.println("ANSWER: " + (String) object[0] + " and " + (String) object[1]);
+//                System.out.println("ANSWER: " + (String) object[0] + " and " + (String) object[1]);
                 activity.setCode((String) object[0]);
                 activity.setName((String) object[1]);
             }

@@ -50,7 +50,7 @@ public class RewardDAO {
             List<Reward> reward = new ArrayList<>(items.size());
             for(Object[] item:items) {
                 Reward rew = new Reward();
-                System.out.println("ANSWER: " + (String) item[0] + " and " + (String) item[1]);
+//                System.out.println("ANSWER: " + (String) item[0] + " and " + (String) item[1]);
                 rew.setCode((String) item[0]);
                 rew.setName((String) item[1]);
                 reward.add(rew);

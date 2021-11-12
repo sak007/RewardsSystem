@@ -33,8 +33,7 @@ nums_points number,
 version number,
 status VARCHAR2(1) DEFAULT 'E',
 lp_code references Loyalty_program(id) on DELETE CASCADE,
-CONSTRAINT pk_re_rule PRIMARY KEY (re_rule_code, version),
-CONSTRAINT uniq_re_rule UNIQUE(activity_category_code, version, lp_code)
+CONSTRAINT pk_re_rule PRIMARY KEY (re_rule_code, version)
 );
 
 create table reward_category(
@@ -49,15 +48,14 @@ num_points number,
 version number,
 status VARCHAR2(1) DEFAULT 'E',
 lp_code references Loyalty_program(id) on DELETE CASCADE,
-CONSTRAINT pk_rr_rule PRIMARY KEY (rr_rule_code, version),
-CONSTRAINT uniq_rr_rule UNIQUE(reward, version, lp_code)
+CONSTRAINT pk_rr_rule PRIMARY KEY (rr_rule_code, version)
 );
 
 create table activities_for_loyalty_program(
     activity_lp_map_id varchar2(50) primary key,
     loyalty_program_code REFERENCES Loyalty_program(id) on DELETE CASCADE,
     activity_category_code references Activity_category(id) on DELETE CASCADE,
-    UNIQUE (loyalty_program_code, activity_category_code)
+    CONSTRAINT uniq_lp_activity UNIQUE (loyalty_program_code, activity_category_code)
 );
 
 create table customer(
@@ -99,7 +97,7 @@ create table rewards_for_loyalty_program(
     reward_category_code references reward_category(id) on DELETE CASCADE,
     reward_count number,
     reward_value varchar2(50),
-    UNIQUE (reward_lp_map_id,loyalty_program_code)
+    CONSTRAINT uniq_lp_reward UNIQUE (loyalty_program_code, reward_category_code)
 );
 
 
