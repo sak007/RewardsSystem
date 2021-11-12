@@ -80,7 +80,9 @@ id varchar2(100) primary key,
 name varchar2(100) not null,
 points number not null,
 multiplier number not null,
-lp_program_id REFERENCES loyalty_program(id) on DELETE CASCADE
+lp_program_id REFERENCES loyalty_program(id) on DELETE CASCADE,
+check(points>=0),
+check(multiplier>=0)
 );
 
 create table wallet(
@@ -94,12 +96,14 @@ check(points>=0)
 
 
 create table rewards_for_loyalty_program(
-    reward_lp_map_id varchar2(50) primary key,
-    loyalty_program_code REFERENCES Loyalty_program(id) on DELETE CASCADE,
-    reward_category_code references reward_category(id) on DELETE CASCADE,
-    reward_count number,
-    reward_value varchar2(50),
-    UNIQUE (reward_category_code,loyalty_program_code)
+reward_lp_map_id varchar2(50) primary key,
+loyalty_program_code REFERENCES Loyalty_program(id) on DELETE CASCADE,
+reward_category_code references reward_category(id) on DELETE CASCADE,
+reward_count number,
+reward_value varchar2(50),
+UNIQUE (reward_category_code,loyalty_program_code),
+check(reward_count>=0),
+check(reward_value>=0)
 );
 
 
@@ -108,7 +112,8 @@ id varchar2(100) primary key,
 customer_id references customer(id) on delete CASCADE,
 activity_date date DEFAULT CURRENT_DATE,
 redeem_lp_map_id references rewards_for_loyalty_program(reward_lp_map_id) on DELETE CASCADE,
-points number(10)
+points number(10),
+CHECK(points>=0)
 );
 
 create table customer_activity(
@@ -117,7 +122,8 @@ customer_id references customer(id) on delete CASCADE,
 activity_date date DEFAULT CURRENT_DATE,
 activity_lp_map_id references activities_for_loyalty_program(activity_lp_map_id),
 customer_redeem_activity_id references customer_redeem_activity(id) on DELETE CASCADE,
-points number(10) 
+points number(10),
+CHECK(points>=0)
 );
 
 create or replace
