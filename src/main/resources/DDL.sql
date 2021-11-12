@@ -167,6 +167,7 @@ declare
     pts number(10);
     actCode varchar2(100);
     lpCode varchar2(100);
+    mlt number(10);
 begin
     select activity_category_code into actCode
     from activities_for_loyalty_program
@@ -181,8 +182,11 @@ begin
           and version = (select max(version)
                          from re_rule
                          where activity_category_code = actCode and lp_code = lpCode);
-        :new.points := pts;
-        update wallet set points = points + pts where customer_id = :new.customer_id and loyalty_program_code = lpCode;
+        select multiplier into mlt
+        from tier
+        where id = (select tier_id from wallet where customer_id = :new.customer_id and loyalty_program_code = lpCode);
+        :new.points := pts * mlt;
+        update wallet set points = points + pts * mlt where customer_id = :new.customer_id and loyalty_program_code = lpCode;
         update_customer_tier(:new.customer_id, lpCode);
     end if;
 
