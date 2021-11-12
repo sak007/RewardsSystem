@@ -34,12 +34,10 @@ public class RRRuleDAO {
     public static List<Reward> getMappedRewards(String lpcode){
         try {
             String query = "select * from reward_category where id IN(select reward_category_code from rewards_for_loyalty_program where loyalty_program_code = '" + lpcode + "')";
- //           System.out.println(query);
             List<Object[]> items = DBHelper.executeQueryUpdated(query);
             List<Reward> reward = new ArrayList<>(items.size());
             for(Object[] item:items) {
                 Reward rew = new Reward();
-//              System.out.println("ANSWER: " + (String) item[0] + " and " + (String) item[1]);
                 rew.setCode((String) item[0]);
                 rew.setName((String) item[1]);
                 reward.add(rew);

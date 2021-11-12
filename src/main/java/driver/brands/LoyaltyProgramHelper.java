@@ -106,7 +106,6 @@ public class LoyaltyProgramHelper {
                 }
                 if ("Tier".equals(loyaltyProgram.getTierType())) {
                     query = "select count(*) from tier where lp_program_id = '" + loyaltyProgram.getLpId() + "'";
-                    System.out.println(query);
                     List<Object[]> rs_tier = DBHelper.executeQueryUpdated(query);
                     tier_count = ((BigDecimal) rs_tier.get(0)[0]).intValueExact();
                     if (tier_count == 0) {

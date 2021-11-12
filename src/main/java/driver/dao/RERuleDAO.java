@@ -39,12 +39,10 @@ public class RERuleDAO {
     public static List<Activity> getMappedActivities(String lpcode){
         try {
             String query = "select * from activity_category where id IN(select activity_category_code from activities_for_loyalty_program where loyalty_program_code = '" + lpcode + "')";
-//            System.out.println(query);
             List<Object[]> items = DBHelper.executeQueryUpdated(query);
             List<Activity> activity = new ArrayList<>(items.size());
             for(Object[] item:items) {
                 Activity act = new Activity();
-//                System.out.println("ANSWER: " + (String) item[0] + " and " + (String) item[1]);
                 act.setCode((String) item[0]);
                 act.setName((String) item[1]);
                 activity.add(act);
