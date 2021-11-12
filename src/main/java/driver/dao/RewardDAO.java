@@ -44,7 +44,6 @@ public class RewardDAO {
     public static List<Reward> getList() {
         try {
             String query = "Select * from reward_category";
-            //System.out.println(query);
             List<Object[]> items = DBHelper.executeQueryUpdated(query);
 
             List<Reward> reward = new ArrayList<>(items.size());
