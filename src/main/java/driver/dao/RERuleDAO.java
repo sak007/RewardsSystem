@@ -91,7 +91,7 @@ public class RERuleDAO {
                 reRule.setLpCode(lpId);
                 reRule.setStatus("E");
 
-                //RERuleDAO.disableDoppleganger(reRule);
+                RERuleDAO.disableDoppleganger(reRule);
 
                 String insertQuery = "INSERT INTO re_rule"+ reRule.getMeta() +" VALUES"+ reRule.toString();
 //                System.out.println(insertQuery);
