@@ -4,9 +4,15 @@ Functional Dependencies
 
 2)activity_category(id->activity_name)
 
-3)re_rule(re_rule_code->activity_category_code,nums_points,version,status,lp_code)
+3)re_rule(
+re_rule_code,version->activity_category_code,nums_points,version,status,lp_code
+activity_category_code, version, lp_Code -> num_points, re_rule_code, status
+)
 
-4)rr_rule(rr_rule_code->reward,num_points,version,status,lp_code)
+4)rr_rule(
+rr_rule_code, version->reward,num_points,version,status,lp_code
+reward, version, lp_Code -> num_points, rr_rule_code, status
+)
 
 5)brand(
 id->name,address,join_date,user_name
@@ -30,7 +36,10 @@ loyalty_program_code, activity_category_code->activity_lp_map_id)
 
 12)reward_category(id -> reward_name)
 
-13)wallet(id -> points,customer_id,loyalty_program_code)
+13)wallet(
+id -> points,customer_id,loyalty_program_code
+customer_id, loyalty_program_code -> id, points, tier_id
+)
 
 14)customer_lp_enroll(customer_id,loyalty_program_code -> customer_id,loyalty_program_code)
 
