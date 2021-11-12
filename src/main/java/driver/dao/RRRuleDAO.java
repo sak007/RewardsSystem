@@ -20,19 +20,13 @@ public class RRRuleDAO {
         try {
             String insertRRRuleQuery = "INSERT INTO rr_rule" + rrRule.getMeta() + " VALUES " + rrRule.toString();
 
-            RRRuleDAO.disableDoppleganger(rrRule);
+            DBHelper.executeUpdate(insertRRRuleQuery);
 
-            boolean insertStatus = DBHelper.executeUpdate(insertRRRuleQuery) > 0;
-
-            if(insertStatus){
-                System.out.println("RR Rule added..!!");
-            }else{
-                System.out.println("There was an issue while inserting RR Rule");
-            }
-
+            System.out.println("RR Rule added..!!");
 
         }catch (SQLException e){
             System.out.println("Unable to add RR Rule!");
+            System.out.println("RR rule already exists");
             System.out.println("Caught SQLException " + e.getErrorCode() + "/" + e.getSQLState() + " " + e.getMessage());
         }
 
@@ -40,12 +34,12 @@ public class RRRuleDAO {
     public static List<Reward> getMappedRewards(String lpcode){
         try {
             String query = "select * from reward_category where id IN(select reward_category_code from rewards_for_loyalty_program where loyalty_program_code = '" + lpcode + "')";
-            System.out.println(query);
+ //           System.out.println(query);
             List<Object[]> items = DBHelper.executeQueryUpdated(query);
             List<Reward> reward = new ArrayList<>(items.size());
             for(Object[] item:items) {
                 Reward rew = new Reward();
-//                System.out.println("ANSWER: " + (String) item[0] + " and " + (String) item[1]);
+//              System.out.println("ANSWER: " + (String) item[0] + " and " + (String) item[1]);
                 rew.setCode((String) item[0]);
                 rew.setName((String) item[1]);
                 reward.add(rew);
@@ -59,7 +53,7 @@ public class RRRuleDAO {
     public static void disableDoppleganger(RRRule rrRule) throws SQLException {
         try {
             String updateQuery2 = "UPDATE rr_rule SET status = 'D' WHERE reward = '" + rrRule.getReward() + "' and lp_code ='" + rrRule.getLpCode() + "'";
-            System.out.println(updateQuery2);
+//            System.out.println(updateQuery2);
             DBHelper.executeUpdate(updateQuery2);
             System.out.println("Disabled similar rules SUCCESSFULLY!");
         }
@@ -75,13 +69,9 @@ public class RRRuleDAO {
         boolean rowUpdated = false;
         try {
             Integer version = 0;
-            Integer points = 0;
-            String rrRuleCode ="";
-            String lpCode = "";
-//            String selectQuery = "SELECT * FROM rr_rule rra WHERE rra.rr_rule_code IN (select rrlp.rr_rule_code from rr_rule_for_lp rrlp where rrlp.lp_code IN (select lp.id from Loyalty_program lp where lp.brand_id IN (select b.id from brand b where b.id = '"+brandId+"'))) and rra.status='E' ";
 
             String selectQuery = "select * from rr_rule where rr_rule_code = '" + rrRule.getRrRuleCode()+ "'and lp_code = '"+ lpId +"' and status = 'E'";
-            System.out.println(selectQuery);
+//            System.out.println(selectQuery);
 
             List<Object[]> rs  = DBHelper.executeQueryUpdated(selectQuery);
 
@@ -92,7 +82,7 @@ public class RRRuleDAO {
                 version = ((BigDecimal)rs.get(0)[3]).intValueExact();
 
                 String updateQuery = "UPDATE rr_rule SET status = 'D' WHERE rr_rule_code = '"+ rrRule.getRrRuleCode() + "'";
-                System.out.println(updateQuery);
+//              System.out.println(updateQuery);
                 DBHelper.executeUpdate(updateQuery);
 
                 rrRule.setVersion(version + 1);
@@ -102,7 +92,7 @@ public class RRRuleDAO {
                 RRRuleDAO.disableDoppleganger(rrRule);
 
                 String insertQuery = "INSERT INTO rr_rule"+ rrRule.getMeta() +" VALUES"+ rrRule.toString();
-                System.out.println(insertQuery);
+//              System.out.println(insertQuery);
                 DBHelper.executeUpdate(insertQuery);
             }
         }catch (SQLException e) {
