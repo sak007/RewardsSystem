@@ -70,8 +70,8 @@ public class Customer {
         System.out.println("Id: " + id);
         System.out.println("Name: " + name);
         System.out.println("Phone: " + phone);
-        System.out.println("Loyalty Program Id: " + loyaltyProgramId);
-        System.out.println("Address: " + address);
+        System.out.println("Customer Address: " + address);
+        System.out.println("Username: " + username);
     }
 
     public String getMeta() {

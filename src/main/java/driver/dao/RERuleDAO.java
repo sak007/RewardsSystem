@@ -22,20 +22,16 @@ public class RERuleDAO {
 
     public static void saveData(RERule reRule){
         try{
+
             String insertReRulequery = "INSERT INTO re_rule"+ reRule.getMeta() +" VALUES "+ reRule.toString();
 
-            RERuleDAO.disableDoppleganger(reRule);
+            DBHelper.executeUpdate(insertReRulequery);
 
-            boolean insertStatus = DBHelper.executeUpdate(insertReRulequery) > 0;
-
-            if(insertStatus){
-                System.out.println("RE Rule added..!!");
-            }else{
-                System.out.println("There was an issue while inserting RE Rule");
-            }
+            System.out.println("RE Rule added..!!");
 
         }catch(SQLException e){
             System.out.println("Unable to add RE Rule!");
+            System.out.println("RE Rule code already exists for this LP");
             System.out.println("Caught SQLException " + e.getErrorCode() + "/" + e.getSQLState() + " " + e.getMessage());
         }
     }
@@ -43,12 +39,10 @@ public class RERuleDAO {
     public static List<Activity> getMappedActivities(String lpcode){
         try {
             String query = "select * from activity_category where id IN(select activity_category_code from activities_for_loyalty_program where loyalty_program_code = '" + lpcode + "')";
-            System.out.println(query);
             List<Object[]> items = DBHelper.executeQueryUpdated(query);
             List<Activity> activity = new ArrayList<>(items.size());
             for(Object[] item:items) {
                 Activity act = new Activity();
-//                System.out.println("ANSWER: " + (String) item[0] + " and " + (String) item[1]);
                 act.setCode((String) item[0]);
                 act.setName((String) item[1]);
                 activity.add(act);
@@ -60,12 +54,13 @@ public class RERuleDAO {
         }
     }
 
-    public static void disableDoppleganger(RERule reRule) throws SQLException {
+    public static int disableDoppleganger(RERule reRule) throws SQLException {
         try {
             String updateQuery2 = "UPDATE re_rule SET status = 'D' WHERE activity_category_code = '" + reRule.getActivityCategoryCode() + "' and lp_code ='" + reRule.getLpCode() + "'";
-            System.out.println(updateQuery2);
-            DBHelper.executeUpdate(updateQuery2);
+//            System.out.println(updateQuery2);
+            int ret = DBHelper.executeUpdate(updateQuery2);
             System.out.println("Disabled similar rules SUCCESSFULLY!");
+            return ret;
         }
         catch(SQLException e){
             System.out.println(" Unable to disable similar rules");
@@ -80,7 +75,7 @@ public class RERuleDAO {
         Integer version = 0;
         try{
             String selectQuery = "select * from re_rule where re_rule_code = '" + reRule.getReRuleCode()+ "'and lp_code = '"+ lpId +"' and status = 'E'";
-            System.out.println(selectQuery);
+//            System.out.println(selectQuery);
 
             List<Object[]> rs  = DBHelper.executeQueryUpdated(selectQuery);
 
@@ -89,17 +84,17 @@ public class RERuleDAO {
             }else{
                 version = ((BigDecimal)rs.get(0)[3]).intValueExact();
                 String updateQuery = "UPDATE re_rule SET status = 'D' WHERE re_rule_code = '"+ reRule.getReRuleCode() + "'";
-                System.out.println(updateQuery);
+//                System.out.println(updateQuery);
                 DBHelper.executeUpdate(updateQuery);
 
                 reRule.setVersion(version + 1);
                 reRule.setLpCode(lpId);
                 reRule.setStatus("E");
 
-                RERuleDAO.disableDoppleganger(reRule);
+                //RERuleDAO.disableDoppleganger(reRule);
 
                 String insertQuery = "INSERT INTO re_rule"+ reRule.getMeta() +" VALUES"+ reRule.toString();
-                System.out.println(insertQuery);
+//                System.out.println(insertQuery);
                 DBHelper.executeUpdate(insertQuery);
             }
 

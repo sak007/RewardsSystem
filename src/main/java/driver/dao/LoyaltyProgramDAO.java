@@ -9,17 +9,16 @@ import java.sql.SQLException;
 import java.util.*;
 
 public class LoyaltyProgramDAO {
-    public static void saveData(LoyaltyProgram loyaltyProg) {
+    public static void saveData(LoyaltyProgram loyaltyProg) throws SQLException {
         try {
             String query = "Insert into Loyalty_program" + loyaltyProg.getMeta() + " values" + loyaltyProg.toString();
-            System.out.println(query);
             DBHelper.executeUpdate(query);
             System.out.println("Inserted\n");
-
             System.out.println("Loyalty Program  Added!");
         } catch (SQLException e) {
             System.out.println("Unable to add Loyalty Program!");
             System.out.println("Caught SQLException " + e.getErrorCode() + "/" + e.getSQLState() + " " + e.getMessage());
+            throw new SQLException();
         }
     }
 
@@ -27,7 +26,6 @@ public class LoyaltyProgramDAO {
     public static LoyaltyProgram loadByBrandId(String brand_id) {
         try {
             String query = "Select * from Loyalty_program where brand_id = '" + brand_id + "'";
-            System.out.println(query);
             List<Object[]> items = DBHelper.executeQueryUpdated(query);
             LoyaltyProgram loyaltyProgram = new LoyaltyProgram();
             for(Object[] item:items) {

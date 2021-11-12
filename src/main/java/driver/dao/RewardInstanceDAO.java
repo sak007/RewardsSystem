@@ -10,7 +10,6 @@ public class RewardInstanceDAO {
         try {
             String query = "Insert into reward_instance" + reward_instance.getMeta() + " values" + reward_instance.toString();
             System.out.println("Inserting INSTANCE!!!!!!\n");
-            System.out.println(query);
             DBHelper.executeUpdate(query);
             System.out.println("Reward Instance Added!");
         } catch (SQLException e) {
