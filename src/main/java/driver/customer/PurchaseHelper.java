@@ -28,7 +28,7 @@ public class PurchaseHelper {
             if (option <= customerRedeemActivityList.size()) {
                 CustomerRedeemActivity selectedGC = customerRedeemActivityList.get(option - 1);
                 customerActivity.setCustomerRedeemActivityId(selectedGC.getId());
-                if (selectedGC.getValue() >= purchaseValue) {
+                    if (selectedGC.getValue() >= purchaseValue) {
                     customerActivity.setPoints(0L);
                 }
             }

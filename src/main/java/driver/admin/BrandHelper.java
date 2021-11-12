@@ -16,6 +16,7 @@ public class BrandHelper {
         Brand brand = getBrandDetails();
         System.out.println("1. Add Brand\n2. Go Back");
         Integer option = scanner.nextInt();
+        scanner.nextLine();
         switch (option) {
             case 1:
                 BrandDAO.saveData(brand);
