@@ -14,7 +14,7 @@ id varchar2(100) primary key,
 name varchar2(100) Unique,
 address varchar2(200),
 join_date date DEFAULT CURRENT_DATE,
-user_name varchar2(100) references actor(user_name)
+user_name varchar2(100) references actor(user_name) on DELETE CASCADE
 );
 
 create table Loyalty_program(
@@ -65,12 +65,12 @@ id varchar2(100) primary key,
 name varchar2(100) not NULL,
 phone number(10),
 address varchar2(200),
-user_name varchar2(100) references actor(user_name)
+user_name varchar2(100) references actor(user_name) on DELETE CASCADE
 );
 
 
 create table customer_lp_enroll(
-customer_id REFERENCES customer(id),
+customer_id REFERENCES customer(id) on DELETE CASCADE,
 loyalty_program_code references Loyalty_program(id) on delete cascade,
 UNIQUE(customer_id,loyalty_program_code)
 );
@@ -88,7 +88,7 @@ id varchar2(100) primary key,
 points number DEFAULT 0,
 customer_id REFERENCES customer(id) on DELETE CASCADE,
 loyalty_program_code REFERENCES Loyalty_program(id) on DELETE CASCADE,
-tier_id references tier(id),
+tier_id references tier(id) on DELETE CASCADE,
 check(points>=0)
 );
 
@@ -107,7 +107,7 @@ create table customer_redeem_activity(
 id varchar2(100) primary key,
 customer_id references customer(id) on delete CASCADE,
 activity_date date DEFAULT CURRENT_DATE,
-redeem_lp_map_id references rewards_for_loyalty_program(reward_lp_map_id),
+redeem_lp_map_id references rewards_for_loyalty_program(reward_lp_map_id) on DELETE CASCADE,
 points number(10)
 );
 
@@ -116,7 +116,7 @@ id varchar2(100) primary key,
 customer_id references customer(id) on delete CASCADE,
 activity_date date DEFAULT CURRENT_DATE,
 activity_lp_map_id references activities_for_loyalty_program(activity_lp_map_id),
-customer_redeem_activity_id references customer_redeem_activity(id),
+customer_redeem_activity_id references customer_redeem_activity(id) on DELETE CASCADE,
 points number(10) 
 );
 
