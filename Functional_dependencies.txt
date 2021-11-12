@@ -1,0 +1,130 @@
+Functional Dependencies
+
+1. Actor(username, password, role_name)
+
+    FD = {username->password,role_name}
+
+    CK = username
+
+    NF = BCNF
+
+2. Activity_category(id, activity_name)
+
+    FD = {id->activity_name}
+
+    CK = id
+
+    NF = BCNF
+
+3. Re_rule(re_rule_code, activity_category_code, num_points, version, status, lp_Code)
+
+    FD = {re_rule_code,version->activity_category_code,nums_points,version,status,lp_code
+    activity_category_code, version, lp_Code -> num_points, re_rule_code, status}
+
+    CK = {(re_rule_code, version), (activity_category_code, version, lp_Code)}
+
+    NF = BCNF
+
+4. Rr_rule(rr_rule_code, reward, num_points, version, status, lp_code)
+
+    FD = {rr_rule_code, version->reward,num_points,version,status,lp_code
+    reward, version, lp_Code -> num_points, rr_rule_code, status}
+
+    CK = {(rr_rule_code, version), (reward, version, lp_code)}
+
+    NF = BCNF
+
+5. Brand(id,name,address,join_date,user_name)
+
+    FD = {id->name,address,join_date,user_name
+    name -> id, address, join_date, user_name}
+
+    CK = id
+    NF = BCNF
+
+6. Loyalty_program(id,program_name,brand_id,tier_type,state)
+
+    FD = {id->program_name,brand_id,tier_type,state
+    brand_id -> id,program_name,tier_type,state)}
+
+    CK = {id, brand_id}
+
+    NF = BCNF
+
+7. activities_for_loyalty_program(activity_lp_map_id, loyalty_program_code,activity_category_code)
+
+    FD = {activity_lp_map_id->loyalty_program_code,activity_category_code
+    loyalty_program_code, activity_category_code->activity_lp_map_id}
+
+    CK = {activity_lp_map_id, (loyalty_program_code, activity_category_code)}
+
+    NF = BCNF
+
+8. Customer(id,name,phone,address,user_name)
+
+    FD = {id->name,phone,address,user_name}
+
+    CK = id
+
+    NF = BCNF
+
+9. Tier(id,name, points, multiplier, lp_program_id)
+
+    FD = {id-> name, points, multiplier, lp_program_id}
+
+    CK = id
+
+    NF = BCNF
+
+10. customer_redeem_activity(id,customer_id,activity_date,redeem_lp_map_id,points)
+
+    FD = {id -> customer_id,activity_date,redeem_lp_map_id,points}
+
+    CK = id
+
+    NF = BCNF
+
+11. customer_activity(id,customer_id,activity_date,activity_lp_map_id, customer_redeem_activity_id,points)
+
+    FD = {id -> customer_id,activity_date,activity_lp_map_id, customer_redeem_activity_id,points}
+
+    CK = id
+
+    NF = BCNF
+
+12. reward_category(id, reward_value)
+
+    FD = {id -> reward_name}
+
+    CK = id
+    NF = BCNF
+
+13. Wallet(id,points,customer_id,loyalty_program_code, tier_id)
+
+    FD = {id -> points,customer_id,loyalty_program_code, tier_id
+    customer_id, loyalty_program_code -> id, points, tier_id}
+
+    CK = {id, (customer_id, loyalty_program_code)}
+
+    NF = BCNF
+
+14. customer_lp_enroll(customer_id,loyalty_program_code)
+
+    FD = {}
+
+    CK = (customer_id,loyalty_program_code)
+
+    NF = BCNF
+
+15. rewards_for_loyalty_program(reward_lp_map_id, loyalty_program_code,reward_category_code,reward_count,reward_value)
+
+    FD = {reward_lp_map_id->loyalty_program_code,reward_category_code,reward_count,reward_value
+    reward_category_code,loyalty_program_code -> reward_lp_map_id,reward_count,reward_value}
+
+    CK = {reward_lp_map_id, (reward_category_code,loyalty_program_code)}
+
+    NF = BCNF
+
+
+In all the above relations, all the functional dependencies are either driven by the primary key or by a candidate key.
+Hence, we can conclude that all the relations are in BCNF.
