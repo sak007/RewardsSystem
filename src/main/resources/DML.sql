@@ -94,7 +94,6 @@ insert into customer_activity values('15','C0002','08-JUL-21','1',null,null);
 insert into customer_activity values('16','C0002','08-JUL-21','1',null,null);
 
 insert into customer_activity values('17','C0002','05-AUG-21','2',null,null);
-insert into customer_activity values('18','C0002','05-AUG-21','2',null,null);
 
 insert into customer_redeem_activity values('4','C0002','01-SEP-21','2',70);
 
