@@ -189,7 +189,12 @@ begin
         update wallet set points = points + pts * mlt where customer_id = :new.customer_id and loyalty_program_code = lpCode;
         update_customer_tier(:new.customer_id, lpCode);
     end if;
-
+exception
+    when no_data_found then
+        mlt := 1;
+        :new.points := pts * mlt;
+        update wallet set points = points + pts * mlt where customer_id = :new.customer_id and loyalty_program_code = lpCode;
+        update_customer_tier(:new.customer_id, lpCode);
 end;
 /
 create or replace trigger brand_insert_trigger
