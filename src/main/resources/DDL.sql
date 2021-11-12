@@ -99,7 +99,7 @@ create table rewards_for_loyalty_program(
     reward_category_code references reward_category(id) on DELETE CASCADE,
     reward_count number,
     reward_value varchar2(50),
-    UNIQUE (reward_lp_map_id,loyalty_program_code)
+    UNIQUE (reward_category_code,loyalty_program_code)
 );
 
 
