@@ -8,17 +8,17 @@ Functional Dependencies
 
 4)rr_rule(rr_rule_code->reward,num_points,version,status,lp_code)
 
-5)brand
+5)brand(
 id->name,address,join_date,user_name
-name -> id, address, join_date, user_name
+name -> id, address, join_date, user_name)
 
-6)loyalty_program
+6)loyalty_program(
 id->program_name,brand_id,tier_type,state
-brand_id -> id,program_name,tier_type,state
+brand_id -> id,program_name,tier_type,state)
 
-7)activities_for_loyalty_program
+7)activities_for_loyalty_program(
 activity_lp_map_id->loyalty_program_code,activity_category_code
-loyalty_program_code, activity_category_code->activity_lp_map_id
+loyalty_program_code, activity_category_code->activity_lp_map_id)
 
 8)customer(id->name,phone,address,user_name)
 
@@ -34,9 +34,9 @@ loyalty_program_code, activity_category_code->activity_lp_map_id
 
 14)customer_lp_enroll(customer_id,loyalty_program_code -> customer_id,loyalty_program_code)
 
-15)rewards_for_loyalty_program
+15)rewards_for_loyalty_program(
 reward_lp_map_id->loyalty_program_code,reward_category_code,reward_count,reward_value
-reward_category_code,loyalty_program_cod -> reward_lp_map_id,reward_count,reward_value
+reward_category_code,loyalty_program_cod -> reward_lp_map_id,reward_count,reward_value)
 
 In all the above relations, all the functional dependencies are either driven by the primary key or by a candidate key.
 Hence, we can conclude that all the relations are in BCNF.
