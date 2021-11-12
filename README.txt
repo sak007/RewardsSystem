@@ -16,4 +16,8 @@ If you are changing the database then please edit the username/password in above
 2)DML.sql
 
 Step 2)
-
+Connect using NCSU network/VPN
+Under 540-P1-T14\DBMSProject1\
+Run below command
+java -jar DBMSProject1-1.0-SNAPSHOT-jar-with-dependencies.jar
+Follow steps as per Application flow document
